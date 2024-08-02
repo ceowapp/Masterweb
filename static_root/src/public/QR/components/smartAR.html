@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+
+    #dynamicAR, #locationAR{
+      padding: 10px 20px;
+      width: 150px;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      outline: none;
+      font-size: 1.2rem;
+      margin-right: 30px;
+      margin-left:20px;
+      transition: background-color 0.3s ease;
+    }
+
+    #dynamicAR:hover {
+      background-color: #2980b9;
+    }
+
+     #locationAR:hover {
+      background-color: #2980b9;
+    }
+
+    .content-holder {
+      align-items: center;
+      display: flex;
+      position: absolute;
+      justify-content: center;
+      flex-direction: column;
+      left: 50%;
+    }
+
+     .button-div {
+      display: flex;
+      padding: 5rem;
+      flex-direction: row; /* Change from 'row' to 'column' */
+      justify-content: center;
+      align-items: center;
+      }
+
+    .content-holder-scene {
+      display: none;
+      top:1rem;
+      left:0;
+      flex-direction: column; /* Add this property to stack its children vertically */
+      justify-content: center;
+      align-items: center;
+    }
+
+
+    #turnOffBtn {
+      display: none;
+      padding: 10px 20px;
+      width:150px;
+      background-color: #e74c3c;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      outline: none;
+      font-size: 1.2rem;
+      justify-content: center;
+      transition: background-color 0.3s ease;
+      margin-top: 10px;
+    }
+
+    #turnOffBtn:hover {
+      background-color: #c0392b;
+    }
+
+  </style>
+</head>
+<body>
+    <div class="content-holder">
+        <div class="button-div">
+          <button id="dynamicAR">
+            <p>
+              Dynamic AR
+            </p>
+          </button>
+            <button id="locationAR">
+            <p>
+              Location AR
+            </p>
+          </button>
+       </div>
+        <div class="content-holder-scene">
+       </div>
+        <button id="turnOffBtn">
+      <p>
+        TURN OFF
+      </p>
+   </button>
+     </div>
+    </div>
+</body>
+</html>

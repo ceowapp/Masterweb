@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chatbot Integration</title>
+</head>
+<body>
+    <h1>Chatbot with Dialogflow</h1>
+    <div id="chatbox"></div>
+    <input type="text" id="userInput" placeholder="Type your message...">
+    <button id="sendButton">Send</button>
+
+<iframe width="350" height="430" allow="microphone;" src="https://console.dialogflow.com/api-client/demo/embedded/1b923505-f8a6-4032-bf1a-be7d70814ec6"></iframe>
+
+    <script>
+        const chatbox = document.getElementById('chatbox');
+        const userInput = document.getElementById('userInput');
+        const sendButton = document.getElementById('sendButton');
+
+        sendButton.addEventListener('click', () => {
+            const userMessage = userInput.value;
+            displayMessage(userMessage, 'user');
+            userInput.value = ''; // Clear the input
+        });
+
+        function displayMessage(message, sender) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add(sender);
+            messageDiv.textContent = message;
+            chatbox.appendChild(messageDiv);
+        }
+    </script>
+
+    <style>
+        /* Add your CSS styles here */
+    </style>
+</body>
+</html>

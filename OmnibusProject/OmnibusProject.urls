@@ -1,0 +1,54 @@
+from django.urls import path
+from myapp import mainView as views
+from myapp import img2pointEventHandler
+
+urlpatterns = [ path('', views.generator_view, {'template_name': 'index.html'}, name='home_page'),
+    path('index-3d.html', views.generator_view, {'template_name': 'index-3d.html'}, name='3dGenerator_page'),  
+    path('index-ar.html', views.generator_view, {'template_name': 'index-ar.html'}, name='ARQR_page'), 
+    path('index-3d.html/handle_generator_img/', img2pointEventHandler.handle_generator_img, name='handle_generator_img'),
+    path('index-3d.html/download/<str:pointcloudimg>/', img2pointEventHandler.download_from_aws_s3, name='download_from_aws_s3'),
+    path('index-3d.html/handle_generator_3d/', d3generatorEventHandler.handle_generator_3d, name='handle_generator_3d'),
+    path('index-3d.html/download/<str:model3d>/', d3generatorEventHandler.download_from_aws_s3,name='download_from_aws_s3'),
+    path('index-3d.html/handle_generator_txt/', text2pointEventHandler.handle_generator_txt, name='handle_generator_txt'),
+    path('index-3d.html/download/<str:pointcloudtxt>/', text2pointEventHandler.download_from_aws_s3,name='download_from_aws_s3'),
+]
+
+def generator_qr_view(request, page):
+    print("page parameter received:", page)
+    template_name = f'QR/{page}.html'  # Define the template path based on the 'page' parameter
+    return render(request, template_name)
+
+
+    re_path(r'^index-qr.html/(?P<page>\w+)/$', views.generator_qr_view, name='static_qr_page'),
+
+
+  // Modify your event listeners to send requests to Django views
+  arButton.addEventListener("click", function () {
+    page = "ar";
+    //urlLink = `/index-qr.html/?page=${page}`; // Include 'page' in the URL
+    urlLink = "/index-qr.html/?page=ar";
+    loadContent(urlLink);
+    updateURL("ar");
+  });
+
+});
+  
+
+function loadContent(urlLink) {
+  // Clear previous content and scripts
+  console.log("this function loadContent is triggered");
+  removeScripts();
+  const contentContainer = document.querySelector(".content-container");
+  contentContainer.innerHTML = "";
+  // Fetch HTML content
+  fetch(urlLink)
+    .then((response) => response.text())
+    .then((content) => {
+      contentContainer.innerHTML = content;
+    })
+    .catch((error) => {
+      console.error("Error loading content:", error);
+    });
+}
+
+

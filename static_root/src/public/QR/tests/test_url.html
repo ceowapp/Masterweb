@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Display 3D Model with model-viewer</title>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@google/model-viewer"></script>
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1446.0.min.js"></script>
+    <style>
+        /* Style for the modal dialog */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <form id="uploadForm" enctype="multipart/form-data">
+        <input type="file" name="modelFile">
+        <button type="submit">Upload Model</button>
+    </form>
+    <model-viewer id="modelViewer" alt="A 3D model"></model-viewer>
+
+    <!-- Modal dialog content -->
+    <div class="modal" id="myModal">
+        <div class="modal-content">
+            <p>File already exists in the bucket.</p>
+            <button id="closeModal">OK</button>
+        </div>
+    </div>
+
+    <script>
+        const uploadForm = document.getElementById('uploadForm');
+        const modelViewer = document.getElementById('modelViewer');
+        const s3 = new AWS.S3({
+            accessKeyId: 'AKIAQREX4EOZZIZNVFH5',
+            secretAccessKey: 'Un24mxOCnR7i6m544blyBpyUxLrt15pPr1oSQ0Wx'
+        });
+        const bucketName = 'virtualtryontest'; // Replace with your S3 bucket name
+
+        const modal = document.getElementById('myModal');
+        const closeModalButton = document.getElementById('closeModal');
+
+        closeModalButton.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        uploadForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(uploadForm);
+
+            try {
+                const modelFile = formData.get('modelFile');
+                const modelKey = `uploads/${modelFile.name}`; // Set the desired key in your bucket
+
+                // Check if the file already exists in the bucket
+                s3.headObject({ Bucket: bucketName, Key: modelKey }, (err, data) => {
+                    if (!err) {
+                        modal.style.display = 'block'; // Show the modal dialog
+                        return; // File already exists, notify the user
+                    }
+
+                    const uploadParams = {
+                        Bucket: bucketName,
+                        Key: modelKey,
+                        Body: modelFile
+                    };
+
+                    s3.upload(uploadParams, (err, data) => {
+                        if (err) {
+                            console.error('Error uploading model:', err);
+                        } else {
+                            const modelUrl = data.Location; // S3 URL of the uploaded model
+                            modelViewer.setAttribute('src', modelUrl);
+                        }
+                    });
+                });
+            } catch (error) {
+                console.error('Error uploading model:', error);
+            }
+        });
+
+                // Set session timeout for file deletion after 2 hours
+            let lastInteractionTime = Date.now();
+
+            document.addEventListener('click', () => {
+                lastInteractionTime = Date.now();
+            });
+
+            document.addEventListener('keypress', () => {
+                lastInteractionTime = Date.now();
+            });
+
+        function checkInactivityAndDelete() {
+        const currentTime = Date.now();
+        const inactivityDuration = currentTime - lastInteractionTime;
+
+        if (inactivityDuration >= 2 * 60 * 60 * 1000) { // 2 hours
+            // Delete files within the 'uploads' folder
+            s3.listObjects({ Bucket: bucketName, Prefix: 'uploads/' }, (err, data) => {
+                if (!err) {
+                    const filesToDelete = data.Contents.map(file => ({ Key: file.Key }));
+                    if (filesToDelete.length > 0) {
+                        s3.deleteObjects({ Bucket: bucketName, Delete: { Objects: filesToDelete } }, (err, data) => {
+                            if (err) {
+                                console.error('Error deleting files:', err);
+                            } else {
+                                console.log('Files deleted:', data.Deleted);
+                                location.reload(); // Reload the page after deleting files
+                            }
+                        });
+                    }
+                }
+            });
+        }
+
+        setTimeout(checkInactivityAndDelete, 15 * 60 * 1000); // Check every 15 minutes
+    }
+
+    checkInactivityAndDelete(); // Start checking for inactivity and deleting files
+
+
+    </script>
+</body>
+</html>
+
+

@@ -1,0 +1,71 @@
+/* CSS files add styling rules to your content */
+@import url('https://fonts.googleapis.com/css?family=Oswald:300,400,700');
+
+body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            overflow: auto;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f7f7f7;
+}
+
+li {
+
+font-family: 'Oswald', sans-serif;
+
+}
+     
+.content {
+    flex: 1;
+    padding: 20px;
+    position: relative; /* Add this */
+
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+    z-index: 1;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    background-color: #444;
+}
+
+nav li {
+    margin: 0;
+    padding: 10px 20px;
+}
+
+nav a {
+    text-decoration: none;
+    color: #fff;
+}
+
+nav a:hover {
+    color: #ffcc00;
+}
+
+main {
+    padding: 20px;
+    z-index: 0;
+}
+
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+    z-index: 1;
+}

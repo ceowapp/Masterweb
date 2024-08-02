@@ -1,0 +1,198 @@
+/* mobile */
+@media (max-width:650px){
+  
+    .modal-warning{
+        display: block;
+    }
+    .modal{
+        display: none;
+    }
+    }
+    @media (min-width:650px) and (max-width: 800px)
+    {
+        .modal-warning{
+            display: none;
+        }
+        
+        .item-size{
+            font-size: 0.8rem;
+            width: 130px;
+        }
+        .item-material{
+            width: 130px;
+            font-size: 0.8rem;
+        }
+        .item-tier{
+            width: 130px;
+            font-size: 0.8rem;
+        }
+        .item-caster{
+    
+            width: 130px;
+    
+        }
+        .pole-shelf{
+            font-size: 0.7rem;
+            width: 130px;
+            
+        }
+        .level-shelf{
+            font-size: 0.8rem;
+        }
+    #caster-shelf-option .select-option{
+        font-size: 0.8rem;
+    }
+    .panel-two .content-option{
+        font-size: 1.2rem;
+    }
+    .view3d {
+    
+        flex: 4;
+    }
+    .panel {
+        flex: 3;
+    }
+    
+    .panel-two {
+        flex: 1.6;
+    }
+    .price-panel .total-price{
+        font-size: 0.8rem;
+    }
+    .price-panel .summary-btn{
+        font-size: 0.8rem;
+       }
+       .price-panel .summary-btn{
+        width: 100px;
+        border-radius: 4px;
+    }
+    .modal-header{
+        font-size: 20px;
+    }
+    .modal-body .table-summary{
+        font-size: 0.8rem;
+    }
+    }
+    @media (min-width:800px) and (max-width: 1080px)
+    {
+        .modal-warning{
+            display: none;
+        }
+        
+        .item-size{
+            font-size: 0.9rem;
+            width: 160px;
+        }
+        .item-material{
+            width: 160px;
+            font-size: 0.9rem;
+        }
+        .item-tier{
+            width: 160px;
+            font-size: 0.9rem;
+        }
+        .item-caster{
+    
+            width: 160px;
+    
+        }
+        .pole-shelf{
+            font-size: 0.9rem;
+            width: 160px;
+            
+        }
+        .level-shelf{
+            font-size: 0.8rem;
+        }
+    #caster-shelf-option .select-option{
+        font-size: 0.8rem;
+    }
+    .panel-two .content-option{
+        font-size: 1.2rem;
+    }
+    .view3d {
+    
+        flex: 4;
+    }
+    .panel {
+        flex: 1.7;
+    }
+    
+    .panel-two {
+        flex: 1.6;
+    }
+    .price-panel .total-price{
+        font-size: 0.9rem;
+    }
+    .price-panel .summary-btn{
+        font-size: 0.9rem;
+       }
+       .price-panel .summary-btn{
+        width: 120px;
+        border-radius: 4px;
+    }
+    .modal-header{
+        font-size: 25px;
+    }
+    .modal-body .table-summary{
+        font-size: 0.9rem;
+    }
+    }
+    @media (min-width:1080px) {
+    
+        .modal-warning{
+            display: none;
+        }
+       
+        .item-size{
+            font-size: 1rem;
+            width: 160px;
+        }
+        .item-material{
+            width: 160px;
+        }
+        .item-tier{
+            width: 160px;
+        }
+        .item-caster{
+    
+            width: 160px;
+    
+        }
+        .pole-shelf{
+            font-size: 1rem;
+        }
+        #caster-shelf-option .select-option{
+            font-size: 1rem;
+        }
+        .panel-two .content-option{
+            font-size: 1.6rem;
+        }
+        .view3d {
+    
+            flex: 6;
+        }
+        .panel {
+            flex: 1.5;
+        }
+        
+        .panel-two {
+            width: 100%;
+        }
+        .price-panel .total-price{
+            font-size: 1.2rem;
+        }
+        .price-panel .summary-btn{
+         font-size: 1rem;
+        }
+        .price-panel .summary-btn{
+            width: 150px;
+            border-radius: 4px;
+        }
+        .modal-header{
+            font-size: 30px;
+        }
+        .modal-body .table-summary{
+            font-size: 1.2rem;
+        }
+    }

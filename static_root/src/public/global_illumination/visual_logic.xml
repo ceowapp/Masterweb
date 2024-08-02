@@ -1,0 +1,622 @@
+<xml xmlns="http://www.w3.org/1999/xhtml">
+  <tab name="Init" type="InitTab" active="false" scrollx="19.999999999999773" scrolly="-152.9999999999999" scale="0.9">
+    <block xmlns="https://developers.google.com/blockly/xml" type="initSettings" id="m!uNgKK6(Ii(0@Jc;kyV" x="410" y="170">
+      <field name="LOAD_COMP_ASSETS">TRUE</field>
+      <field name="FULLSCREEN">TRUE</field>
+      <field name="BKG_TRANSPARENCY">FALSE</field>
+      <field name="PRESERVE_DRAW_BUF">FALSE</field>
+      <field name="FADE_ANNOTATIONS">TRUE</field>
+    </block>
+  </tab>
+  <tab name="New Tab" type="CommonTab" active="false" scrollx="213.2057390870209" scrolly="-97.00800156276154" scale="0.7462153966366272">
+    <block xmlns="https://developers.google.com/blockly/xml" type="show" id="u*@Z[Ntt_L9!32~LF`#6" x="170" y="130">
+      <value name="VALUE">
+        <shadow type="objectList" id="3vqhyqllroIsjgcc@htU">
+          <field name="FIELDNAME">&lt;none&gt;</field>
+        </shadow>
+        <block type="groupList" id="vUcQk2W5glW-{p9{H{(v">
+          <field name="FIELDNAME">GroupA</field>
+        </block>
+      </value>
+      <next>
+        <block type="show" id="gd8:.h_KBPA:f~MrDT{A">
+          <value name="VALUE">
+            <shadow type="objectList" id="3vqhyqllroIsjgcc@htU">
+              <field name="FIELDNAME">&lt;none&gt;</field>
+            </shadow>
+            <block type="objectList" id="*B+D;N!|.%xS4A_(S!d)">
+              <field name="FIELDNAME">NocGioA</field>
+            </block>
+          </value>
+          <next>
+            <block type="hide" id="VvM3U2nY^1kYmDH$sL91">
+              <value name="VALUE">
+                <shadow type="objectList" id="*E:N],5h#C@Hd)d6f.Ek">
+                  <field name="FIELDNAME">&lt;none&gt;</field>
+                </shadow>
+                <block type="groupList" id="XLX*[trvh1so8eGV_d_K">
+                  <field name="FIELDNAME">GroupB</field>
+                </block>
+              </value>
+              <next>
+                <block type="hide" id="!JBuRF@ysJQ@YQvVNl}r">
+                  <value name="VALUE">
+                    <shadow type="objectList" id="5?b4cTSw`kh7N~d]85,0">
+                      <field name="FIELDNAME">&lt;none&gt;</field>
+                    </shadow>
+                    <block type="objectList" id="Y}SGjX,xwh^#%`-@s*-;">
+                      <field name="FIELDNAME">NocGioB</field>
+                    </block>
+                  </value>
+                </block>
+              </next>
+            </block>
+          </next>
+        </block>
+      </next>
+    </block>
+    <block xmlns="https://developers.google.com/blockly/xml" type="eventHTMLElem" id=".`|.mE#z91:#}-R~`O.]" x="50" y="390">
+      <field name="EVENT">click</field>
+      <field name="PARENT">TRUE</field>
+      <value name="ID">
+        <shadow type="text" id=":8?WtajRyiDw^@%oT~H[">
+          <field name="TEXT">DuAnAID</field>
+        </shadow>
+      </value>
+      <statement name="DO">
+        <block type="show" id="aHX#o)p@UR.+Zv#BgHlG">
+          <value name="VALUE">
+            <shadow type="objectList" id="3vqhyqllroIsjgcc@htU">
+              <field name="FIELDNAME">&lt;none&gt;</field>
+            </shadow>
+            <block type="groupList" id="Ky9QtTLa^/D.4y$,C`Bt">
+              <field name="FIELDNAME">GroupA</field>
+            </block>
+          </value>
+          <next>
+            <block type="show" id="_R?}}CQu{,O:WI7s2!sv">
+              <value name="VALUE">
+                <shadow type="objectList" id="3vqhyqllroIsjgcc@htU">
+                  <field name="FIELDNAME">&lt;none&gt;</field>
+                </shadow>
+                <block type="objectList" id="RwrB=gOIWjX)*_#g5lRt">
+                  <field name="FIELDNAME">NocGioA</field>
+                </block>
+              </value>
+              <next>
+                <block type="hide" id="j7H~PjOaQ87Tyrh{7=Vz">
+                  <value name="VALUE">
+                    <shadow type="objectList" id="*E:N],5h#C@Hd)d6f.Ek">
+                      <field name="FIELDNAME">&lt;none&gt;</field>
+                    </shadow>
+                    <block type="groupList" id="|Li?.IgzhxmO;/427/;=">
+                      <field name="FIELDNAME">GroupB</field>
+                    </block>
+                  </value>
+                  <next>
+                    <block type="hide" id="-TO0d@4Eb0AmB@y%^A`!">
+                      <value name="VALUE">
+                        <shadow type="objectList" id="5?b4cTSw`kh7N~d]85,0">
+                          <field name="FIELDNAME">&lt;none&gt;</field>
+                        </shadow>
+                        <block type="objectList" id="W9]ab|G0@c}RTltcT/k6">
+                          <field name="FIELDNAME">NocGioB</field>
+                        </block>
+                      </value>
+                    </block>
+                  </next>
+                </block>
+              </next>
+            </block>
+          </next>
+        </block>
+      </statement>
+    </block>
+    <block xmlns="https://developers.google.com/blockly/xml" type="eventHTMLElem" id="s47eba8!@Ef`Hy(RY~bj" x="50" y="590">
+      <field name="EVENT">click</field>
+      <field name="PARENT">TRUE</field>
+      <value name="ID">
+        <shadow type="text" id="!1n7jV5g5fq^OIos~7;B">
+          <field name="TEXT">DuAnBID</field>
+        </shadow>
+      </value>
+      <statement name="DO">
+        <block type="show" id="24#F%)TSXQRTHWbYpCoB">
+          <value name="VALUE">
+            <shadow type="objectList" id="3vqhyqllroIsjgcc@htU">
+              <field name="FIELDNAME">&lt;none&gt;</field>
+            </shadow>
+            <block type="groupList" id="mep;4u|MHW?y;0uM!N?N">
+              <field name="FIELDNAME">GroupB</field>
+            </block>
+          </value>
+          <next>
+            <block type="show" id=",#L@#i$Q=*u|!aN!1s3*">
+              <value name="VALUE">
+                <shadow type="objectList" id="3vqhyqllroIsjgcc@htU">
+                  <field name="FIELDNAME">&lt;none&gt;</field>
+                </shadow>
+                <block type="objectList" id="{UO~4A]ptz~UjwGO3Q-Q">
+                  <field name="FIELDNAME">NocGioB</field>
+                </block>
+              </value>
+              <next>
+                <block type="hide" id="n6zet46TxP2czFyQf2th">
+                  <value name="VALUE">
+                    <shadow type="objectList" id="*E:N],5h#C@Hd)d6f.Ek">
+                      <field name="FIELDNAME">&lt;none&gt;</field>
+                    </shadow>
+                    <block type="groupList" id="+_/%zp8S@1%_t(UIrq??">
+                      <field name="FIELDNAME">GroupA</field>
+                    </block>
+                  </value>
+                  <next>
+                    <block type="hide" id="6q/hQ`GY7|X;HBdV,XQg">
+                      <value name="VALUE">
+                        <shadow type="objectList" id="5?b4cTSw`kh7N~d]85,0">
+                          <field name="FIELDNAME">&lt;none&gt;</field>
+                        </shadow>
+                        <block type="objectList" id="#!sI^9AKb2Jbba5W}XuR">
+                          <field name="FIELDNAME">NocGioA</field>
+                        </block>
+                      </value>
+                    </block>
+                  </next>
+                </block>
+              </next>
+            </block>
+          </next>
+        </block>
+      </statement>
+    </block>
+    <block xmlns="https://developers.google.com/blockly/xml" type="eventHTMLElem" id="4E|nfWon|P^9EURq4(c~" x="90" y="850">
+      <field name="EVENT">click</field>
+      <field name="PARENT">TRUE</field>
+      <value name="ID">
+        <shadow type="text" id="[T?L:B#b6n4dUiK8oSa%">
+          <field name="TEXT">CoNocGioID</field>
+        </shadow>
+      </value>
+      <statement name="DO">
+        <block type="hide" id="/z!8^Qi,QykfDLpHL(G1">
+          <value name="VALUE">
+            <shadow type="objectList" id="5?b4cTSw`kh7N~d]85,0">
+              <field name="FIELDNAME">&lt;none&gt;</field>
+            </shadow>
+            <block type="objectList" id="q#l*#W$QqoGkL?Qe9Cr`">
+              <field name="FIELDNAME">NocGioA</field>
+            </block>
+          </value>
+          <next>
+            <block type="hide" id="YZ_lovl2T#e1!blIN0UB">
+              <value name="VALUE">
+                <shadow type="objectList" id="5?b4cTSw`kh7N~d]85,0">
+                  <field name="FIELDNAME">&lt;none&gt;</field>
+                </shadow>
+                <block type="objectList" id="Mk$w.(?@1Wn003CQ=6z_">
+                  <field name="FIELDNAME">NocGioB</field>
+                </block>
+              </value>
+              <next>
+                <block type="controls_if" id=".|/oZaeghEnWsb5{^?Et">
+                  <mutation else="1"></mutation>
+                  <value name="IF0">
+                    <block type="isObjectVisible" id="tt+DMVak@/2Qa5)sL3[m">
+                      <value name="VALUE">
+                        <shadow type="objectList" id="#]@yYYo|xhiaEg~GFz+}">
+                          <field name="FIELDNAME">&lt;none&gt;</field>
+                        </shadow>
+                        <block type="groupList" id="C`s+*e]kO~W%0NR;q$RF">
+                          <field name="FIELDNAME">GroupB</field>
+                        </block>
+                      </value>
+                    </block>
+                  </value>
+                  <statement name="DO0">
+                    <block type="show" id="30o8XeQ6%%aiL{}N2^Md">
+                      <value name="VALUE">
+                        <shadow type="objectList" id="3vqhyqllroIsjgcc@htU">
+                          <field name="FIELDNAME">&lt;none&gt;</field>
+                        </shadow>
+                        <block type="objectList" id="az5M}VXp)K#G;LSps*^h">
+                          <field name="FIELDNAME">NocGioB</field>
+                        </block>
+                      </value>
+                    </block>
+                  </statement>
+                  <statement name="ELSE">
+                    <block type="show" id="(~}w/=Jr;gMq_ujn+d[u">
+                      <value name="VALUE">
+                        <shadow type="objectList" id="3vqhyqllroIsjgcc@htU">
+                          <field name="FIELDNAME">&lt;none&gt;</field>
+                        </shadow>
+                        <block type="objectList" id="z|`lMaaC9#:,C*pAT8D4">
+                          <field name="FIELDNAME">NocGioA</field>
+                        </block>
+                      </value>
+                    </block>
+                  </statement>
+                </block>
+              </next>
+            </block>
+          </next>
+        </block>
+      </statement>
+    </block>
+    <block xmlns="https://developers.google.com/blockly/xml" type="eventHTMLElem" id="N5BiE;=4k$sh4$smrybh" x="110" y="1090">
+      <field name="EVENT">click</field>
+      <field name="PARENT">TRUE</field>
+      <value name="ID">
+        <shadow type="text" id="Qd@(#DDLXq+Qo,qd/~e9">
+          <field name="TEXT">KhongNocGioID</field>
+        </shadow>
+      </value>
+      <statement name="DO">
+        <block type="hide" id=".79Tf{x6Uz_5D(MoIX3v">
+          <value name="VALUE">
+            <shadow type="objectList" id="5?b4cTSw`kh7N~d]85,0">
+              <field name="FIELDNAME">&lt;none&gt;</field>
+            </shadow>
+            <block type="objectList" id="NV}4s:^4FUMc*GF@Twb8">
+              <field name="FIELDNAME">NocGioA</field>
+            </block>
+          </value>
+          <next>
+            <block type="hide" id="aPO*03uwF~Hd~`cKr2`c">
+              <value name="VALUE">
+                <shadow type="objectList" id="5?b4cTSw`kh7N~d]85,0">
+                  <field name="FIELDNAME">&lt;none&gt;</field>
+                </shadow>
+                <block type="objectList" id="k@`^+v`TZOK=jkAx+k9G">
+                  <field name="FIELDNAME">NocGioB</field>
+                </block>
+              </value>
+            </block>
+          </next>
+        </block>
+      </statement>
+    </block>
+  </tab>
+  <tab name="New Tab" type="CommonTab" active="true" scrollx="37.30340549845312" scrolly="-143.12363256936032" scale="0.8163265306122448">
+    <block xmlns="https://developers.google.com/blockly/xml" type="eventHTMLElem" id="|;Z2si6b./l45A|:3YWJ" x="190" y="210">
+      <field name="EVENT">click</field>
+      <field name="PARENT">TRUE</field>
+      <value name="ID">
+        <shadow type="text" id="kMRx[,-HOfOv~:3xyeLC">
+          <field name="TEXT">MauXanhDuongID</field>
+        </shadow>
+      </value>
+      <statement name="DO">
+        <block type="setMaterialColor" id="g:?fP]})+{}zoVSG,:u/">
+          <mutation xmlns="http://www.w3.org/1999/xhtml" flexcolinput="false" usecsscolor="false"></mutation>
+          <field name="MAT_COL_NAME">color</field>
+          <value name="MATERIAL">
+            <shadow type="materialList" id="]+AD1{M+v;zuCzgNd-,;">
+              <field name="FIELDNAME">Material #372</field>
+            </shadow>
+          </value>
+          <value name="R">
+            <shadow type="math_number" id="^H)B3aw^6X)oW!IA{-zB">
+              <field name="NUM">0</field>
+            </shadow>
+          </value>
+          <value name="G">
+            <shadow type="math_number" id="a]U^Qe3JtH0qjcK|`D;,">
+              <field name="NUM">0.16</field>
+            </shadow>
+          </value>
+          <value name="B">
+            <shadow type="math_number" id="|=.(|^M6pYE^-77-dA.C">
+              <field name="NUM">1</field>
+            </shadow>
+          </value>
+          <next>
+            <block type="setMaterialColor" id="j9k*/1DDdZ/B~JhC5qQ]">
+              <mutation xmlns="http://www.w3.org/1999/xhtml" flexcolinput="false" usecsscolor="false"></mutation>
+              <field name="MAT_COL_NAME">color</field>
+              <value name="MATERIAL">
+                <shadow type="materialList" id="m*=g4iRjI|![Cbbs3?;9">
+                  <field name="FIELDNAME">Roofing_Slate_Dark 2</field>
+                </shadow>
+              </value>
+              <value name="R">
+                <shadow type="math_number" id="k#MV^0w1{)iDL!!2pML0">
+                  <field name="NUM">0</field>
+                </shadow>
+              </value>
+              <value name="G">
+                <shadow type="math_number" id=".55giZi`BR~pLm]H]{=l">
+                  <field name="NUM">0.16</field>
+                </shadow>
+              </value>
+              <value name="B">
+                <shadow type="math_number" id="c:I7Iw%z~;E,sl4{O|iN">
+                  <field name="NUM">1</field>
+                </shadow>
+              </value>
+              <next>
+                <block type="setMaterialColor" id="fufE9TR5/ghb(~LB4F@U">
+                  <mutation xmlns="http://www.w3.org/1999/xhtml" flexcolinput="false" usecsscolor="false"></mutation>
+                  <field name="MAT_COL_NAME">color</field>
+                  <value name="MATERIAL">
+                    <shadow type="materialList" id="e%Qa5AWsjVY;9%q``+H~">
+                      <field name="FIELDNAME">MaterialTole2</field>
+                    </shadow>
+                  </value>
+                  <value name="R">
+                    <shadow type="math_number" id="lVhP*p[~UmrIb.%f_rj`">
+                      <field name="NUM">0</field>
+                    </shadow>
+                  </value>
+                  <value name="G">
+                    <shadow type="math_number" id="..z#*U+i2riDW3lP%I1|">
+                      <field name="NUM">0.16</field>
+                    </shadow>
+                  </value>
+                  <value name="B">
+                    <shadow type="math_number" id="cmxCM9|R=^Nx#RZ,5h}p">
+                      <field name="NUM">1</field>
+                    </shadow>
+                  </value>
+                  <next>
+                    <block type="setMaterialColor" id=",Ir~Tac,$6SPs(hqEGZ*">
+                      <mutation xmlns="http://www.w3.org/1999/xhtml" flexcolinput="false" usecsscolor="false"></mutation>
+                      <field name="MAT_COL_NAME">color</field>
+                      <value name="MATERIAL">
+                        <shadow type="materialList" id="[t=_o8r(Gk#:N30a(2?^">
+                          <field name="FIELDNAME">NocGioMarterial</field>
+                        </shadow>
+                      </value>
+                      <value name="R">
+                        <shadow type="math_number" id="8CEwJl0%E-_Hms816xaD">
+                          <field name="NUM">0</field>
+                        </shadow>
+                      </value>
+                      <value name="G">
+                        <shadow type="math_number" id=".=jczpq;Ec;?4hOVt9||">
+                          <field name="NUM">0.16</field>
+                        </shadow>
+                      </value>
+                      <value name="B">
+                        <shadow type="math_number" id="RCQiP=N=4!fkbJ}oxtiP">
+                          <field name="NUM">1</field>
+                        </shadow>
+                      </value>
+                    </block>
+                  </next>
+                </block>
+              </next>
+            </block>
+          </next>
+        </block>
+      </statement>
+    </block>
+    <block xmlns="https://developers.google.com/blockly/xml" type="eventHTMLElem" id="7~6RA7osE*.~Xyot7}!}" x="210" y="510">
+      <field name="EVENT">click</field>
+      <field name="PARENT">TRUE</field>
+      <value name="ID">
+        <shadow type="text" id="$$Ohw[f2=~CeDF#Gc;%k">
+          <field name="TEXT">MauDoID</field>
+        </shadow>
+      </value>
+      <statement name="DO">
+        <block type="setMaterialColor" id="h(wy6.;io=_aFDVEoO!Z">
+          <mutation xmlns="http://www.w3.org/1999/xhtml" flexcolinput="false" usecsscolor="false"></mutation>
+          <field name="MAT_COL_NAME">color</field>
+          <value name="MATERIAL">
+            <shadow type="materialList" id="?y1G0AQMrg:,L/hz;1|H">
+              <field name="FIELDNAME">Material #372</field>
+            </shadow>
+          </value>
+          <value name="R">
+            <shadow type="math_number" id="ijD8Z/MoV~=D5aP/UB8c">
+              <field name="NUM">0.45</field>
+            </shadow>
+          </value>
+          <value name="G">
+            <shadow type="math_number" id="V`Jt+^1Qps8h|F_)w5hc">
+              <field name="NUM">0.02</field>
+            </shadow>
+          </value>
+          <value name="B">
+            <shadow type="math_number" id="1OF$:=.C_dN)BOOeQOdC">
+              <field name="NUM">0</field>
+            </shadow>
+          </value>
+          <next>
+            <block type="setMaterialColor" id="fi_|Ch#SzD]evvKzck[S">
+              <mutation xmlns="http://www.w3.org/1999/xhtml" flexcolinput="false" usecsscolor="false"></mutation>
+              <field name="MAT_COL_NAME">color</field>
+              <value name="MATERIAL">
+                <shadow type="materialList" id="d,|9@hGs{hjt(/p{3sC-">
+                  <field name="FIELDNAME">Roofing_Slate_Dark 2</field>
+                </shadow>
+              </value>
+              <value name="R">
+                <shadow type="math_number" id="?aiY@N%2rS^~618tQy$0">
+                  <field name="NUM">0.45</field>
+                </shadow>
+              </value>
+              <value name="G">
+                <shadow type="math_number" id="PB!Mn%]gY0vmtovK3kzb">
+                  <field name="NUM">0.02</field>
+                </shadow>
+              </value>
+              <value name="B">
+                <shadow type="math_number" id="rohXp]2Vm;AdQFkjG-c2">
+                  <field name="NUM">0</field>
+                </shadow>
+              </value>
+              <next>
+                <block type="setMaterialColor" id="tgV5ddE{TSpNRR~}l(gH">
+                  <mutation xmlns="http://www.w3.org/1999/xhtml" flexcolinput="false" usecsscolor="false"></mutation>
+                  <field name="MAT_COL_NAME">color</field>
+                  <value name="MATERIAL">
+                    <shadow type="materialList" id="Ll^N`RBXODmGRgUFv:sU">
+                      <field name="FIELDNAME">MaterialTole2</field>
+                    </shadow>
+                  </value>
+                  <value name="R">
+                    <shadow type="math_number" id="hcg@zh~dE)V/@JUc/Z8+">
+                      <field name="NUM">0.45</field>
+                    </shadow>
+                  </value>
+                  <value name="G">
+                    <shadow type="math_number" id=")]+1TW5;qga/5CM1{*:y">
+                      <field name="NUM">0.02</field>
+                    </shadow>
+                  </value>
+                  <value name="B">
+                    <shadow type="math_number" id="Js%pQhZPp:Qyphm7*YYx">
+                      <field name="NUM">0</field>
+                    </shadow>
+                  </value>
+                  <next>
+                    <block type="setMaterialColor" id="p`4Yl-BVNYDjCB/KqLOv">
+                      <mutation xmlns="http://www.w3.org/1999/xhtml" flexcolinput="false" usecsscolor="false"></mutation>
+                      <field name="MAT_COL_NAME">color</field>
+                      <value name="MATERIAL">
+                        <shadow type="materialList" id="rsZ0A%pcJEB;NKuorOj*">
+                          <field name="FIELDNAME">NocGioMarterial</field>
+                        </shadow>
+                      </value>
+                      <value name="R">
+                        <shadow type="math_number" id="|cy$7U|UM8_a?2_5Sd-T">
+                          <field name="NUM">0.45</field>
+                        </shadow>
+                      </value>
+                      <value name="G">
+                        <shadow type="math_number" id="o}I3cwG*E`]R-pYA3ae-">
+                          <field name="NUM">0.02</field>
+                        </shadow>
+                      </value>
+                      <value name="B">
+                        <shadow type="math_number" id="9T+/MJEUhEsNq:srZ(2k">
+                          <field name="NUM">0</field>
+                        </shadow>
+                      </value>
+                    </block>
+                  </next>
+                </block>
+              </next>
+            </block>
+          </next>
+        </block>
+      </statement>
+    </block>
+    <block xmlns="https://developers.google.com/blockly/xml" type="eventHTMLElem" id="=q0?v2lRAUn6vZ`FldS+" x="250" y="770">
+      <field name="EVENT">click</field>
+      <field name="PARENT">TRUE</field>
+      <value name="ID">
+        <shadow type="text" id="xP)vW(?7Rv~VTu#:`%,3">
+          <field name="TEXT">MauXanhLaID</field>
+        </shadow>
+      </value>
+      <statement name="DO">
+        <block type="setMaterialColor" id="^zD9KtN1,WXhd)uVfvmB">
+          <mutation xmlns="http://www.w3.org/1999/xhtml" flexcolinput="false" usecsscolor="false"></mutation>
+          <field name="MAT_COL_NAME">color</field>
+          <value name="MATERIAL">
+            <shadow type="materialList" id="]b^px)z;$j]1RMEG/(rV">
+              <field name="FIELDNAME">Material #372</field>
+            </shadow>
+          </value>
+          <value name="R">
+            <shadow type="math_number" id="5(86`dnl?s6i_|)/jH2X">
+              <field name="NUM">0</field>
+            </shadow>
+          </value>
+          <value name="G">
+            <shadow type="math_number" id="i#W~_5UCa8LxO:ZOVwzj">
+              <field name="NUM">0.19</field>
+            </shadow>
+          </value>
+          <value name="B">
+            <shadow type="math_number" id="Wuu3)NO:n+}7-5zaK=;G">
+              <field name="NUM">0.05</field>
+            </shadow>
+          </value>
+          <next>
+            <block type="setMaterialColor" id="AK8AM(yM!)41!nWIWUJS">
+              <mutation xmlns="http://www.w3.org/1999/xhtml" flexcolinput="false" usecsscolor="false"></mutation>
+              <field name="MAT_COL_NAME">color</field>
+              <value name="MATERIAL">
+                <shadow type="materialList" id="[)0EK,{tF8HrM{iVlYI*">
+                  <field name="FIELDNAME">Roofing_Slate_Dark 2</field>
+                </shadow>
+              </value>
+              <value name="R">
+                <shadow type="math_number" id="pmw:*{QzQUnWZsBc|%Y8">
+                  <field name="NUM">0</field>
+                </shadow>
+              </value>
+              <value name="G">
+                <shadow type="math_number" id="X/3I6]~bTfDlM5WH[;Pw">
+                  <field name="NUM">0.19</field>
+                </shadow>
+              </value>
+              <value name="B">
+                <shadow type="math_number" id="C1_e2u37pL9|AS`rRMyH">
+                  <field name="NUM">0.05</field>
+                </shadow>
+              </value>
+              <next>
+                <block type="setMaterialColor" id="-=U;9Qilc-3C-k[,+6Ft">
+                  <mutation xmlns="http://www.w3.org/1999/xhtml" flexcolinput="false" usecsscolor="false"></mutation>
+                  <field name="MAT_COL_NAME">color</field>
+                  <value name="MATERIAL">
+                    <shadow type="materialList" id="s?|T_9O8wdsN=0qM#bbK">
+                      <field name="FIELDNAME">MaterialTole2</field>
+                    </shadow>
+                  </value>
+                  <value name="R">
+                    <shadow type="math_number" id="%!;9y:U8gk-0Ts.nJ9Np">
+                      <field name="NUM">0</field>
+                    </shadow>
+                  </value>
+                  <value name="G">
+                    <shadow type="math_number" id="Q)(IfSAuMP7;glq)IJ;#">
+                      <field name="NUM">0.19</field>
+                    </shadow>
+                  </value>
+                  <value name="B">
+                    <shadow type="math_number" id="5szOjQ%MH_Znj)TP,Yc!">
+                      <field name="NUM">0.05</field>
+                    </shadow>
+                  </value>
+                  <next>
+                    <block type="setMaterialColor" id="od1uIk561U(j9jjlm)GZ">
+                      <mutation xmlns="http://www.w3.org/1999/xhtml" flexcolinput="false" usecsscolor="false"></mutation>
+                      <field name="MAT_COL_NAME">color</field>
+                      <value name="MATERIAL">
+                        <shadow type="materialList" id="*+=NO77jRS3rgNOwcjA`">
+                          <field name="FIELDNAME">NocGioMarterial</field>
+                        </shadow>
+                      </value>
+                      <value name="R">
+                        <shadow type="math_number" id="t7XuAa#J3J=Bsu)@s~BM">
+                          <field name="NUM">0</field>
+                        </shadow>
+                      </value>
+                      <value name="G">
+                        <shadow type="math_number" id=";{e]8`goF)H52Ce.iooU">
+                          <field name="NUM">0.19</field>
+                        </shadow>
+                      </value>
+                      <value name="B">
+                        <shadow type="math_number" id="(s7[2G^_iV.jo`pIL-Xl">
+                          <field name="NUM">0.05</field>
+                        </shadow>
+                      </value>
+                    </block>
+                  </next>
+                </block>
+              </next>
+            </block>
+          </next>
+        </block>
+      </statement>
+    </block>
+  </tab>
+  <editorsettings viewport-x="1134" viewport-y="37" viewport-w="768" viewport-h="489.5" viewport-hidden="false" toolbox-library-mode="false" toolbox-minimized-mode="false"></editorsettings>
+</xml>

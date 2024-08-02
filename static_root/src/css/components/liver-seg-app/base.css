@@ -1,0 +1,436 @@
+*,
+*::after,
+*::before {
+    box-sizing: border-box;
+}
+
+:root {
+    font-size: 18px;
+}
+
+/* Page Loader */
+.js .loading::before,
+.js .loading::after {
+    content: '';
+    position: fixed;
+    z-index: 1000;
+}
+
+.js .loading::before {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--color-bg);
+}
+
+.js .loading::after {
+    top: 50%;
+    left: 50%;
+    width: 60px;
+    height: 60px;
+    margin: -30px 0 0 -30px;
+    border-radius: 50%;
+    opacity: 0.4;
+    background: var(--color-link);
+    animation: loaderAnim 0.7s linear infinite alternate forwards;
+
+}
+
+@keyframes loaderAnim {
+    to {
+        opacity: 1;
+        transform: scale3d(0.5,0.5,1);
+    }
+}
+
+a {
+    text-decoration: none;
+    color: var(--color-link);
+    outline: none;
+}
+
+a:hover {
+    color: var(--color-link-hover);
+    outline: none;
+}
+
+/* Better focus styles from https://developer.mozilla.org/en-US/docs/Web/CSS/:focus-visible */
+a:focus {
+    /* Provide a fallback style for browsers
+     that don't support :focus-visible */
+    outline: none;
+    background: lightgrey;
+}
+
+a:focus:not(:focus-visible) {
+    /* Remove the focus indicator on mouse-focus for browsers
+     that do support :focus-visible */
+    background: transparent;
+}
+
+a:focus-visible {
+    /* Draw a very noticeable focus style for
+     keyboard-focus on browsers that do support
+     :focus-visible */
+    outline: 2px solid red;
+    background: transparent;
+}
+
+.unbutton {
+    background: none;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    font: inherit;
+}
+
+.unbutton:focus {
+    outline: none;
+}
+
+
+
+#input-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    padding: 5px 5px;
+    justify-content: center;
+}
+
+
+.output {
+    display: grid;
+    width: 100vw;
+    height: calc(100vh - 13rem);
+    position: relative;
+    padding: 3rem;
+}
+
+.ouput__title {
+    font-family: mono45-headline, monospace;
+    font-size: 13vw;
+    line-height: 1;
+    color: #fff;
+    max-width: 50vw;
+    font-weight: 400;
+    margin: 0;
+    align-self: center;
+    pointer-events: none;
+}
+
+.content__title--centered {
+    text-align: center;
+    justify-self: center;
+}
+
+.content__title--style-1 {
+    font-family: new-order, sans-serif;
+    font-weight: 400;
+    font-size: 10vw;
+    line-height: 0.85;
+    background: linear-gradient(90deg, #e9a680 0%,#992d46 50%, #064cb5 100%);;
+    background-size: cover;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+}
+
+.content__title--style-2 {
+    font-family: bely-display, serif;
+    font-weight: 400;
+    font-size: 10vw;
+    opacity: 0.7;
+    line-height: 0.8;
+}
+
+
+body {
+    margin: 0;
+    --color-text: #fff;
+    --color-bg: #000;
+    --color-link: #c63643;
+    --color-link-hover: #fff;
+    color: var(--color-text);
+    background-color: var(--color-bg);
+    font-family: mono45-headline, monospace;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+
+.loader {
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  position: relative;
+  width: 150px;
+  height: 150px;
+  top: 40%;
+  left: 40%;
+  transform: translate(-50%, -50%);
+  border-top: 16px solid #3498db;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+}
+
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.columns {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+
+/* Style for the second panel */
+.column:nth-child(1) {
+    background-color: #9FE2BF; /* Different background color for the second panel */
+}
+
+   .column:nth-child(2) {
+    background-color: #40E0D0; /* Different background color for the second panel */
+}
+
+   .column:nth-child(3) {
+    background-color: #6495ED; /* Different background color for the second panel */
+}
+
+/* Define the sliding bar */
+.sliding-bar {
+  width: 0;
+  margin-top: -50%;
+  background-color: #007bff; /* Blue color, you can change it */
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Center vertically within its parent */
+  align-items: flex-start; /* Adjust alignment as needed */
+  transition: width 0.3s ease; /* Smooth transition */
+  z-index: 999;
+}
+
+
+.sliding-bar::before {
+  content: "";
+  position: absolute;
+  left: -20px;
+  margin-top: -10px;
+  border: 10px solid transparent;
+  border-right: 10px solid #007bff; /* Blue color, matches the background */
+}
+
+
+
+/* Add some padding and margin for visibility */
+.section-wrapper {
+    display: grid;
+    padding: 20px;
+    margin: 20px;
+}
+
+.panel-block-img,.panel-block-txt,.panel-block-pc {
+    background-color: #999999; /* Background color for the panel */
+    grid-column: 1;
+    grid-row: 1;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.3s ease; /* Smooth transition for sliding effect */
+}
+
+/* Style for the second panel */
+.panel-block-img:nth-child(2),.panel-block-txt:nth-child(2),.panel-block-pc:nth-child(2) {
+    grid-column: 1;
+    grid-row: 1;
+    display:none;
+    background-color: #454545; /* Different background color for the second panel */
+    transform: translateX(100%); /* Initially, slide it out of view to the right */
+}
+
+/* Apply the sliding effect when the container has a specific class */
+#image-input.slide-img .panel-block-img:nth-child(2) {
+    transform: translateX(0); /* Slide it back into view when the class is applied */
+    display:flex;
+
+}
+
+/* Apply the sliding effect when the container has a specific class */
+#text-input.slide-txt .panel-block-txt:nth-child(2) {
+    transform: translateX(0); /* Slide it back into view when the class is applied */
+    display:flex;
+}
+
+/* Apply the sliding effect when the container has a specific class */
+#pointcloud-input.slide-pc .panel-block-pc:nth-child(2) {
+    transform: translateX(0); /* Slide it back into view when the class is applied */
+    display:flex;
+}
+
+
+/* Define a background color and font styles */
+body {
+    background-color: #f0f0f0;
+    font-family: Arial, sans-serif;
+}
+
+/* Create a header with a background image */
+header {
+    background-size: cover;
+    text-align: center;
+    padding: 20px 0;
+    color: #fff;
+}
+
+
+
+.output {
+    background: #5fff;
+}
+
+
+.btn {
+padding: 10px 5px;
+width: 150px;
+background-color: #3498db;
+color: white;
+border: none;
+border-radius: 5px;
+cursor: pointer;
+outline: none;
+font-size: 1rem;
+transition: background-color 0.3s ease;
+margin-top: 30px;
+margin-right: 5px;
+}
+
+
+.imgUpload {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    padding: 10px;
+    position: relative;
+    justify-content: center;
+}
+
+  /* Style for the text inside the card */
+  .card li {
+      list-style-type: none; /* Remove the default list bullet */
+      font-size: 18px; /* Font size */
+      line-height: 1.6; /* Line height for readability */
+  }
+
+/* Style the heading */
+h1 {
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+/* Style the paragraph */
+p {
+    font-size: 18px;
+    line-height: 1.6;
+}
+
+/* Create a container for your content */
+.container {
+    width: 100%;
+    margin: 0 auto;
+    position: relative;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.panel-info {
+    background-color: #fff;
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    align-items: center;
+}
+
+/* Define a CSS class to style the disabled section */
+.disabled-section {
+    /* Apply a gray background and reduce opacity */
+    background-color: #ccc;
+    opacity: 0.5;
+    /* You can also add other styles like pointer-events to disable interactions */
+    pointer-events: none;
+}
+
+.column {
+    flex-basis: calc(50% - 10px); /* Adjust the width and add margins as needed */
+    height: 100vh;
+    box-sizing: border-box;
+}
+
+.content-container{
+  display: grid;
+  justify-content: center;
+  padding: 30px;
+}
+
+.content-generator{
+  grid-column: 1;
+  grid-row: 1;
+  width: 45rem;
+  height: 45rem;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  background-color: #DFFF00;
+}
+
+#generated3DView, #generatedPCViewTEXT, #generatedPCViewIMG{          
+  top:0;
+  left:0;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  justify-content: center;
+  display: none;
+}
+
+
+ .uploadPointcloud {
+    top:0;
+    left:0;
+    width: 100%;
+    max-height: 250px;
+    max-width: 250px;
+    height: 100%;
+    padding: 10px;
+    position: relative;
+    justify-content: center;
+    display: none;
+}
+
+/* CSS to change the position of the Three.js canvas 
+canvas:nth-child(1){
+position: absolute;
+  margin-top:50rem!important;
+  margin-left:50%!important;
+    */
+
+/* Add some spacing between sections */
+section {
+    margin-bottom: 40px;
+}
+
+
+
+

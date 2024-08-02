@@ -1,0 +1,126 @@
+{% load static %} 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>&lt;model-viewer&gt; example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Dancing+Script">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+  <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+  <link rel="stylesheet" href="{% static 'src/css/global/main-three.css' %}"> 
+<style>
+     model-viewer {
+      width: 100%;
+      height: 80vh; /* Use viewport height (vh) for responsiveness */
+    }
+
+  .view-button {
+      background: #fff;
+      border-radius: 4px;
+      border: none;
+      box-sizing: border-box;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+      color: rgba(0, 0, 0, 0.8);
+      display: block;
+      font-family: Futura, Helvetica Neue, sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      max-width: 128px;
+      overflow-wrap: break-word;
+      padding: 0.5em 1em;
+      position: absolute;
+      width: max-content;
+      height: max-content;
+      transform: translate3d(-50%, -50%, 0);
+    }
+
+</style>
+</head> 
+<body>
+  <div class="container">
+    <header>
+      <div class="menu-toggle" data-js="menu-toggle">
+        <span class="menu-toggle-grippy">Toggle</span>
+        <span class="menu-toggle-label">Menu</span>
+      </div>
+      <button id="returnButton" class="return-button">Return</button>
+    </header>    
+      <div class="hidden-panel">
+      <span class="hidden-panel-close" data-js="hidden-panel-close">Close</span>
+      <div class="hidden-panel-content">
+        <div class="hidden-panel-nav">
+          <h3>DEMO AR</h3>
+          <ul>
+            <button class="dropdown-btn">View Options
+            <i class="fa fa-caret-down"></i>
+            </button>
+              <div class="dropdown-container">
+
+                <a href="{% url 'normal_ar_page' %}" accesskey="normalAR">Normal View</a>
+                <a href="threeJS.html?page=dimensionAR" accesskey="dimensionAR">Dimension View</a>
+                <a href="threeJS.html?page=cameraAR" accesskey="cameraAR">Camera View</a>
+                <a href="threeJS.html?page=clippingAR" accesskey="clippingAR">CLipping View</a>
+              </div>
+
+             <button class="dropdown-btn">Effect Options
+            <i class="fa fa-caret-down"></i>
+            </button>
+              <div class="dropdown-container">
+                <a href="threeJS.html?page=lightAR" accesskey="lightAR">Lighting View</a>
+                <a href="#">Texture Options</a>
+                <a href="#">Render Exposure</a>
+              </div>
+            <button class="dropdown-btn">Material Options
+            <i class="fa fa-caret-down"></i>
+            </button>
+              <div class="dropdown-container">
+                <a href="threeJS.html?page=materialAR" accesskey="materialAR">Material Color</a>
+                <a href="#">Material Texture</a>
+                <a href="#">Render Exposure</a>
+              </div>
+            <button class="dropdown-btn">Animation Show
+            <i class="fa fa-caret-down"></i>
+            </button>
+              <div class="dropdown-container">
+                <a href="threeJS.html?page=animationAR" accesskey="animationAR">Construction Progress</a>
+                <a href="#">Material Texture</a>
+                <a href="#">Render Exposure</a>
+              </div>
+      </div>
+    </div>
+    </div>
+    <section class="banner" role="banner" id="contentSection">
+   <model-viewer id="hotspot-camera-view-demo" src="../static/src/assets/media/gltf/garage/garage.gltf" alt="Thor and the Midgard Serpent" camera-controls touch-action="none" camera-orbit="-8.142746deg 68.967deg 0.6179899m" camera-target="-0.003m 0.0722m 0.0391m" field-of-view="45deg" min-field-of-view="25deg" max-field-of-view="45deg" interpolation-decay="200" min-camera-orbit="auto auto 5%" poster="../static/src/assets/components/arvr/ThorAndTheMidgardSerpent.webp" ar>
+  <button class="view-button" slot="hotspot-0" data-position="-2m 1m -1m" data-normal="-2m 1m -1m" data-orbit="-50.94862deg 84.56856deg 0.06545582m" data-target="-1m 1m -1m">
+    View1
+  </button>      
+  <button class="view-button" slot="hotspot-1" data-position="-0.1997m 0.11766m 0.0056m" data-normal="-0.4421014m 0.04410423m 0.8958802m" data-orbit="3.711166deg 92.3035deg 0.04335197m" data-target="-0.1879433m 0.1157161m -0.01563221m">
+    View2
+  </button>      
+</model-viewer>
+</section>
+<script>
+const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+</script>
+<script>
+var dropdown = document.getElementsByClassName("dropdown-btn");
+var i;
+for (i = 0; i < dropdown.length; i++) {
+  dropdown[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var dropdownContent = this.nextElementSibling;
+    if (dropdownContent.style.display === "block") {
+      dropdownContent.style.display = "none";
+    } else {
+      dropdownContent.style.display = "block";
+    }
+  });
+}
+</script> 
+<script src="{% static 'src/js/components/arvr/main-AR.js' %}"></script> 
+<script src="{% static 'src/js/components/arvr/camera.js' %}"></script> 
+</body>
+</html>

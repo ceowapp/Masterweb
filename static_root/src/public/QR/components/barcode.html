@@ -1,0 +1,43 @@
+<!doctype HTML>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    </head>
+    <script src="https://aframe.io/releases/0.9.2/aframe.min.js"></script>
+    <script src="https://raw.githack.com/jeromeetienne/AR.js/master/aframe/build/aframe-ar.min.js"></script>
+    <script src="https://raw.githack.com/donmccurdy/aframe-extras/master/dist/aframe-extras.loaders.min.js"></script>
+
+    <!-- import events.js script -->
+    <script src="https://raw.githack.com/nicolocarpignoli/nicolocarpignoli.github.io/master/ar-click-events/events.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <body style='margin : 0px; overflow: hidden;'>
+        <!-- we add detectionMode and matrixCodeType to tell AR.js to recognize barcode markers -->
+        <a-scene embedded vr-mode-ui="enabled: false" arjs='sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3;'>
+
+        <a-assets>
+            <a-asset-item id="animated-asset-barcode" src=""></a-asset-item>
+        </a-assets>
+
+        <a-marker markerhandler emitevents="true" cursor="rayOrigin: mouse" id="animated-marker-barcode" type='barcode' value=''>
+
+            <a-entity
+                id="animated-model-barcode"
+                gltf-model="#animated-asset-barcode"
+                scale="2">
+            </a-entity>
+        </a-marker>
+        <a-entity camera></a-entity>
+        </a-scene>    
+        <script>   
+        const barcodeValue = localStorage.getItem("barcodeValueStore");
+        const modelSelect = localStorage.getItem("sharedValue");
+        const arMarker = document.getElementById("animated-marker-barcode");
+        const arAssetItem = document.getElementById("animated-asset-barcode");
+        console.log("Barcode Value added", barcodeValue);
+        console.log("model Selected", modelSelect);
+        arMarker.setAttribute("value", barcodeValue); 
+        arAssetItem.setAttribute("src", modelSelect);
+        </script>
+    </body>
+</html>

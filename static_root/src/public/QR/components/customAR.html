@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <style>
+/* This keeps child nodes hidden while the element loads */
+    :not(:defined) > * {
+      display: none;
+    }
+
+    /* Adjusted styles for responsiveness and alignment */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+
+   /* Style for the heading section */
+    .heading-sec{
+      display: flex;
+      padding: 10px 20px 10px 20px;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      left:15px;
+      z-index: 999;
+    }
+
+    /* Style for the select marker type */
+    #markerType {
+      display: flex;
+      padding: 0px 2px 0px 2px;
+      margin-top: 30px;
+      top: 0;
+      font-size: 16px;aq23456
+      font-weight: bold; /* Reset font weight for options */
+      border: 2px solid #3498db;
+      background-color: transparent;
+      color: white;
+      cursor: pointer;
+    }
+
+    /* Apply hover effect */
+    #markerType:hover {
+      background-color: #6495ED;
+      color: white;
+    }
+
+    /* Style for the select option */
+    #markerType option {
+      font-weight: bold; /* Reset font weight for options */
+    }
+
+    /* Apply bold style for selected option */
+    #markerType option:checked {
+      font-weight: bold;
+      color: #07128F; /* Change color for selected option */
+    }
+
+
+    .heading-sec h2 {
+      top: 15px;
+      font-size: 15px;
+      position: absolute;
+      color: #FFFFFF; /* Set the color to white */
+    }
+
+
+    .viewport-container {
+      display: flex;
+      padding:13rem;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      position: absolute;
+      left: 20px;
+    }
+
+    .marker-preview-container,
+    .model-preview-container
+    {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+    }
+
+     .model-preview-container{
+      margin-top: 8rem;
+    }
+
+    #markerPreview,
+      model-viewer {
+        width: 100%; /* Set the width to a percentage of the container */
+        height: 100%; /* Maintain the aspect ratio, height will be calculated based on width */
+        background-color: #797574;
+        overflow-x: hidden;
+        margin-left: 150px;
+      }
+
+
+    .ar-scene-view {
+      display: none;
+      flex-direction: column;
+      justify-content: center; /* Center vertically */
+      align-items: center; /* Center horizontally */
+      left:55rem;
+      top:15rem;
+      position: absolute;
+    }
+
+
+
+    .marker-content,
+    .model-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center; /* Center vertically */
+      margin-top: 15px;
+      width:30vh;
+      height: 30vh;
+    }
+
+    .btn {
+      padding: 10px 5px;
+      width: 150px;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      outline: none;
+      font-size: 1rem;
+      transition: background-color 0.3s ease;
+      margin-top: 30px;
+      margin-right: 5px;
+    }
+
+    #matchBtn {
+      padding: 20px 20px;
+      width: 150px;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      outline: none;
+      font-size: 1rem;
+      transition: background-color 0.3s ease;
+    }
+
+      .match-container  {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        position: absolute;
+        top:10px;
+        left: 50%;
+      }
+
+      .button-container-marker,
+      .button-container-model
+        {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        left:15px;
+      }
+
+
+      #uploadForm {
+        display: none;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-top: 0.8rem;
+    }
+
+     #submitBtn{
+      padding: 10px 10px;
+      width: 100px;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      outline: none;
+      font-size: 1rem;
+      transition: background-color 0.3s ease;
+      margin-top: 15px;
+      margin-left:10px;
+    }
+
+    #modelDropdown,
+    #markerDropdown{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+  model-viewer > #ar-prompt {
+    position: absolute;
+    left: 50%;
+    bottom: 175px;
+    animation: elongate 2s infinite ease-in-out alternate;
+    display: none;
+  }
+
+  model-viewer[ar-status="session-started"] > #ar-prompt {
+    display: block;
+  }
+
+  model-viewer > #ar-prompt > img {
+    animation: circle 4s linear infinite;
+  }
+
+  model-viewer > #ar-failure {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 175px;
+    display: none;
+  }
+
+  model-viewer[ar-tracking="not-tracking"] > #ar-failure {
+    display: block;
+  }
+
+  /* The Modal (background) */
+  .modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  }
+
+  /* Modal Content */
+  .modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+  }
+
+  .ar-scene-content {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+  /* The Close Button */
+  .close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+
+  .close:hover,
+  .close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+    .ar-button-container {
+      margin-top: 30px ;
+      left: 50%;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #turnOffButton {
+      padding: 10px 20px;
+      width:150px;
+      background-color: #e74c3c;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      outline: none;
+      font-size: 1.2rem;
+      transition: background-color 0.3s ease;
+    }
+
+    #turnOffButton:hover {
+      background-color: #c0392b;
+      display: none;
+    }
+
+  </style>
+</head>
+<body>
+  <section class="heading-sec">
+    <h2>MARKER TYPE</h2><br>
+    <select id="markerType">
+      <option value="default">HIRO</option>
+      <option value="barcode">BARCODE</option>
+      <option value="pattern">PATTERN</option>
+    </select>
+  </section>
+
+<!-- The Waring Modal -->
+<div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <p></p>
+  </div>
+
+</div>
+
+  <div class="viewport-container">
+    <div class="marker-preview-container">
+    <div class="button-container-marker">
+       <select id="markerDropdown"></select><br>
+          <button id="downloadMarker" class="btn">DOWNLOAD MARKER</button>
+          <button id="uploadMarker" class="btn">UPLOAD MARKER</button>
+      </div>
+      <div class="match-container">
+      <button id="matchBtn" class="match-btn">MATCH</button>
+        <form id="uploadForm">
+          <input type="text" id="barcodeVal" placeholder="Enter barcode value" />
+          <button type="submit" id="matchButton">Submit</button>
+        </form>
+    </div>
+      <div class="marker-content">
+        <img id="markerPreview" src="" alt="Marker Preview">
+      </div>
+    </div>
+
+    <div class="model-preview-container">
+      <div class="button-container-model">
+          <select id="modelDropdown"></select><br>
+          <button id="downloadModel" class="btn">DOWNLOAD MODEL</button>
+          <button id="uploadModel" class="btn">UPLOAD MODEL</button>
+        </div>
+      <div class="model-content">
+         <model-viewer id="preview-model" src="" shadow-intensity="1" ar camera-controls touch-action="pan-y" disable-pan oncontextmenu="return false;" ar-modes="scene-viewer webxr quick-look" alt="3D model">
+         </model-viewer>   
+      </div>
+    </div>
+    </div>
+  <div class="ar-scene-view">
+    <div class="ar-scene-content"> </div>
+    <div class="ar-button-container">
+    <button id="turnOffButton">
+      <p>
+        Turn Off
+      </p>
+   </button>
+  </div>
+  </div>
+</body>
+</html>

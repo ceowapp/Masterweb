@@ -1,0 +1,267 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <!-- SEO -->
+        <meta name="description" content="Obnimus Initiatives in Medical & Healthcare Field">
+        <meta name="author" content="ObnimusAdmin">
+        <meta name="robots" content="index, follow">
+        <meta name="referrer" content="always">
+          <!-- Social -->
+        <meta property="og:title" content="One Page Website omniall and References">
+        <meta property="og:type" content="website">
+        <meta property="og:description" content="Beautiful One Page websites for omniall and references. Each review includes a full screenshot of the website design along with noteworthy features.">
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="@robhope">
+        <meta name="twitter:creator" content="@robhope">
+        <script>document.documentElement.className="js";var supportsCssVars=function(){var e,t=document.createElement("style");return t.innerHTML="root: { --tmp-var: bold; }",document.head.appendChild(t),e=!!(window.CSS&&window.CSS.supports&&window.CSS.supports("font-weight","var(--tmp-var)")),t.parentNode.removeChild(t),e};supportsCssVars()||alert("Please view this demo in a modern browser that supports CSS Variables.");</script>
+        <link rel="stylesheet" href="{% static '../static/src/css/components/liver-seg-app/base.css' %}"> 
+        <title>OMNIBUS MED</title>
+    </head>
+    <body>
+        <section>
+            <h2>LIVER IMAGE SEGMENTATION</h2>
+            <p>This application uses MONAI API to demonstrate AI Image Processing in Medical field. </p>
+            <span>Note: "Only use this app for research and reference purposes."</span>
+        </section>
+        <!-- CONTENTS -->
+        <div class="container">
+            <div class="columns">
+                <!-- SECTION 2: TEXT INPUT -->
+                <div class="column col-in">
+                    <p class="title title-in">
+                        LIVER IMAGE SEGMENTATION
+                    </p>
+                    <legend>
+                        PLEASE UPLOAD THE LIVER IMAGE
+                    </legend>
+                        <form id="img_liver_seg" method="post">
+                        {% csrf_token %}
+                        <label for="avatar">Choose a profile picture:</label>
+                        <input type="file" id="uploaded_img" name="avatar" accept="image/png, image/jpeg" onchange="appEventHandler.onInputProcessor(this)"/>
+                        <input type="button" class="btn btn-process-activate" value="PROCESS" onclick="appEventHandler.onOutputProcessor()">
+                    </form>
+                    <div id="input-container-in">
+                        <img src="" id="input-img-in" style="width:500px; height:500px padding:0">
+                    </div>
+                </div>
+                <!-- SECTION 2: TEXT OUTPUT -->
+                <div class="column col-out">
+                    <p class="title title-out">
+                        MEDICAL IMAGE PROCESSING
+                    </p>
+                    <legend>
+                        Liver image segmentation
+                    </legend>
+                    <div id="input-container-out">
+                        <img id="input-img-out" src="" style="width:500px; height:500px padding:0">
+                    </div>
+                </div>    
+            </div>
+        <script>
+        ( function( window ) {
+            'use strict';
+            /**
+             * Log errors on browser and handle log.
+             * @class Logger
+            */
+            class Logger {
+              //List to store logs
+              #logs = [];
+              /**
+               * Logs a message {type: 'log'}.
+               * @function log
+               * @param {type: 'log', text} message - The message to be logged.
+               * @example
+               * const logger = new Logger();
+               * logger.log('log', 'This is a log message');
+               * 
+              */
+              log = function (...text) {
+                this.#logs.push({ type: 'log', text })
+              };
+
+              /**
+               * Logs a message {type: 'error'}.
+               * @function logError
+               * @param {type: 'error', text} message - The message to be logged.
+               * @example
+               * const logger = new Logger();
+               * logger.log('error', 'This is a log message');
+               * 
+              */
+              logError = function (...text) {
+              this.#logs.push({ type: 'error', text })
+              };
+
+              /**
+               * Logs a message {type: 'error'}.
+               * @function groupLogToFile
+               * @param fileName
+               * @param ...text
+               * @example
+               * const logger = new Logger();
+               * logger.groupLogToFile('logs.json', 'Grouped Logs');
+               * 
+              */
+              groupLogToFile(fileName, ...text) {
+                console.groupCollapsed(...text);
+                this.#logs.forEach(log => {
+                  console[log.type](...log.text);
+                });
+                console.groupEnd();
+                // Convert logs to JSON string
+                const jsonContent = JSON.stringify(this.#logs, null, 2);
+                // Create a Blob from the JSON string
+                const blob = new Blob([jsonContent], { type: 'application/json' });
+                // Create a download link
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = fileName;
+                // Append the link to the document and trigger a click
+                document.body.appendChild(link);
+                link.click();
+                // Remove the link from the document
+                document.body.removeChild(link);
+                this.#logs.length = 0; // Clear logs
+              }
+            }
+
+           /**
+           * Function to handle app event 
+           * @function appEventHandler
+           * @param document
+           * @example appEventHandler(document)
+           *  
+           **/
+            function appEventHandler() {
+                this.document = window.document;
+                this.input_container = document.getElementById('input-container-in');
+                this.input_img = document.getElementById('input-img-in');
+                this.output_container  = document.getElementById('input-container-out');
+                this.output_img = document.getElementById('input-img-out');
+                this.formData = new FormData(document.getElementById("img_liver_seg"));
+                document.addEventListener('DOMContentLoaded', this._onDomLoaded);
+
+            }
+
+            //Handle upload error
+            appEventHandler.prototype._onIMGLoadError = function (el, err) {
+                console.error('Error loading font:', err);
+                document.body.classList.remove('loading');
+                el.style.display = 'none';
+            }
+
+            //Handle loaded dom
+            appEventHandler.prototype._onDomLoaded = function () {
+                document.body.classList.remove('loading');
+            }
+
+            //Handle upload progress
+            appEventHandler.prototype._onIMGLoad = function(el) {
+                document.body.classList.add('loading');
+                el.style.display = 'none';
+            }
+
+            //Handle upload complete
+            appEventHandler.prototype._onIMGLoaded = function(el) {
+                document.body.classList.remove('loading');
+                el.style.display = 'block';
+            }
+
+            /**
+            * Function to handle upload 
+            * @function onInputProcessor
+            * @param input
+            * @example [this]appEventHandler.onInputProcessor(input)
+            *  
+            **/
+            appEventHandler.prototype.onInputProcessor = function(input) {
+                document.body.classList.add('loading');
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    return new Promise((resolve, reject) => {
+                        console.log("result", reader.result)
+                        var src = reader.result;
+                        this.input_img.src = src;
+                        this._onIMGLoaded(this.input_img);
+                        resolve('Image loaded successfully');
+                    });
+                };
+                reader.onprogress = (event) => {
+                    this._onIMGLoad(this.input_img);
+                    const loadingPercentage = (event.loaded / event.total) * 100;
+                    console.log(loadingPercentage + '% loaded');
+                };
+                reader.onerror = (event) => {
+                    this._onIMGLoadError(this.input_img, event.error);
+                    reject('Error loading image');
+                };
+                reader.readAsDataURL(input.files[0]);
+            };
+
+            /**
+            * Function to handle output
+            * @function onOutputProcessor
+            * @param 
+            * @example [this]appEventHandler.onOutputProcessor()
+            *  
+            **/
+            appEventHandler.prototype.onOutputProcessor = function() {
+                // Send a POST request using AJAX
+                document.body.classList.add('loading');
+                fetch("/index-med-liver.html/processed-img$$/", {
+                    method: "POST",
+                    body: this.formData,
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Handle the response from the server
+                    this._onFormSubmit(data.status);
+                    console.log("status", data.status)
+                })
+                .catch((error) => {
+                    console.error("Error:", error);
+                });
+            };
+
+            /**
+             * Function to handle processed image 
+             * @function onFormSubmit
+             * @param {string} res - Response from the server
+             * @example appEventHandler.onFormSubmit(res)
+             **/
+            appEventHandler.prototype._onFormSubmit = function(res) {
+                this._processor(res);
+            };
+
+            appEventHandler.prototype._processor = function(res) {
+                switch (res) {
+                    case 'onload':
+                        this._onIMGLoad(this.output_img);
+                        break;
+                    case 'onErr':
+                        this._onIMGLoadError(this.output_img, err);
+                        break;
+                    case 'onLoaded':
+                        this._onIMGLoaded(this.output_img);
+                        break;
+                    default:
+                        console.error("Unhandled response:", res);
+                        break;
+                }
+            };
+            window.appEventHandler = appEventHandler;
+            console.log("appEventHandler", appEventHandler.prototype)
+            })( window );
+        </script>
+        <script>
+            var appEventHandler = new appEventHandler();
+        </script>
+    </body>
+</html> 
+
+

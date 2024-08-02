@@ -1,0 +1,180 @@
+{% load static %} 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery</title>
+    <link rel="stylesheet" href="{% static 'src/css/main.css' %}"> 
+    <style>
+        #buttons {
+            position: absolute;
+            top: 50%;
+            right: 300px;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        .btn {
+            width: 160px; /* Add a fixed width for both buttons */
+            margin-bottom: 10px;
+            background-color: #ffcc00;
+            color: #333;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            z-index: 1; /* Ensure buttons are stacked properly */
+        }
+
+            #chatbotToggle {
+                width: 50px; /* Adjust the width as needed */
+                height: 50px; /* Adjust the height as needed */
+                cursor: pointer;
+                position: fixed;
+                bottom: 20px; /* Adjust the distance from the bottom as needed */
+                right: 20px; /* Adjust the distance from the right as needed */
+                z-index: 9999; /* Ensure the chatbot icon is on top of other elements */
+            }
+
+                   /* Add this CSS to your existing style section or style.css */
+            .modal {
+                display: none;
+                position: fixed;
+                z-index: 9999;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.6);
+            }
+
+            .modal-content {
+                background-color: #fff;
+                margin: 5% auto;
+                padding: 5px;
+                width: auto;
+                max-width: 360px;
+                position: relative;
+            }
+
+            .close {
+                color: #aaa;
+                float: right;
+                font-size: 28px;
+                font-weight: bold;
+            }
+
+            .close:hover,
+            .close:focus {
+                color: black;
+                text-decoration: none;
+                cursor: pointer;
+            }
+
+
+    </style>
+</head>
+<body>
+        <div class="content">
+            <header>
+                <h1>Welcome to AIGENIUSX</h1>
+            </header>
+            <nav>
+                <ul>
+                    <li><a href="{% url 'home_page' %}">HOME</a></li>
+                    <li><a href="{% url 'about_page' %}">ABOUT</a></li>
+                    <li><a href="{% url 'ARVR_page' %}">QR CODE</a></li>
+                    <li><a href="{% url 'QR_page' %}">ARVR</a></li>
+                    <li><a href="{% url 'AI_page' %}">ARTIFICIAL INTELLIGENCE</a></li>
+                    <li><a href="{% url '3D_page' %}">3D APPLICATIONS</a></li>
+                    <li><a href="{% url 'data_page' %}">DATA SERVICES</a></li>
+                    <li><a href="{% url 'robotics_page' %}">ROBOTICS</a></li>
+                    <li><a href="{% url 'app_page' %}">APP DEVELOPMENTS</a></li>
+                    <li><a href="{% url 'construction_page' %}">CONSTRUCTION</a></li>
+                    <li><a href="{% url 'technology_page' %}">TECHNOLOGY NEWS</a></li>
+                    <li><a href="{% url 'resources_page' %}">RESOURCES</a></li>
+                </ul>
+            </nav>
+            <main>
+                <section>
+                    <h2>About Us</h2>
+                    <p>This is a brief description of your website and what it offers.</p>
+                </section>
+                <section>
+                    <h2>Our Services</h2>
+                    <ul>
+                        <li>3D MODELLING</li>
+                        <li>INTERACTIVE SHOWCASE</li>
+                        <li>VIRTUAL REALITY</li>
+                    </ul>
+                </section>
+                <section>
+                    <h2>LET EXPERIENCE</h2>
+                    <img src="main_page_background.jpg" alt="Image Description">
+                </section>
+
+                <section>            
+                    <article>
+                    <h2>Data World</h2>
+                    <p>All you have to know about the power of data!</p>
+                    </article>
+
+                    <article>
+                    <h2>Technology in construction</h2>
+                    <p>Title: "Navigating the Technological Wave: ZetaBIM Pioneering AEC Innovation"
+                        In the rapidly evolving landscape of industries worldwide, technological advancements have become a driving force, reshaping traditional practices and transforming the way we work.. Not long ago, a prestigious college degree guaranteed a defined position in the job market, and companies dedicated substantial resources to perform repetitive tasks. However, with the rapid acceleration of innovations in recent decades, every aspect of our lives has been impacted. Technology has brought both positive advancements and challenges to the forefront, especially in the realm of Architecture, Engineering, and Construction (AEC). Under the awe-inspiring rise of buildings and infrastructure lies the undercurrent of reverberating changes.
+                        As with any change, there are two sides to consider, and as the saying goes, "Every coin has two sides.". The key to success lies in adaptation, much like the timeless quote by Charles Darwin, "It is not the strongest of the species that survives, nor the most intelligent that survives. It is the one that is most adaptable to change." In this blog, we embark on a journey to explore how professionals can stand strong against the penetration of technology, rise above the ordinary, nurture human intervention, and simplify the complexities that shape the AEC industry. Join us as we delve into ZetaBIM's pioneering role in embracing the technological wave and redefining AEC innovation.
+                        Standing Strong against the Penetration of Technology
+                        Embracing technology fearlessly is the key to thriving in the digital revolution. Professionals must adapt and continuously upskill to remain relevant in a dynamic job market. Emphasizing continuous learning, creativity, and problem-solving skills enables firms and professionals to become invaluable assets in a technology-driven world.
+                        Rising Above the Ordinary
+                        In a world of automation, excellence becomes more crucial than ever. Firms and professionals secure their position at the forefront of the industry by providing cutting-edge expertise and exceptional services that surpass ordinary standards. Engaging in interactive project implementations enhances the value delivered to clients and sets them apart from the competition.
+                        Nurturing Human Intervention
+                         In an era of AI and automation, the demand for human intervention remains essential. Candidates in the job market must continually update their skill sets, ensuring they can add unique value beyond what machines can achieve. Fostering a culture of continuous improvement within firms supports their workforce in staying competitive and relevant.
+                        Simplifying the Complex
+                        Amidst a multitude of technological tools, firms should focus on what truly matters to them and their clients. Constructing effective and comprehensive workflows that utilize these tools optimally is essential. Recognizing the trending practices and technologies that align with the firm's resources and vision will facilitate successful implementation.
+                        Here at ZetaBIM: As a guiding light, ZetaBIM illuminates the path to navigate the waves of innovation. By embracing change, striving for excellence, and nurturing human creativity, professionals become invaluable contributors in a technology-driven landscape. ZetaBIM's commitment to staying at the forefront of new trends ensures its services remain effective, empowering professionals to thrive in a cooperative and technology-infused AEC industry.
+                        Conclusion: As the future unfolds, ZetaBIM continues to redefine possibilities, bridging the gap between human potential and technological innovation. With ZetaBIM leading the way, professionals can confidently embrace the technological wave, turning challenges into opportunities, and shaping a brighter future for the AEC industry. Join us in pioneering AEC innovation, where human expertise and advanced technology converge, paving the way for a transformative and successful tomorrow.
+                        </p>
+                    </article>
+
+                    <article>
+                    <h2>Quantum computing</h2>
+                    <p>Microsoft Edge is a web browser developed by Microsoft, released in 2015. Microsoft Edge replaced Internet Explorer.</p>
+                    </article> 
+
+                    <article>
+                    <h2>Biotech Advances</h2>
+                    <p>Microsoft Edge is a web browser developed by Microsoft, released in 2015. Microsoft Edge replaced Internet Explorer.</p>
+                    </article>
+
+                    <article>
+                    <h2>Fintech Advances</h2>
+                    <p>Microsoft Edge is a web browser developed by Microsoft, released in 2015. Microsoft Edge replaced Internet Explorer.</p>
+                    </article>
+
+                </section>
+                <!-- Replace the button with an icon image -->
+            <img src="../static/icons/chatbot.jpeg" alt="Chatbot Icon" id="chatbotToggle">
+
+            <!-- Add this within your <body> tag -->
+            <div id="chatbotModal" class="modal">
+                <div class="modal-content">
+                    <span class="close" id="closeChatbot">&times;</span>
+                    <iframe src="https://console.dialogflow.com/api-client/demo/embedded/1b923505-f8a6-4032-bf1a-be7d70814ec6" id="chatbotIframe" width="350" height="430" allow="microphone;"></iframe>
+                </div>
+            </div>
+            </main>
+                   
+        <footer>
+            <p>&copy; 2023 Your Website. All rights reserved.</p>
+        </footer>
+    </div>
+    <script src="{% static 'src/js/main.js' %}"></script> 
+ </body>
+</html>
+
+

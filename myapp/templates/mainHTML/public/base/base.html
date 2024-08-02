@@ -1,0 +1,718 @@
+{% load static %} 
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title %}OMNIBUS{% endblock %}</title>
+        <!-- Google Analytics <integrated later>-->
+        <script defer="" data-domain="onepagelove.com" src="https://plausible.io/js/script.js"></script>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <!-- SEO -->
+        <meta name="description" content="Beautiful One Page websites for omniall and references. Each review includes a full screenshot of the website design along with noteworthy features.">
+        <meta name="author" content="Rob Hope, @robhope">
+        <meta name="robots" content="index, follow">
+        <meta name="referrer" content="always">
+        <link rel="canonical" href="https://onepagelove.com/omniall">
+          <!-- Social -->
+        <meta property="og:title" content="One Page Website omniall and References">
+        <meta property="og:type" content="website">
+        <meta property="og:description" content="Beautiful One Page websites for omniall and references. Each review includes a full screenshot of the website design along with noteworthy features.">
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="@robhope">
+        <meta name="twitter:creator" content="@robhope">
+
+        <!-- IMGIX -->
+        <meta property="ix:host" content="assets.imgix.net">
+        <meta property="ix:useHttps" content="true">
+
+        <!-- Jquery -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <!-- GSAP -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.3/gsap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.3/ScrollTrigger.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.3/Draggable.min.js"></script>
+        <!-- WEBFONT -->
+        <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+        <!-- Preload that sweet Inter typeface -->
+         <link rel="preload" href="https://onepagelove.com/wp-content/themes/onepagelove/frontend/fonts/Inter-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+        <link rel="preload" href="https://onepagelove.com/wp-content/themes/onepagelove/frontend/fonts/Inter-Bold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+          <!-- Pingbacks -->
+        <link rel="pingback" href="https://onepagelove.com/xmlrpc.php">
+          <!-- Favicons -->
+        <link rel="icon" type="image/png" href="https://onepagelove.com/wp-content/themes/onepagelove/frontend/img/favicon/favicon-32x32.png" sizes="32x32">
+          <!-- WordPress Regulars  -->
+        <link rel="dns-prefetch" href="//ajax.googleapis.com">
+        <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+        <link rel="alternate" type="application/rss+xml" title="One Page Love » Feed" href="https://onepagelove.com/feed">
+        <link rel="alternate" type="application/rss+xml" title="One Page Love » omniall Category Feed" href="https://onepagelove.com/omniall/feed">
+      
+        <!-- WordPress Regulars  -->
+        <link rel="dns-prefetch" href="//ajax.googleapis.com">
+        <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+        <link rel="alternate" type="application/rss+xml" title="One Page Love » Feed" href="https://onepagelove.com/feed">
+        <link rel="alternate" type="application/rss+xml" title="One Page Love » omniall Category Feed" href="https://onepagelove.com/omniall/feed">
+        <link rel="stylesheet" id="style-css" href="{% static 'src/css/global/base-header.scss' %}" media="all">
+        <link rel="stylesheet" id="style-scss" href="{% static 'src/css/global/index-header.css' %}" media="all">
+        <link rel="stylesheet" id="style-scss" href="{% static 'src/css/global/normalize-search.css' %}" media="all">
+        <link rel="stylesheet" id="style-scss" href="{% static 'src/css/global/index-search.css' %}" media="all">
+        <link rel="stylesheet" id="style-scss" href="{% static 'src/css/global/component-search.css' %}" media="all">
+        <link rel="stylesheet" type="text/css" href="{% static 'fonts/font-awesome-4.2.0/css/font-awesome.min.cs' %}"/>
+        <link rel="stylesheet" href="https://use.typekit.net/fxj1otx.css">
+        <link rel="stylesheet" href="{% static 'src/css/global/main.css' %}"> 
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <script src="{% static 'src/js/global/snap.svg-min.js' %}"></script>
+        <script src="https://cdn.jsdelivr.net/npm/pnltri@2.1.1/pnltri.min.js"></script>
+        <script async src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/createjs@1.0.1/builds/1.0.0/createjs.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/CustomEase.min.js"></script>
+        <script src="http://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/twgl.js/4.19.5/twgl.min.js" integrity="sha512-ind1vXD4nsgJ6ZeEauAEv5gCUYVLwnuEr2Cvtql2bXLI7ZMTWCUc9ntBl7j7p3ljRnAx7pMlODS6vMVfXlCE+g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://unpkg.com/flubber@0.3.0"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js" integrity="sha512-M7nHCiNUOwFt6Us3r8alutZLm9qMt4s9951uo8jqO4UwJ1hziseL6O3ndFyigx6+LREfZqnhHxYjKRJ8ZQ69DQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://cdn.jsdelivr.net/npm/kute.js@2.2.4/dist/kute.min.js"></script>
+        <script src="{% static 'src/js/global/lib/modernizr.custom.js' %}"></script>
+        <script src="//cdn.jsdelivr.net/npm/velocity-animate@1.5/velocity.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/EventEmitter/5.2.8/EventEmitter.min.js" integrity="sha512-AbgDRHOu/IQcXzZZ6WrOliwI8umwOgLE7sZgRAsNzmcOWlQA8RhXQzBx99Ho0jlGPWIPoT9pwk4kmeeR4qsV/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/ScrollToPlugin.min.js"></script>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TweenMax.min.js" integrity="sha512-DkPsH9LzNzZaZjCszwKrooKwgjArJDiEjA5tTgr3YX4E6TYv93ICS8T41yFHJnnSmGpnf0Mvb5NhScYbwvhn2w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <link href="https://fonts.googleapis.com/css?family=Rubik" rel="stylesheet">
+        <script data-semver="1.6.4" src="http://code.angularjs.org/1.6.4/angular.js" data-require="angular.js@1.6.x">
+        </script>
+        <link rel="stylesheet" href="https://unpkg.com/tachyons@4.8.1/css/tachyons.min.css"/>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/angularjs-slider/6.4.0/rzslider.min.js"></script>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/angularjs-slider/6.4.0/rzslider.min.css" rel="stylesheet">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/MotionPathPlugin.min.js"></script>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script src="../static/src/js/global/utils/webgl-utils.js"></script>
+        <script type="importmap">
+              {
+                "imports": {
+                  "three": "../static/src/lib/THREEJS/build/three.module.js",
+                  "three/addons/": "../static/src/lib/THREEJS/examples/jsm/",
+                  "troika-worker-utils": "http://unpkg.com/troika-worker-utils@latest/dist/troika-worker-utils.esm.js",
+                  "three/nodes": "../static/src/lib/THREEJS/examples/jsm/nodes/Nodes.js", 
+                  "troika-three-utils": "https://unpkg.com/troika-three-utils@latest/dist/troika-three-utils.esm.js",
+                  "troika-three-text": "https://unpkg.com/troika-three-text@latest/dist/troika-three-text.esm.js",
+                  "webgl-sdf-generator": "https://unpkg.com/webgl-sdf-generator@latest/dist/webgl-sdf-generator.mjs",
+                  "bidi-js": "https://unpkg.com/bidi-js@latest/dist/bidi.mjs",
+                  "troika-three-text": "../static/src/lib/troika-three-text/src/index.js"
+                }
+              }
+        </script>
+        <style>
+             #buttons {
+                position: absolute;
+                top: 50%;
+                right: 300px;
+                transform: translateY(-50%);
+                display: flex;
+                flex-direction: column;
+                align-items: flex-end;
+            }
+
+            .btn {
+                width: 160px; /* Add a fixed width for both buttons */
+                margin-bottom: 10px;
+                background-color: #ffcc00;
+                color: #333;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                z-index: 1; /* Ensure buttons are stacked properly */
+            }
+
+            #chatbotToggle {
+                width: 50px; /* Adjust the width as needed */
+                height: 50px; /* Adjust the height as needed */
+                cursor: pointer;
+                position: fixed;
+                bottom: 20px; /* Adjust the distance from the bottom as needed */
+                right: 20px; /* Adjust the distance from the right as needed */
+                z-index: 9999; /* Ensure the chatbot icon is on top of other elements */
+            }
+
+                   /* Add this CSS to your existing style section or style.css */
+            .modal {
+                display: none;
+                position: fixed;
+                z-index: 9999;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.6);
+            }
+
+            .modal-content {
+                background-color: #fff;
+                margin: 5% auto;
+                padding: 5px;
+                width: auto;
+                max-width: 350px;
+                position: relative;
+            }
+
+            .close {
+                color: #aaa;
+                float: right;
+                font-size: 28px;
+                font-weight: bold;
+            }
+
+            .close:hover,
+            .close:focus {
+                color: black;
+                text-decoration: none;
+                cursor: pointer;
+            }
+        </style>
+    </head>
+    <body id="home" class="archive category category-omniall category-5932">     
+        <div class="container-outer">
+            <header>
+                <h1>{% block header %}{% endblock %}</h1>
+                <div class="nav-wrap" id="nav-border-hack">
+                    <input class="menu__button unbutton" aria-label="Toggle menu" type="checkbox" id="menu-icon" name="menu-icon"/>
+                    <label for="menu-icon"></label>
+                    <nav class="main-nav">
+                        <div id="header-navigation">
+                            <ul>  
+                               <li class="nav-mobile"><a href="#" class="nav-parent">Menu ↓</a>  
+                                    <ul>
+                                      <li><a class="page-url" href=""><i>🏠</i> Home</a></li>
+                                      <li><a class="page-url" href=""><i>ℹ️</i> Info &amp; Contact</a></li> 
+                                      <li><a class="page-url" href=""><i>📬</i> Newsletter</a></li>     
+                                      <li><a class="page-url" href=""><i>📚</i> Learn</a></li>    
+                                      <li><a class="page-url" href=""><i>💫</i> omniall</a></li>
+                                      <li><a class="page-url" href=""><i>💬</i> UI Components</a></li>  
+                                    </ul>     
+                                </li>
+                                <!--HOME-->
+                                <li class="nav-home"><a class="main-li page-url" accessKey="index" href="{% url 'home_page' %}">HOME</a></li>
+                                <!--ABOUT-->
+                                <li class="nav-about"><a class="main-li page-url" accessKey="about" href="{% url 'about_page' %}">ABOUT</a></li>
+                                <!--TECHNOLOGY-->
+                                <li class="nav-tech">
+                                    <a href="" class="main-li">
+                                      <b>TECHNOLOGY</b>
+                                    </a>
+                                    <ul id="nested-ul-tech">
+                                        <ul>
+                                            <li>
+                                                <a class="page-url" accessKey="appDev" href="{% url 'app_page' %}" title="Design and deploy website">
+                                                    APP DEVELOPMENT
+                                                </a>
+                                                <i>   
+                                                    <img alt="product icon" loading="lazy" width="70" height="70" decoding="async" data-nimg="1" class="select-none" srcset="{% static 'src/assets/global/icon/app-development.webp' %}" style="color: transparent;"></img>
+                                                </i>
+                                            </li>
+                                            <li>
+                                                <a class="page-url" href="{% url 'robotics_page' %}" title="Robot Software">
+                                                    CLOUD SERVICES        
+                                                </a>
+                                                 <i>
+                                                    <img alt="product icon" loading="lazy" width="70" height="70" decoding="async" data-nimg="1" class="select-none" srcset="{% static 'src/assets/global/icon/cloud-computing.webp' %}" style="color: transparent;"></img>
+                                                </i> 
+                                            </li>
+                                            <li>
+                                                <a class="page-url" href="{% url 'data_page' %}" title="Built with SHINY">
+                                                    DATA SERVICES         
+                                                </a>
+                                                <i>
+                                                    <img alt="product icon" loading="lazy" width="70" height="70" decoding="async" data-nimg="1" class="select-none" srcset="{% static 'src/assets/global/icon/chart-dynamic-color.png' %}" style="color: transparent;"></img>
+                                                </i> 
+                                            </li> 
+                                            <li>
+                                                <a class="page-url" accessKey="AI" href="{% url 'AI_page' %}" title="Computer Vision">
+                                                   ARTIFICIAL INTELLIGENCE       
+                                                </a>
+                                                 <i>
+                                                    <img alt="product icon" loading="lazy" width="70" height="70" decoding="async" data-nimg="1" class="select-none" srcset="{% static 'src/assets/global/icon/ai-3d.webp' %}" style="color: transparent;"></img>
+                                                </i> 
+                                            </li> 
+                                        </ul>
+                                        <ul>
+                                            <li>
+                                                <a href="{% url 'robotics_page' %}" accessKey="robotics" title="Cloud Deployment">
+                                                    ROBOTICS DEVELOPMENT         
+                                                </a>
+                                                <i>
+                                                    <img alt="product icon" loading="lazy" width="70" height="70" decoding="async" data-nimg="1" class="select-none" srcset="{% static 'src/assets/global/icon/cloud-computing.webp' %}" style="color: transparent;"></img>
+                                                 </i> 
+                                            </li> 
+                                            <li>
+                                                <a class="page-url" href="" title="Robot ROS">
+                                                    CHIP DESIGN         
+                                                </a>
+                                                <i>
+                                                    <img alt="product icon" loading="lazy" width="70" height="70" decoding="async" data-nimg="1" class="select-none" srcset="{% static 'src/assets/global/icon/computer-dynamic-color.png' %}" style="color: transparent;"></img>
+                                                </i> 
+                                            </li> 
+                                            <li>
+                                                <a class="page-url" href="" title="Robot ROS">
+                                                   QUANTUM COMPUTING      
+                                                </a>
+                                                <i>
+                                                    <img alt="product icon" loading="lazy" width="70" height="70" decoding="async" data-nimg="1" class="select-none" srcset="{% static 'src/assets/global/icon/chip-design.webp' %}" style="color: transparent;"></img>
+                                                </i> 
+                                            </li>
+                                            <li>
+                                                <a href="{% url 'construction_page' %}" accessKey="construction" title="Robot ROS">
+                                                   BIM TECHNOLOGY      
+                                                </a>
+                                                <i>
+                                                    <img alt="product icon" loading="lazy" width="70" height="70" decoding="async" data-nimg="1" class="select-none" srcset="{% static 'src/assets/global/icon/service-bim.png' %}" style="color: transparent;"></img>
+                                                </i> 
+                                            </li>  
+                                        </ul>
+                                        <ul>
+                                            <li>
+                                                <a class="page-url" accessKey="application3D" href="{% url '3D_page' %}" title="Built with VERGE3D">
+                                                    3D APPLICATIONS         
+                                                </a>
+                                                <i>                                                        
+                                                    <img alt="product icon" loading="lazy" width="70" height="70" decoding="async" data-nimg="1" class="select-none" srcset="{% static 'src/assets/global/icon/3d-dynamic-color.png' %}" style="color: transparent;"></img>
+                                                </i> 
+                                            </li>
+                                            <li>
+                                                <a class="page-url" accessKey="QR" href="{% url 'QR_page' %}" title="QR Management">
+                                                    QR CODE       
+                                                </a>
+                                                <i>
+                                                    <img alt="product icon" loading="lazy" width="70" height="70" decoding="async" data-nimg="1" class="select-none" srcset="{% static 'src/assets/global/icon/qr-code.png' %}" style="color: transparent;"></img>
+                                                </i> 
+                                            </li> 
+                                            <li>
+                                                <a class="page-url" accessKey="ARVR"href="{% url 'ARVR_page' %}" title="ARVR">
+                                                     ARVR        
+                                                </a>
+                                                <i>
+                                                    <img alt="product icon" loading="lazy" width="70" height="70" decoding="async" data-nimg="1" class="select-none" srcset="{% static 'src/assets/global/icon/3d-virtual-reality-icon-free-png.webp' %}" style="color: transparent;"></img>
+                                                </i> 
+                                            </li>
+                                            <li>
+                                                <a class="page-url" href="{% url 'ARVR_page' %}" title="ARVR">
+                                                     DIGITAL TWIN        
+                                                </a>
+                                                <i>
+                                                    <img alt="product icon" loading="lazy" width="70" height="70" decoding="async" data-nimg="1" class="select-none" srcset="{% static 'src/assets/global/icon/digital-twin.png' %}" style="color: transparent;"></img>
+                                                </i> 
+                                            </li> 
+                                        </ul>
+                                        <ul>
+                                            <li>
+                                                <a class="page-url" href="" title="Etherium">
+                                                    BLOCKCHAIN         
+                                                </a>
+                                                <i>
+                                                    <img alt="product icon" loading="lazy" width="80" height="80" decoding="async" data-nimg="1" class="select-none" srcset="{% static 'src/assets/global/icon/block-chain.webp' %}" style="color: transparent;"></img>
+                                                </i> 
+                                            </li> 
+                                            <li>
+                                                <a class="page-url" href="" title="Robot ROS">
+                                                    IOTs         
+                                                </a>
+                                                 <i>
+                                                    <img alt="product icon" loading="lazy" width="70" height="70" decoding="async" data-nimg="1" class="select-none" srcset="{% static 'src/assets/global/icon/quantum-computing.png' %}" style="color: transparent;"></img>
+                                                </i> 
+                                            </li> 
+                                            <li>
+                                                <a class="page-url" href="" title="Robot ROS">
+                                                    3D PRINTING         
+                                                </a>
+                                                 <i>
+                                                    <img alt="product icon" loading="lazy" width="70" height="70" decoding="async" data-nimg="1" class="select-none" srcset="{% static 'src/assets/global/icon/3d-printer.webp' %}" style="color: transparent;"></img>
+                                                </i> 
+                                            </li>  
+                                            <li>
+                                                <a class="page-url" href="" title="Robot ROS">
+                                                    MORE         
+                                                </a>
+                                                 <i>
+                                                    <img alt="product icon" loading="lazy" width="70" height="70" decoding="async" data-nimg="1" class="select-none" srcset="{% static 'src/assets/global/icon/explore-icon.png' %}" style="color: transparent;"></img>
+                                                </i> 
+                                            </li>                                                
+                                        </ul>  
+                                    </ul>    
+                                </li>
+                                <!--INDUSTRY-->
+                                 <li class="nav-indus">
+                                    <a href="" class="main-li">
+                                      <b>INDUSTRY</b>
+                                    </a>
+                                    <ul id="nested-ul-indus">
+                                        <ul>
+                                            <li>
+                                                <a class="page-url" href="{% url 'app_page' %}" title="Design and deploy website">
+                                                    IT
+                                                </a>
+                                                 <i>
+                                                    <img alt="product icon" loading="lazy" width="70" height="70" decoding="async" data-nimg="1" class="select-none" srcset="{% static 'src/assets/global/icon/it-png.webp' %}" style="color: transparent;"></img>
+                                                </i>
+                                            </li>
+                                            <li>
+                                                <a class="page-url" href="{% url '3D_page' %}" title="Built with VERGE3D">
+                                                    FINANCE & BUSINESS        
+                                                </a>
+                                                 <i>
+                                                    <img alt="product icon" loading="lazy" width="70" height="70" decoding="async" data-nimg="1" class="select-none" srcset="{% static 'src/assets/global/icon/finance&business.webp' %}" style="color: transparent;"></img>
+                                                </i> 
+                                            </li> 
+                                            <li>
+                                                <a class="page-url" href="{% url 'data_page' %}" title="Built with SHINY">
+                                                    INDUSTRIAL        
+                                                </a>
+                                                <i>
+                                                    <img alt="product icon" loading="lazy" width="70" height="70" decoding="async" data-nimg="1" class="select-none" srcset="{% static 'src/assets/global/icon/industrial.png' %}" style="color: transparent;"></img>
+                                                </i> 
+                                            </li> 
+                                        </ul>
+
+                                        <ul>
+                                            <li>
+                                                <a href="{% url 'app_page' %}" title="Cloud Deployment">
+                                                   CONSTRUCTION        
+                                                </a>
+                                                 <i>
+                                                    <img alt="product icon" loading="lazy" width="70" height="70" decoding="async" data-nimg="1" class="select-none" srcset="{% static 'src/assets/global/icon/construction.webp' %}" style="color: transparent;"></img>
+                                                </i> 
+                                            </li> 
+                                            <li>
+                                                <a class="page-url" href="{% url 'robotics_page' %}" title="Robot Software">
+                                                    BIOTECH & HEALTHCARE        
+                                                </a>
+                                                 <i>
+                                                    <img alt="product icon" loading="lazy" width="70" height="70" decoding="async" data-nimg="1" class="select-none" srcset="{% static 'src/assets/global/icon/agriculture.webp' %}" style="color: transparent;"></img>
+                                                </i> 
+                                            </li> 
+                                            <li>
+                                                <a class="page-url" href="" title="">
+                                                    AGRICULTURE         
+                                                </a>
+                                                <i>
+                                                    <img alt="product icon" loading="lazy" width="70" height="70" decoding="async" data-nimg="1" class="select-none" srcset="{% static 'src/assets/global/icon/computer-dynamic-color.png' %}" style="color: transparent;"></img>
+                                                </i> 
+                                            </li> 
+                                        </ul>
+
+                                        <ul>
+                                            <li>
+                                                <a class="page-url" href="{% url 'AI_page' %}" title="Computer Vision">
+                                                   LOGISTICS        
+                                                </a>
+                                                <i>
+                                                    <img alt="product icon" loading="lazy" width="70" height="70" decoding="async" data-nimg="1" class="select-none" srcset="{% static 'src/assets/global/icon/agriculture.webp' %}" style="color: transparent;"></img>
+                                                </i> 
+                                            </li> 
+                                            <li>
+                                                <a class="page-url" href="{% url 'QR_page' %}" title="QR Management">
+                                                    E-COMMERCE        
+                                                </a>
+                                                <i>
+                                                    <img alt="product icon" loading="lazy" width="70" height="70" decoding="async" data-nimg="1" class="select-none" srcset="{% static 'src/assets/global/icon/ecommerce.webp' %}" style="color: transparent;"></img>
+                                                </i>
+                                            </li>
+                                            <li>
+                                                <a class="page-url" href="{% url 'ARVR_page' %}" title="ARVR">
+                                                    F&B        
+                                                </a>
+                                                <i>
+                                                    <img alt="product icon" loading="lazy" width="70" height="70" decoding="async" data-nimg="1" class="select-none" srcset="{% static 'src/assets/global/icon/f&b.webp' %}" style="color: transparent;"></img>
+                                                </i> 
+                                            </li> 
+                                        </ul>
+                                    </ul>    
+                                </li>
+                                <!--RESOURCE-->
+                                <li class="nav-res"><a class="main-li" href="{% url 'resource_page' %}">RESOURCE</a></li>
+                                <!--CUSTOMER-->
+                                <li class="nav-par"><a class="main-li" href="{% url 'customer_page' %}">CUSTOMER</a></li>
+                                <!--PARTNER-->
+                                <li class="nav-cus"><a class="main-li" href="{% url 'partner_page' %}">PARTNER</a></li>
+                                 <!--SUPPORT-->
+                                <li class="nav-sup"><a class="main-li" href="{% url 'support_page' %}">SUPPORT</a></li>
+                                 <!--TECHNOLOGY NEWS-->
+                                <li class="nav-news"><a class="main-li" href="{% url 'news_page' %}">TECH NEWS</a></li>
+                            </ul>
+                        </div>
+                        <div id="morphsearch" class="morphsearch">
+                            <form class="morphsearch-form">
+                                <input class="morphsearch-input" type="search" placeholder="Search..."/>
+                                <button class="morphsearch-submit" type="submit">Search</button>
+                            </form>
+                            <div class="morphsearch-content">
+                                <div class="dummy-column">
+                                    <h2>People</h2>
+                                    <a class="dummy-media-object" href="http://twitter.com/SaraSoueidan">
+                                        <img class="round" src="http://0.gravatar.com/avatar/81b58502541f9445253f30497e53c280?s=50&d=identicon&r=G" alt="Sara Soueidan"/>
+                                        <h3>Sara Soueidan</h3>
+                                    </a>
+                                    <a class="dummy-media-object" href="http://twitter.com/rachsmithtweets">
+                                        <img class="round" src="http://0.gravatar.com/avatar/48959f453dffdb6236f4b33eb8e9f4b7?s=50&d=identicon&r=G" alt="Rachel Smith"/>
+                                        <h3>Rachel Smith</h3>
+                                    </a>
+                                    <a class="dummy-media-object" href="http://www.twitter.com/peterfinlan">
+                                        <img class="round" src="http://0.gravatar.com/avatar/06458359cb9e370d7c15bf6329e5facb?s=50&d=identicon&r=G" alt="Peter Finlan"/>
+                                        <h3>Peter Finlan</h3>
+                                    </a>
+                                    <a class="dummy-media-object" href="http://www.twitter.com/pcridesagain">
+                                        <img class="round" src="http://1.gravatar.com/avatar/db7700c89ae12f7d98827642b30c879f?s=50&d=identicon&r=G" alt="Patrick Cox"/>
+                                        <h3>Patrick Cox</h3>
+                                    </a>
+                                    <a class="dummy-media-object" href="https://twitter.com/twholman">
+                                        <img class="round" src="http://0.gravatar.com/avatar/cb947f0ebdde8d0f973741b366a51ed6?s=50&d=identicon&r=G" alt="Tim Holman"/>
+                                        <h3>Tim Holman</h3>
+                                    </a>
+                                    <a class="dummy-media-object" href="https://twitter.com/shaund0na">
+                                        <img class="round" src="http://1.gravatar.com/avatar/9bc7250110c667cd35c0826059b81b75?s=50&d=identicon&r=G" alt="Shaun Dona"/>
+                                        <h3>Shaun Dona</h3>
+                                    </a>
+                                </div>
+                                <div class="dummy-column">
+                                    <h2>Popular</h2>
+                                    <a class="dummy-media-object" href="http://tympanus.net/codrops/2014/08/05/page-preloading-effect/">
+                                        <img src="img/thumbs/PagePreloadingEffect.png" alt="PagePreloadingEffect"/>
+                                        <h3>Page Preloading Effect</h3>
+                                    </a>
+                                    <a class="dummy-media-object" href="http://tympanus.net/codrops/2014/05/28/arrow-navigation-styles/">
+                                        <img src="img/thumbs/ArrowNavigationStyles.png" alt="ArrowNavigationStyles"/>
+                                        <h3>Arrow Navigation Styles</h3>
+                                    </a>
+                                    <a class="dummy-media-object" href="http://tympanus.net/codrops/2014/06/19/ideas-for-subtle-hover-effects/">
+                                        <img src="img/thumbs/HoverEffectsIdeasNew.png" alt="HoverEffectsIdeasNew"/>
+                                        <h3>Ideas for Subtle Hover Effects</h3>
+                                    </a>
+                                    <a class="dummy-media-object" href="http://tympanus.net/codrops/2014/07/14/freebie-halcyon-days-one-page-website-template/">
+                                        <img src="img/thumbs/FreebieHalcyonDays.png" alt="FreebieHalcyonDays"/>
+                                        <h3>Halcyon Days Template</h3>
+                                    </a>
+                                    <a class="dummy-media-object" href="http://tympanus.net/codrops/2014/05/22/omniall-for-article-intro-effects/">
+                                        <img src="img/thumbs/ArticleIntroEffects.png" alt="ArticleIntroEffects"/>
+                                        <h3>omniall for Article Intro Effects</h3>
+                                    </a>
+                                    <a class="dummy-media-object" href="http://tympanus.net/codrops/2014/06/26/draggable-dual-view-slideshow/">
+                                        <img src="img/thumbs/DraggableDualViewSlideshow.png" alt="DraggableDualViewSlideshow"/>
+                                        <h3>Draggable Dual-View Slideshow</h3>
+                                    </a>
+                                </div>
+                                <div class="dummy-column">
+                                    <h2>Recent</h2>
+                                    <a class="dummy-media-object" href="http://tympanus.net/codrops/2014/10/07/tooltip-styles-omniall/">
+                                        <img src="img/thumbs/TooltipStylesomniall.png" alt="TooltipStylesomniall"/>
+                                        <h3>Tooltip Styles omniall</h3>
+                                    </a>
+                                    <a class="dummy-media-object" href="http://tympanus.net/codrops/2014/09/23/animated-background-headers/">
+                                        <img src="img/thumbs/AnimatedHeaderBackgrounds.png" alt="AnimatedHeaderBackgrounds"/>
+                                        <h3>Animated Background Headers</h3>
+                                    </a>
+                                    <a class="dummy-media-object" href="http://tympanus.net/codrops/2014/09/16/off-canvas-menu-effects/">
+                                        <img src="img/thumbs/OffCanvas.png" alt="OffCanvas"/>
+                                        <h3>Off-Canvas Menu Effects</h3>
+                                    </a>
+                                    <a class="dummy-media-object" href="http://tympanus.net/codrops/2014/09/02/tab-styles-omniall/">
+                                        <img src="img/thumbs/TabStyles.png" alt="TabStyles"/>
+                                        <h3>Tab Styles omniall</h3>
+                                    </a>
+                                    <a class="dummy-media-object" href="http://tympanus.net/codrops/2014/08/19/making-svgs-responsive-with-css/">
+                                        <img src="img/thumbs/ResponsiveSVGs.png" alt="ResponsiveSVGs"/>
+                                        <h3>Make SVGs Responsive with CSS</h3>
+                                    </a>
+                                    <a class="dummy-media-object" href="http://tympanus.net/codrops/2014/07/23/notification-styles-omniall/">
+                                        <img src="img/thumbs/NotificationStyles.png" alt="NotificationStyles"/>
+                                        <h3>Notification Styles omniall</h3>
+                                    </a>
+                                </div>
+                            </div><!-- /morphsearch-content -->
+                            <span class="morphsearch-close"></span>
+                        </div><!-- /morphsearch -->
+                        <div class="overlay"></div>
+                    </div>
+                </nav>
+            </header>
+            <main>
+                <nav class="menu-hidden menu-toggle">
+                    <div class="menu__bg"></div>
+                        <div class="menu__items">
+                        <a data-splitting href="{% url 'card_page' %}" class="menu__item">Operation</a>
+                        <a data-splitting href="{% url 'moment_page' %}" class="menu__item">Moments</a>
+                        <a data-splitting href="{% url 'innovation_page' %}" class="menu__item">Innovation</a>
+                        <a data-splitting href="{% url 'card_page' %}" class="menu__item">Build</a>
+                        <a data-splitting href="{% url 'card_page' %}" class="menu__item">Unique</a>
+                        <a data-splitting href="{% url 'card_page' %}" class="menu__item">Show</a>
+                    </div>
+                </nav>  
+                <div class="pageload-loading pageload-overlay" data-opening="M 0,0 c 0,0 63.5,-16.5 80,0 16.5,16.5 0,60 0,60 L 0,60 Z">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="80%" height="80%" viewBox="0 0 80 60" preserveAspectRatio="none">
+                        <path d="M 0,0 c 0,0 -16.5,43.5 0,60 16.5,16.5 80,0 80,0 L 0,60 Z"/>
+                    </svg>
+                     <ul class="load-icon bokeh">
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                    </ul>
+                </div>
+                <div class="bg">
+                    <section>
+                        {% block header-content %}{% endblock %}
+                    </section>
+                    <section>
+                        {% block center-content %}{% endblock %}
+                    </section>
+                    <section>
+                        {% block footer-content %}{% endblock %}
+                    </section>
+                    <section>
+                        {% block card-partner-content %}{% endblock %}
+                    </section>
+                     <section>
+                        {% block prev-footer-content %}{% endblock %}
+                    </section>
+
+                </div>
+                <!-- Replace the button with an icon image -->
+                <img src="../static/icons/chatbot.jpeg" alt="Chatbot Icon" id="chatbotToggle">
+
+                <!-- Add this within your <body> tag -->
+                <div id="chatbotModal" class="modal">
+                    <div class="modal-content">
+                        <span class="close" id="closeChatbot">&times;</span>
+                        <iframe src="https://console.dialogflow.com/api-client/demo/embedded/1b923505-f8a6-4032-bf1a-be7d70814ec6" width="350" height="430" allow="microphone;"></iframe>
+                    </div>
+                </div>
+            </main>
+            <footer class="site-footer">
+                <div class="icon-footer footer-icon">
+                    <li class="footer-ring">
+                        <h2>OmniBus</h2>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </li>
+                </div>
+                <div class="footer-container">
+                    <div class="row">
+                      <div class="col-sm-12 col-md-6">
+                        <h1>Location</h1>
+                        <img src="../static/src/assets/global/icon/map.png" class="map-flat-icon" width="70" />
+                         <div id='footer-list'></div>
+                        <div id='footer-anim'></div>
+                      </div>
+                      <div class="col-xs-6 col-md-3">
+                        <h6>Categories</h6>
+                        <ul class="footer-links">
+                          <li><a href="http://scanfcode.com/category/front-end-development/">UI Design</a></li>
+                          <li><a href="http://scanfcode.com/category/back-end-development/">PHP</a></li>
+                          <li><a href="http://scanfcode.com/category/java-programming-language/">Java</a></li>
+                          <li><a href="http://scanfcode.com/category/android/">Android</a></li>
+                          <li><a href="http://scanfcode.com/category/templates/">Templates</a></li>
+                        </ul>
+                        <div class="footer-link footer-link-quickaccess">
+                            <a href="#"
+                                   class="slant">Explore</a>
+                            <a href="#"
+                               class="liquid">Visit</a>
+                        </div>
+                      </div>
+                      <div class="col-xs-6 col-md-3">
+                        <section class="footer-search">
+                            <form action="" method="">          
+                                <input type="search" placeholder="What are you looking for?">               
+                                <button>Search</button>
+                            </form>
+                        </section>
+                        <h6>Quick Links</h6>
+                        <ul class="footer-links">
+                          <li><a href="http://scanfcode.com/about/">About Us</a></li>
+                          <li><a href="http://scanfcode.com/contact/">Contact Us</a></li>
+                          <li><a href="http://scanfcode.com/contribute-at-scanfcode/">Contribute</a></li>
+                          <li><a href="http://scanfcode.com/privacy-policy/">Privacy Policy</a></li>
+                          <li><a href="http://scanfcode.com/sitemap/">Sitemap</a></li>
+                        </ul>
+                      </div>
+                      <div class="col-xs-6 col-md-3">
+                        <ul class="social-container">
+                            <section class="trial-block shadow3" id="ContactUs">
+                                <div class="social-overlap process-scetion mt100">
+                                  <div class="container">
+                                      <div class="row justify-content-center">
+                                          <div class="col-md-10">
+                                              <div class="social-bar">
+                                                  <div class="social-icons mb-3 iconpad text-center">
+                                                      <a  class="slider-nav-item" id="icon-facebook"><i class="fa fa-facebook"></i></a>
+                                                      <a  class="slider-nav-item" id="icon-google"><i class="fa fa-google-plus"></i></a>
+                                                      <a href="https://www.youtube.com/watch?v=_XiOcsj3oNI&t=50s" target="_blank" class="slider-nav-item" id="icon-likedin"><i class="fa fa-linkedin"></i></a>
+                                                      <a href="https://www.youtube.com/watch?v=_XiOcsj3oNI&t=50s" target="_blank" class="slider-nav-item" id="icon-skype"><i class="fa fa-skype"></i></a>
+                                                      <a href="#" class="slider-nav-item" id="icon-youtube"><i class="fa fa-youtube"></i></a>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                            </section>
+                            <!--<div class="container__icon-wrapper">
+                                <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
+                            </div>
+                            <div class="container__icon-wrapper">
+                                <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
+                            </div>
+                            <div class="container__icon-wrapper">
+                                <li><a class="youtube" href="#"><i class="fa fa-youtube"></i></a></li>
+                            </div>
+                            <div class="container__icon-wrapper">
+                                <li><a class="linkedin" href="#"><i class="fa fa-linkedin"></i></a></li> 
+                          </div> --> 
+                        </ul>
+                    </div>
+                    </div>
+                    <hr>
+                    <div class="footer-line footer-line-seperator"></div>
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <div class="text-com-container">
+                            <span class="txt1">www.omnibus.io/</span>
+                            <span class="txt2">official</span>
+                            <div class="bar"></div>
+                        </div>
+                        <span class="text-neutral-400 font-copyright">Copyright © 2023 OmniBus  . All rights reserved.</span>
+                        <a class="text-neutral-40 font-policy" href="/legal/terms">Terms of Use</a> <!-- -->&amp;<!-- --> 
+                        <a class="text-neutral-400 font-policy" href="/legal/privacy">Privacy Policy</a></span>
+                        <canvas id="footer-wave-canvas"></canvas>
+                    </div>
+                </div>
+            </footer>
+        </div>        
+        <script src="{% static 'src/js/global/classie.js' %}"></script> 
+        <script src="{% static 'src/lib/splitting/dist/splitting.min.js' %}"></script> 
+        <script src="{% static 'src/js/global/menu.js' %}"></script> 
+        <script src="{% static 'src/js/global/SVGLoader.js' %}"></script> 
+        <script src="{% static 'src/js/global/search.js' %}"></script> 
+        <script src="{% static 'src/js/global/main.js' %}"></script> 
+        <script src="{% static 'src/js/global/splittext.min.js' %}"></script>
+        <script src="{% static 'src/js/global/textSlide.js' %}"></script>
+        <script type="module" src="{% static 'src/js/global/Earth.js' %}"></script> 
+        <script src="{% static 'src/js/global/PageLoader.js' %}"></script> 
+        <script src="{% static 'src/js/global/Footer.js' %}"></script> 
+        <script>
+            $(document).ready(function() {
+                $('[data-text]').on('keyup', function(){
+                  $(this).attr('data-text', $(this).text());
+                });
+                $("#nested-ul-tech").wrapAll('<div class="wrap-around-ul wrap-around-ul-tech"></div>');
+                $("#nested-ul-indus").wrapAll('<div class="wrap-around-ul wrap-around-ul-indus"></div>');
+            });
+        </script>
+    </body>
+</html>
+
+
+

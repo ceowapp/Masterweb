@@ -1,0 +1,154 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Hello!</title>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="{% static 'src/css/global/style.css' %}"> 
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+<body>
+  <!-- BULMA NAVBAR -->
+  <nav class="navbar" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="ring.html">
+        <img src="../static/favicon-32x32.png" >
+      </a>
+  
+      <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+  
+    <div id="navbar-container" class="navbar-menu">
+      <div class="navbar-start">
+        <a class="navbar-item" href="{% url 'ring_page' %}">
+          Face
+        </a>
+  
+        <a class="navbar-item" href="{% url 'necklace_page' %}">
+          Face Mesh
+        </a>
+
+        <a class="navbar-item" href="{% url 'watch_page' %}">
+          Hands
+        </a>
+
+        <a class="navbar-item" href="{% url 'earring_page' %}">
+          Pose
+        </a>
+        </div>
+      </div>
+  
+    </div>
+  </nav>
+ <div class="select-dropdown">
+  <!-- Category selection -->
+  <label for="category2D" style="position: absolute; top: 120px; left: 20px; font-weight: bold; font-size: 18px; color: Black;">Category</label>
+  <select id="category2D" style="position: absolute; top: 160px; left: 20px;">
+  </select>
+</div>
+<section id="demos" class="invisible">
+ <h1>BOOST YOUR SHOPPING EXPERIENCE</h1>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6-1">
+        <div id="carousel" class="carousel slide" data-ride="carousel">
+          <ol class="carousel-indicators">
+            <li data-target="#carousel" data-slide-to="0" class="active"></li>
+            <li data-target="#carousel" data-slide-to="1"></li>
+            <li data-target="#carousel" data-slide-to="2"></li>
+          </ol>
+          <div class="carousel-inner">
+            <div class="item active">
+              <div class="segmentOnClick">
+                <canvas class="removed"></canvas>
+                <img src="" crossorigin="anonymous" title="Click to get segmentation!" width="480" height="360"/>
+               <div class="zoom-window"></div>
+               <p class="classification removed"></p>
+              </div>
+            </div>
+            <div class="item">
+              <div class="segmentOnClick">
+                <canvas class="removed"></canvas>
+                <img src="" crossorigin="anonymous" title="Click to get segmentation!" width="480" height="360" />
+               <div class="zoom-window"></div>
+                <p class="classification removed"></p>
+              </div>
+            </div>
+            <div class="item">
+              <div class="segmentOnClick">
+                <canvas class="removed"></canvas>
+                <img src="" crossorigin="anonymous" title="Click to get segmentation!" width="480" height="360" />
+               <div class="zoom-window"></div>
+                <p class="classification removed"></p>
+              </div>
+            </div>
+          </div>
+          <a class="left carousel-control" href="#carousel" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left"></span>
+          </a>
+          <a class="right carousel-control" href="#carousel" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right"></span>
+          </a>
+        </div>
+      </div>
+      <div class="col-md-6-2">
+        <h2>Demo: Webcam continuous detection and auto placement of jewelry</h2>
+        <p>Real-time try-on experience. Make better decisions, save time<br>Click <b>enable webcam</b> below and grant access to the webcam if prompted.</p>
+        <div id="liveView" class="videoView">
+     <div class="button-container">
+               <button id="captureHandleButton" class="mdc-button mdc-button--raised">
+                <span class="mdc-button__ripple"></span>
+                <span class="mdc-button__label">ENABLE WEBCAM</span>
+              </button>
+              <button id="capturePredictionButton" class="mdc-button mdc-button--raised">
+                <span class="mdc-button__ripple"></span>
+                <span class="mdc-button__label">ENABLE PREDICTION</span>
+              </button>
+               <button id="autoCapture" class="mdc-button mdc-button--raised">
+                <span class="mdc-button__ripple"></span>
+                <span class="mdc-button__label">ENABLE CAPTURE</span>
+              </button>              <div class="input">
+                <button class="mdc-button mdc-button--raised" onclick="document.getElementById('uploadFile').click()">
+                  <span class="mdc-button__label">SELECT IMAGE</span>
+                </button>
+                <input id="uploadFile" type="file" accept=".jpeg,.png,.jpg" style="display:none">
+              </div>
+              </div>
+        <div class="ring-container">
+          <div class="img-container">
+            <video id="cameraVideo" style="left: 0px; top: 0px;" autoplay playsinline></video>
+            <canvas class="output_canvas" id="output_canvas" width="480" height="360" style="left: 0px; top: 0px;"></canvas>
+          <canvas id="canvasOutput" width="480" height="360" style="left: 0px; top: 0;"></canvas>
+         <canvas id="combinedCanvas" width="480" height="360" style="left: 0px; top: 0;"></canvas>
+          <img id="capturedImage" width="480" height="360" style="display: none;top: 0; left: 0;">
+             <div class="loader-container">
+            <div class="loader"></div>
+          <div id='hideMe'>Smile for auto capture</div>
+          <canvas id="canvas" style="display: none;"></canvas>
+          </div>
+           </div>
+            <div class="blend-shapes">
+            <ul class="blend-shapes-list" id="image-blend-shapes"></ul>
+          </div>
+            <div class="blend-shapes">
+            <ul class="blend-shapes-list" id="video-blend-shapes"></ul>
+          </div>
+          <button id="downloadButton" class="mdc-button mdc-button--raised">
+            <span class="mdc-button__ripple"></span>
+            <span class="mdc-button__label">Download Image</span>
+          </button>
+
+           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<script src="{% static 'src/js/global/script.js' %}"></script>
+<script type="module" src="{% static 'src/js/components/ai/app/jewery/pose.js' %}"></script>
+</html>
+</body>

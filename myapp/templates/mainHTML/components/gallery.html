@@ -1,0 +1,378 @@
+{% load static %}
+<html>
+  <head>
+    <title>OMNIBUS</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+      <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+   <!-- Material Components Web CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
+
+    <!-- Bootstrap CSS (optional, you can remove this if not needed) -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+   <script src =
+    "https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js">
+    </script>
+
+  <!-- Import maps polyfill -->
+  <!-- Remove this when import maps will be widely supported -->
+  <script async src="https://unpkg.com/es-module-shims@1.8.0/dist/es-module-shims.js"></script>
+     <script type="importmap">
+      {
+        "imports": {
+          "three": "../static/src/lib/THREEJS/build/three.module.js",
+          "three/addons/": "../static/src/lib/THREEJS/examples/jsm/"
+        }
+      }
+    </script>
+
+    <script id="vertexShader" type="x-shader/x-vertex">
+
+      varying vec2 vUv;
+
+      void main() {
+
+        vUv = uv;
+
+        gl_Position = vec4( position, 1.0 );
+
+      }
+
+    </script>
+
+      <script id="fragmentShader" type="x-shader/x-fragment">
+
+      uniform sampler2D tAudioData;
+      varying vec2 vUv;
+
+      void main() {
+
+        vec3 backgroundColor = vec3( 0.125, 0.125, 0.125 );
+        vec3 color = vec3( 1.0, 1.0, 0.0 );
+
+        float f = texture2D( tAudioData, vec2( vUv.x, 0.0 ) ).r;
+
+        float i = step( vUv.y, f ) * step( f - 0.0125, vUv.y );
+
+        gl_FragColor = vec4( mix( backgroundColor, color, i ), 1.0 );
+
+      }
+
+    </script>
+
+    <style>
+      .container {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+      }
+
+
+      #panel1, #panel2, #panel3 { 
+        position: absolute;
+        display: block;
+        top: 2px;
+        left: 2px 
+      }
+
+      #create3DBtn {
+        position: absolute;
+        bottom: 5px;
+        right: 5px;
+        color: rgba(127,255,255,0.75);
+        background: transparent;
+        outline: 1px solid rgba(127,255,255,0.75);
+        border: 0px;
+        padding: 5px 10px;
+        cursor: pointer;
+      }
+
+      #slider-vertical {
+        position: absolute;
+        display:none;
+        cursor: ew-resize;
+        width: 40px;
+        height: 40px;
+        background-color: #F32196;
+        opacity: 0.7;
+        border-radius: 50%;
+
+        top: calc(50% - 20px);
+        left: calc(50% - 20px);
+      }
+
+      #slider-horizontal {
+        position: absolute;
+        display:none;
+        cursor: ew-resize;
+        width: 40px;
+        height: 40px;
+        background-color: #F32196;
+        opacity: 0.7;
+        border-radius: 50%;
+
+        top: calc(50% - 20px);
+        left: calc(75% - 20px);
+      }
+
+      h2 {
+        font-size: 27px;
+        font-weight: bolder;
+        margin: 0;
+        padding: 2px 0 0;
+        text-align: center;
+      }
+      h3 {
+        font-weight: bolder;
+        font-size: 21px;
+        margin: 10px 0;
+        padding: 0;
+        text-decoration: underline;
+      }
+      .collapse {
+        text-decoration: none;
+      }
+      #fpscontrols {
+        background-color: rgba(16, 16, 16, 0.75);
+        border: 1px solid #AAAAAA;
+        border-bottom-width: 0;
+        bottom: 0;
+        color: #AAAAAA;
+        font-family: Arial, sans-serif;
+        font-size: 18px;
+        height: 25px;
+        letter-spacing: 0.03em;
+        opacity: 0;
+        padding: 2px 10px;
+        position: absolute;
+        right: 20px;
+        transition: opacity 0.5s;
+        z-index: 3;
+      }
+      .visible {
+        opacity: 1 !important;
+        transition: opacity 0.5s !important;
+      }
+
+      #fpscontrols:not(.visible),
+
+      #heightmap {
+        border: 1px solid #AAAAAA;
+        height: 128px;
+        left: 20px;
+        position: absolute;
+        top: 20px;
+        width: 128px;
+        z-index: 3;
+      }
+
+      .label {
+        font-weight: bold;
+        padding-right: 10px;
+      }
+      .label:after {
+        content: ": ";
+      }
+      .close {
+        display: block;
+        font-style: italic;
+        margin: 30px 0 50px;
+        text-align: center;
+      }
+
+
+      a.close,
+      a.close:link,
+      a.close:visited {
+        color: #44ABDA;
+        text-decoration: none;
+      }
+      a.close:hover,
+      a.close:active {
+        color: #44ABDA;
+        text-decoration: underline;
+      }
+      a.help,
+      a.help:link,
+      a.help:visited {
+        border: 1px solid #AAAAAA;
+        border-radius: 10px;
+        color: #AAAAAA;
+        cursor: pointer;
+        font-size: 18px;
+        height: 20px;
+        line-height: 18px;
+        position: absolute;
+        right: 30px;
+        text-align: center;
+        text-decoration: none;
+        top: 30px;
+        width: 20px;
+      }
+      a.help:hover,
+      a.help:active {
+        border-color: #44ABDA;
+        color: #44ABDA;
+      }
+      a.help:focus {
+        box-shadow: 0 0 2px 1px #AAAAAA;
+        outline: 0;
+      }
+      a.help:focus:hover,
+      a.help:focus:active {
+        box-shadow: 0 0 2px 1px #44ABDA;
+      }
+      @media (max-width: 1024px) {
+        .column {
+          display: block;
+        }
+        .empty,
+        .collapse {
+          display: none;
+        }
+      }
+      @media (max-width: 800px), (max-height: 480px) {
+        #analytics,
+        #show-analytics {
+          display: none;
+        }
+      }
+      @media (max-width: 480px) {
+        #heightmap {
+          display: none;
+        }
+      }
+
+
+      a {
+        color: #8ff;
+      }
+
+      #menu {
+        position: absolute;
+        bottom: 20px;
+        width: 100%;
+        text-align: center;
+      }
+
+      .element {
+        width: 120px;
+        height: 160px;
+        box-shadow: 0px 0px 12px rgba(0,255,255,0.5);
+        border: 1px solid rgba(127,255,255,0.25);
+        font-family: Helvetica, sans-serif;
+        text-align: center;
+        line-height: normal;
+        cursor: default;
+      }
+
+      .element:hover {
+        box-shadow: 0px 0px 12px rgba(0,255,255,0.75);
+        border: 1px solid rgba(127,255,255,0.75);
+      }
+
+        .element .number {
+          position: absolute;
+          top: 20px;
+          right: 20px;
+          font-size: 12px;
+          color: rgba(127,255,255,0.75);
+        }
+
+        .element .symbol {
+          position: absolute;
+          top: 40px;
+          left: 0px;
+          right: 0px;
+          font-size: 60px;
+          font-weight: bold;
+          color: rgba(255,255,255,0.75);
+          text-shadow: 0 0 10px rgba(0,255,255,0.95);
+        }
+
+        .element .details {
+          position: absolute;
+          bottom: 15px;
+          left: 0px;
+          right: 0px;
+          font-size: 12px;
+          color: rgba(127,255,255,0.75);
+        }
+
+      button {
+        color: rgba(127,255,255,0.75);
+        background: transparent;
+        outline: 1px solid rgba(127,255,255,0.75);
+        border: 0px;
+        padding: 5px 10px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: rgba(0,255,255,0.5);
+      }
+
+      button:active {
+        color: #000000;
+        background-color: rgba(0,255,255,0.75);
+      }
+    </style>
+   </head>
+  <body>
+    <div id="container">
+      <div id="fpscontrols">W = Forward, S = Back, A = Left, D = Right, R = Up, F = Down, Q = Freeze, Mouse = Look</div>
+      <div class="slider" id="slider-vertical"></div>
+      <div class="slider" id="slider-horizontal"></div>
+    </div>
+  </div>
+    <audio loop id="music" preload="auto" style="display: none">
+    <source src="../static/src/lib/THREEJS/examples/sounds/376737_Skullbeatz___Bad_Cat_Maste.ogg" type="audio/ogg">
+    <source src="../static/src/lib/THREEJS/examples/sounds/376737_Skullbeatz___Bad_Cat_Maste.mp3" type="audio/mpeg">
+  </audio>
+    <audio id="song" preload="auto" style="display: none">
+      <source src="../static/src/lib/THREEJS/examples/sounds/358232_j_s_song.ogg" type="audio/ogg">
+      <source src="../static/src/lib/THREEJS/examples/sounds/358232_j_s_song.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="skullbeatz" preload="auto" style="display: none">
+      <source src="../static/src/lib/THREEJS/examples/sounds/376737_Skullbeatz___Bad_Cat_Maste.ogg" type="audio/ogg">
+      <source src="../static/src/lib/THREEJS/examples/sounds/376737_Skullbeatz___Bad_Cat_Maste.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="utopia" loop preload="auto" style="display: none">
+      <source src="../static/src/lib/THREEJS/examples/sounds/Project_Utopia.ogg" type="audio/ogg">
+      <source src="../static/src/lib/THREEJS/examples/sounds/Project_Utopia.mp3" type="audio/mpeg">
+    </audio>
+    <script src="{% static 'src/lib/THREE.Terrain/demo/libs/tween.module.js' %}"></script>
+    <script src="{% static 'src/lib/THREE.Terrain/demo/libs/three.module.js' %}"></script>
+    <script src="{% static 'src/lib/THREE.Terrain/demo/libs/stats.min.js' %}"></script>
+    <script src="{% static 'src/lib/THREE.Terrain/demo/libs/dat.gui.min.js' %}"></script>
+    <script src="{% static 'src/lib/THREE.Terrain/demo/libs/OrbitControls.js' %}"></script>
+    <script src="{% static 'src/lib/THREE.Terrain/demo/libs/FirstPersonControls.js' %}"></script>
+    <script src="{% static 'src/lib/THREE.Terrain/demo/libs/PositionalAudioHelper.js' %}"></script>
+    <script src="{% static 'src/lib/THREE.Terrain/demo/libs/PointerLockControls.js' %}"></script>
+    <script src="{% static 'src/lib/THREE.Terrain/demo/libs/GLTFLoader.js' %}"></script>
+    <script src="{% static 'src/lib/THREE.Terrain/demo/libs/PDBLoader.js' %}"></script>
+    <script src="{% static 'src/lib/THREE.Terrain/demo/libs/TransformControls.js' %}"></script>
+    <script src="{% static 'src/lib/THREE.Terrain/demo/libs/TrackballControls.js' %}"></script>
+    <script src="{% static 'src/lib/THREE.Terrain/demo/libs/CSS3DRenderer.js' %}"></script>
+    <script src="{% static 'src/lib/THREE.Terrain/demo/libs/ProgressiveLightMap.js' %}"></script>
+    <script src="{% static 'src/lib/THREE.Terrain/demo/libs/Capsule.js' %}"></script>
+    <script src="{% static 'src/lib/THREE.Terrain/demo/libs/ConvexGeometry.js' %}"></script>
+    <script src="{% static 'src/lib/THREE.Terrain/demo/libs/ConvexObjectBreaker.js' %}"></script>
+    <script src="{% static 'src/lib/THREE.Terrain/demo/libs/Octree.js' %}"></script>
+    <script src="{% static 'src/lib/THREE.Terrain/demo/libs/OBJLoader.js' %}"></script>
+    <script src="{% static 'src/lib/THREEJS/examples/jsm/libs/ammo.wasm.js' %}"></script>
+    <script src="{% static 'src/lib/THREE.Terrain/demo/libs/LWOLoader.js' %}"></script>
+    <script src="{% static 'src/lib/THREE.Terrain/build/THREE.Terrain.js' %}"></script>
+    <script src="{% static 'src/lib/THREE.Terrain/build/THREE.Terrain.js' %}"></script>
+    <script type="module" src="{% static 'src/js/components/3d/audioProcessing.js' %}"></script>      
+    <script src="{% static 'src/lib/THREE.Terrain/src/worley.js' %}"></script>
+    <script src="{% static 'src/lib/THREE.Terrain/src/brownian.js' %}"></script>
+    <script src="{% static 'src/lib/THREE.Terrain/src/gaussian.js' %}"></script>
+    <script src="{% static 'src/lib/THREE.Terrain/src/weightedBoxBlurGaussian.js' %}"></script>
+    <script src="{% static 'src/js/components/3d/gallery.js' %}"></script>
+    <script>setup();</script>
+  </body>
+</html> 
+
+
+

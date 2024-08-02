@@ -1,0 +1,1026 @@
+{% load static %} 
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title %}OMNIBUS{% endblock %}</title>
+        <!-- Google Analytics <integrated later>-->
+        <script defer="" data-domain="onepagelove.com" src="https://plausible.io/js/script.js"></script>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <!-- SEO -->
+        <meta name="description" content="Beautiful One Page websites for omniall and references. Each review includes a full screenshot of the website design along with noteworthy features.">
+        <meta name="author" content="Rob Hope, @robhope">
+        <meta name="robots" content="index, follow">
+        <meta name="referrer" content="always">
+        <link rel="canonical" href="https://onepagelove.com/omniall">
+          <!-- Social -->
+        <meta property="og:title" content="One Page Website omniall and References">
+        <meta property="og:type" content="website">
+        <meta property="og:description" content="Beautiful One Page websites for omniall and references. Each review includes a full screenshot of the website design along with noteworthy features.">
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="@robhope">
+        <meta name="twitter:creator" content="@robhope">
+
+        <!-- IMGIX -->
+        <meta property="ix:host" content="assets.imgix.net">
+        <meta property="ix:useHttps" content="true">
+
+        <!-- Jquery -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"></script>        
+        <!-- Preload that sweet Inter typeface -->
+         <link rel="preload" href="https://onepagelove.com/wp-content/themes/onepagelove/frontend/fonts/Inter-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+        <link rel="preload" href="https://onepagelove.com/wp-content/themes/onepagelove/frontend/fonts/Inter-Bold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+          <!-- Pingbacks -->
+        <link rel="pingback" href="https://onepagelove.com/xmlrpc.php">
+          <!-- Favicons -->
+        <link rel="icon" type="image/png" href="https://onepagelove.com/wp-content/themes/onepagelove/frontend/img/favicon/favicon-32x32.png" sizes="32x32">
+          <!-- WordPress Regulars  -->
+        <link rel="dns-prefetch" href="//ajax.googleapis.com">
+        <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+        <link rel="alternate" type="application/rss+xml" title="One Page Love » Feed" href="https://onepagelove.com/feed">
+        <link rel="alternate" type="application/rss+xml" title="One Page Love » omniall Category Feed" href="https://onepagelove.com/omniall/feed">
+      
+        <!-- WordPress Regulars  -->
+        <link rel="dns-prefetch" href="//ajax.googleapis.com">
+        <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+        <link rel="alternate" type="application/rss+xml" title="One Page Love » Feed" href="https://onepagelove.com/feed">
+        <link rel="alternate" type="application/rss+xml" title="One Page Love » omniall Category Feed" href="https://onepagelove.com/omniall/feed">
+        <link rel="stylesheet" id="style-css" href="{% static 'src/css/global/base-header.scss' %}" media="all">
+        <link rel="stylesheet" id="style-scss" href="{% static 'src/css/global/index-header.css' %}" media="all">
+        <link rel="stylesheet" id="style-scss" href="{% static 'src/css/global/normalize-search.css' %}" media="all">
+        <link rel="stylesheet" id="style-scss" href="{% static 'src/css/global/index-search.css' %}" media="all">
+        <link rel="stylesheet" id="style-scss" href="{% static 'src/css/global/component-search.css' %}" media="all">
+        <link rel="stylesheet" type="text/css" href="{% static 'fonts/font-awesome-4.2.0/css/font-awesome.min.cs' %}"/>
+        <link rel="stylesheet" href="{% static 'src/css/global/main.css' %}"> 
+        <script src="{% static 'src/js/global/snap.svg-min.js' %}"></script>
+        <style>
+                #buttons {
+                    position: absolute;
+                    top: 50%;
+                    right: 300px;
+                    transform: translateY(-50%);
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-end;
+                }
+
+                .btn {
+                    width: 160px; /* Add a fixed width for both buttons */
+                    margin-bottom: 10px;
+                    background-color: #ffcc00;
+                    color: #333;
+                    padding: 10px 20px;
+                    border: none;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    z-index: 1; /* Ensure buttons are stacked properly */
+                }
+
+                #chatbotToggle {
+                    width: 50px; /* Adjust the width as needed */
+                    height: 50px; /* Adjust the height as needed */
+                    cursor: pointer;
+                    position: fixed;
+                    bottom: 20px; /* Adjust the distance from the bottom as needed */
+                    right: 20px; /* Adjust the distance from the right as needed */
+                    z-index: 9999; /* Ensure the chatbot icon is on top of other elements */
+                }
+
+                       /* Add this CSS to your existing style section or style.css */
+                .modal {
+                    display: none;
+                    position: fixed;
+                    z-index: 9999;
+                    left: 0;
+                    top: 0;
+                    width: 100%;
+                    height: 100%;
+                    background-color: rgba(0, 0, 0, 0.6);
+                }
+
+                .modal-content {
+                    background-color: #fff;
+                    margin: 5% auto;
+                    padding: 5px;
+                    width: auto;
+                    max-width: 350px;
+                    position: relative;
+                }
+
+                .close {
+                    color: #aaa;
+                    float: right;
+                    font-size: 28px;
+                    font-weight: bold;
+                }
+
+                .close:hover,
+                .close:focus {
+                    color: black;
+                    text-decoration: none;
+                    cursor: pointer;
+                }
+        </style>
+    </head>
+    <body id="home" class="archive category category-omniall category-5932">        
+        <div id="container-outer">
+            <header>
+                <h1>{% block header %}Embark with Us{% endblock %}</h1>
+                <div class="nav-wrap" id="nav-border-hack">
+                    <nav class="main-nav">
+                        <div id="header-navigation">
+                            <ul>  
+                               <li class="nav-mobile"><a href="#" class="nav-parent">Menu ↓</a>  
+                                    <ul>
+                                      <li><a class="page-url" href=""><i>🏠</i> Home</a></li>
+                                      <li><a class="page-url" href=""><i>ℹ️</i> Info &amp; Contact</a></li>   
+                                      <li><a class="page-url" href=""><i>📬</i> Newsletter</a></li>     
+                                      <li><a class="page-url" href=""><i>📚</i> Learn</a></li>    
+                                      <li><a class="page-url" href=""><i>💫</i> omniall</a></li>
+                                      <li><a class="page-url" href=""><i>💬</i> UI Components</a></li>  
+                                      <li><a class="page-url" href=""><i>🏗</i> Templates</a></li>
+                                    </ul>     
+                                </li>
+                                <!--HOME-->
+                                <li><a class="page-url" href="{% url 'home_page' %}">HOME</a></li>
+                                <!--ABOUT-->
+                                <li><a class="page-url" href="{% url 'about_page' %}">ABOUT</a></li>
+                                <!--TECHNOLOGY-->
+                                <li class="nav-tech">
+                                    <a href="" class="nav-parent">
+                                      <b>TECHNOLOGY</b>
+                                    </a>
+                                    <ul id="nested-ul-tech">
+                                        <ul>
+                                            <li class="nav-no-link"><a href="#">APP DEVELOPMENT</a></li>  
+                                            <li>
+                                                <a class="page-url" href="{% url 'app_page' %}" title="Design and deploy website">
+                                                    <i>🗂</i>
+                                                    STATIC WEB
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="page-url" href="{% url 'app_page' %}" title="Design and deploy web app">
+                                                  <i class="nav-svg nav-sqsp"></i> 
+                                                  WEB APP
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="page-url" href="{% url 'app_page' %}" title="Design and deploy Android app">
+                                                  <i class="nav-svg nav-framer"></i> 
+                                                  Android App
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="page-url" href="" title="Design and deploy IOS app">
+                                                    <i class="nav-svg nav-carrd"></i> 
+                                                    IOS App
+                                                </a>
+                                            </li>
+
+                                            <li class="nav-no-link"><a href="#">3D APPLICATIONS</a></li>     
+                                            <li>
+                                                <a class="page-url" href="{% url '3D_page' %}" title="Built with VERGE3D">
+                                                    <i>⚙️</i> 
+                                                    VERGE 3D         
+                                                </a>
+                                            </li> 
+                                            <li>
+                                                <a class="page-url" href="{% url '3D_page' %}" title="Built with THREEJS">
+                                                    <i>📄</i> 
+                                                    THREEJS MAP
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="page-url" href="{% url 'textapp_page' %}" title="Built with THREEJS, CANNONJS">
+                                                    <i>🛠</i> 
+                                                     TEXT APP
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="page-url" href="{% url '3D_page' %}" title="Built with THREEJS">
+                                                    <i>👆</i> 
+                                                    GALLERY
+                                                </a>
+                                            </li>
+
+                                            <li class="nav-no-link"><a href="#">DATA SERVICES</a></li>     
+                                            <li>
+                                                <a class="page-url" href="{% url 'data_page' %}" title="Built with SHINY">
+                                                    <i>⚙️</i> 
+                                                    DABTAB APP         
+                                                </a>
+                                            </li> 
+                                            <li>
+                                                <a class="page-url" href="{% url 'data_page' %}" title="Data Analytics">
+                                                    <i>📄</i> 
+                                                    Data Analytics
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="page-url" href="{% url 'data_page' %}" title="Data Spektrum">
+                                                    <i>🛠</i> 
+                                                     Data Spectrum
+                                                </a>
+                                            </li>
+                                        </ul>
+
+                                        <ul>
+                                            <li class="nav-no-link"><a href="#">CLOUD SERVICES</a></li>     
+                                            <li>
+                                                <a href="" title="Cloud Deployment">
+                                                    <i>⚙️</i> 
+                                                    Cloud AWS         
+                                                </a>
+                                            </li> 
+                                            <li>
+                                                <a class="page-url" href="" title="Cloud Configuration">
+                                                    <i>📄</i> 
+                                                    Cloud Microsoft
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="page-url" href="" title="Cloud ML">
+                                                    <i>🛠</i> 
+                                                     Cloud Google
+                                                </a>
+                                            </li>
+
+                                            <li class="nav-no-link"><a href="#">ROBOTICS</a></li>     
+                                            <li>
+                                                <a class="page-url" href="{% url 'robotics_page' %}" title="Robot Software">
+                                                    <i>⚙️</i> 
+                                                    Robotic Development         
+                                                </a>
+                                            </li> 
+                                            <li>
+                                                <a class="page-url" href="{% url 'robotics_page' %}" title="Robot Hardware">
+                                                    <i>📄</i> 
+                                                    Robotic Development
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="page-url" href="{% url 'robotics_page' %}" title="Robot ROS">
+                                                    <i>🛠</i> 
+                                                    Robotic Development
+                                                </a>
+                                            </li>
+
+                                            <li class="nav-no-link"><a href="#">Machine Learning</a></li>     
+                                            <li>
+                                                <a class="page-url" href="" title="">
+                                                    <i>⚙️</i> 
+                                                    Applications         
+                                                </a>
+                                            </li> 
+                                            <li>
+                                                <a class="page-url" href="" title="">
+                                                    <i>📄</i> 
+                                                    Research
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="page-url" href="" title="">
+                                                    <i>🛠</i> 
+                                                    Development
+                                                </a>
+                                            </li>
+                                        </ul>
+
+                                        <ul>
+                                            <li class="nav-no-link"><a href="#">Artificial Intelligence</a></li>     
+                                            <li>
+                                                <a class="page-url" href="{% url 'AI_page' %}" title="Computer Vision">
+                                                    <i>⚙️</i> 
+                                                    Computer Vision         
+                                                </a>
+                                            </li> 
+                                            <li>
+                                                <a class="page-url" href="{% url 'AI_page' %}" title="Deep Learning">
+                                                    <i>📄</i> 
+                                                    Deep learning
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="page-url" href="{% url 'AI_page' %}" title="Neural Network">
+                                                    <i>🛠</i> 
+                                                    Neural Network
+                                                </a>
+                                            </li>
+
+                                            <li class="nav-no-link"><a href="#">QR CODE</a></li>     
+                                            <li>
+                                                <a class="page-url" href="{% url 'QR_page' %}" title="QR Management">
+                                                    <i>⚙️</i> 
+                                                    QR Management         
+                                                </a>
+                                            </li> 
+                                            <li>
+                                                <a class="page-url" href="{% url 'QR_page' %}" title="QR Design">
+                                                    <i>📄</i> 
+                                                    QR Design
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="page-url" href="{% url 'QR_page' %}" title="QR System">
+                                                    <i>🛠</i> 
+                                                    QR System
+                                                </a>
+                                            </li>
+
+                                            <li class="nav-no-link"><a href="#">ARVR</a></li>     
+                                            <li>
+                                                <a class="page-url" href="{% url 'ARVR_page' %}" title="ARVR">
+                                                    <i>⚙️</i> 
+                                                    Augemented Reality         
+                                                </a>
+                                            </li> 
+                                            <li>
+                                                <a class="page-url" href="{% url 'ARVR_page' %}" title="ARVR">
+                                                    <i>📄</i> 
+                                                    Virtual Reality
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="{% url 'ARVR_page' %}" title="ARVR">
+                                                    <i>🛠</i> 
+                                                    Development
+                                                </a>
+                                            </li>
+                                        </ul>
+
+                                        <ul>
+                                            <li class="nav-no-link"><a href="#">BLOCKCHAIN</a></li>     
+                                            <li>
+                                                <a class="page-url" href="" title="Etherium">
+                                                    <i>⚙️</i> 
+                                                    Finance         
+                                                </a>
+                                            </li> 
+                                            <li>
+                                                <a class="page-url" href="" title="Security">
+                                                    <i>📄</i> 
+                                                    Healthcare
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="page-url" href="" title="">
+                                                    <i>🛠</i> 
+                                                    Quantum
+                                                </a>
+                                            </li>
+
+                                            <li class="nav-no-link"><a href="#">IOTs</a></li>     
+                                            <li>
+                                                <a class="page-url" href="" title="Robot ROS">
+                                                    <i>⚙️</i> 
+                                                    Robotic Development         
+                                                </a>
+                                            </li> 
+                                            <li>
+                                                <a class="page-url" href="" title="Robot Auto">
+                                                    <i>📄</i> 
+                                                    Robotic Development
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="page-url" href="" title="Robot Auto">
+                                                    <i>🛠</i> 
+                                                    Robotic Development
+                                                </a>
+                                            </li>
+
+                                            <li class="nav-no-link"><a href="#">QUANTUM COMPUTING</a></li>     
+                                            <li>
+                                                <a class="page-url" href="" title="Robot ROS">
+                                                    <i>⚙️</i> 
+                                                    Robotic Development         
+                                                </a>
+                                            </li> 
+                                            <li>
+                                                <a class="page-url" href="" title="Robot Auto">
+                                                    <i>📄</i> 
+                                                    Robotic Development
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="page-url" href="" title="Robot Auto">
+                                                    <i>🛠</i> 
+                                                    Robotic Development
+                                                </a>
+                                            </li>
+
+                                            <li class="nav-no-link"><a href="#">CHIP DESIGN</a></li>     
+                                            <li>
+                                                <a class="page-url" href="" title="Robot ROS">
+                                                    <i>⚙️</i> 
+                                                    Silicon         
+                                                </a>
+                                            </li> 
+                                            <li>
+                                                <a class="page-url" href="" title="Robot Auto">
+                                                    <i>📄</i> 
+                                                    Software
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="page-url" href="" title="Robot Auto">
+                                                    <i>🛠</i> 
+                                                    Blueprint
+                                                </a>
+                                            </li>
+                                        </ul>  
+                                    </ul>    
+                                </li>
+                                <!--INDUSTRY-->
+                                 <li class="nav-indus">
+                                    <a href="" class="nav-parent">
+                                      <b>INDUSTRY</b>
+                                    </a>
+                                    <ul id="nested-ul-indus">
+                                        <ul>
+                                            <li class="nav-no-link"><a href="#">IT</a></li>  
+                                            <li>
+                                                <a class="page-url" href="{% url 'app_page' %}" title="Design and deploy website">
+                                                    <i>🗂</i>
+                                                    STATIC WEB
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="page-url" href="{% url 'app_page' %}" title="Design and deploy web app">
+                                                  <i class="nav-svg nav-sqsp"></i> 
+                                                  WEB APP
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="page-url" href="{% url 'app_page' %}" title="Design and deploy Android app">
+                                                  <i class="nav-svg nav-framer"></i> 
+                                                  Android App
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="page-url" href="" title="Design and deploy IOS app">
+                                                    <i class="nav-svg nav-carrd"></i> 
+                                                    IOS App
+                                                </a>
+                                            </li>
+
+                                            <li class="nav-no-link"><a href="#">FINANCE & BUSINESS</a></li>     
+                                            <li>
+                                                <a class="page-url" href="{% url '3D_page' %}" title="Built with VERGE3D">
+                                                    <i>⚙️</i> 
+                                                    VERGE 3D         
+                                                </a>
+                                            </li> 
+                                            <li>
+                                                <a class="page-url" href="{% url '3D_page' %}" title="Built with THREEJS">
+                                                    <i>📄</i> 
+                                                    THREEJS MAP
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="page-url" href="{% url '3D_page' %}" title="Built with THREEJS, CANNONJS">
+                                                    <i>🛠</i> 
+                                                     TEXT APP
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="page-url" href="{% url '3D_page' %}" title="Built with THREEJS">
+                                                    <i>👆</i> 
+                                                    GALLERY
+                                                </a>
+                                            </li>
+
+                                            <li class="nav-no-link"><a href="#">INDUSTRIAL</a></li>     
+                                            <li>
+                                                <a class="page-url" href="{% url 'data_page' %}" title="Built with SHINY">
+                                                    <i>⚙️</i> 
+                                                    DABTAB APP         
+                                                </a>
+                                            </li> 
+                                            <li>
+                                                <a class="page-url" href="{% url 'data_page' %}" title="Data Analytics">
+                                                    <i>📄</i> 
+                                                    Data Analytics
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="page-url" href="{% url 'data_page' %}" title="Data Spektrum">
+                                                    <i>🛠</i> 
+                                                     Data Spectrum
+                                                </a>
+                                            </li>
+                                        </ul>
+
+                                        <ul>
+                                            <li class="nav-no-link"><a href="#">CONSTRUCTION</a></li>     
+                                            <li>
+                                                <a href="{% url 'app_page' %}" title="Cloud Deployment">
+                                                    <i>⚙️</i> 
+                                                    BIM OPERATION         
+                                                </a>
+                                            </li> 
+                                            <li>
+                                                <a href="{% url 'app_page' %}" title="Cloud Configuration">
+                                                    <i>📄</i> 
+                                                    STRUCTURAL DESIGN
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="{% url 'app_page' %}" title="Cloud ML">
+                                                    <i>🛠</i> 
+                                                    ARCHITECTURAL DESIGN
+                                                </a>
+                                            </li>
+
+                                            <li class="nav-no-link"><a href="#">BIOTECH & HEALTHCARE</a></li>     
+                                            <li>
+                                                <a class="page-url" href="{% url 'robotics_page' %}" title="Robot Software">
+                                                    <i>⚙️</i> 
+                                                    Robotic Development         
+                                                </a>
+                                            </li> 
+                                            <li>
+                                                <a class="page-url" href="{% url 'robotics_page' %}" title="Robot Hardware">
+                                                    <i>📄</i> 
+                                                    Robotic Development
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="page-url" href="{% url 'robotics_page' %}" title="Robot ROS">
+                                                    <i>🛠</i> 
+                                                    Robotic Development
+                                                </a>
+                                            </li>
+
+                                            <li class="nav-no-link"><a href="#">AGRICULTURE</a></li>     
+                                            <li>
+                                                <a class="page-url" href="" title="">
+                                                    <i>⚙️</i> 
+                                                    Applications         
+                                                </a>
+                                            </li> 
+                                            <li>
+                                                <a class="page-url" href="" title="">
+                                                    <i>📄</i> 
+                                                    Research
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="page-url" href="" title="">
+                                                    <i>🛠</i> 
+                                                    Development
+                                                </a>
+                                            </li>
+                                        </ul>
+
+                                        <ul>
+                                            <li class="nav-no-link"><a href="#">LOGISTICS & TRANSPORT</a></li>     
+                                            <li>
+                                                <a class="page-url" href="{% url 'AI_page' %}" title="Computer Vision">
+                                                    <i>⚙️</i> 
+                                                    Computer Vision         
+                                                </a>
+                                            </li> 
+                                            <li>
+                                                <a class="page-url" href="{% url 'AI_page' %}" title="Deep Learning">
+                                                    <i>📄</i> 
+                                                    Deep learning
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="page-url" href="{% url 'AI_page' %}" title="Neural Network">
+                                                    <i>🛠</i> 
+                                                    Neural Network
+                                                </a>
+                                            </li>
+
+                                            <li class="nav-no-link"><a href="#">E-COMMERCE</a></li>     
+                                            <li>
+                                                <a class="page-url" href="{% url 'QR_page' %}" title="QR Management">
+                                                    <i>⚙️</i> 
+                                                    QR Management         
+                                                </a>
+                                            </li> 
+                                            <li>
+                                                <a class="page-url" href="{% url 'QR_page' %}" title="QR Design">
+                                                    <i>📄</i> 
+                                                    QR Design
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="page-url" href="{% url 'QR_page' %}" title="QR System">
+                                                    <i>🛠</i> 
+                                                    QR System
+                                                </a>
+                                            </li>
+
+                                            <li class="nav-no-link"><a href="#">F&B</a></li>     
+                                            <li>
+                                                <a class="page-url" href="{% url 'ARVR_page' %}" title="ARVR">
+                                                    <i>⚙️</i> 
+                                                    Augemented Reality         
+                                                </a>
+                                            </li> 
+                                            <li>
+                                                <a class="page-url" href="{% url 'ARVR_page' %}" title="ARVR">
+                                                    <i>📄</i> 
+                                                    Virtual Reality
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="page-url" href="{% url 'ARVR_page' %}" title="ARVR">
+                                                    <i>🛠</i> 
+                                                    Development
+                                                </a>
+                                            </li>
+                                        </ul>
+
+                                        <ul>
+                                            <li class="nav-no-link"><a href="#">BLOCKCHAIN</a></li>     
+                                            <li>
+                                                <a class="page-url" href="" title="Etherium">
+                                                    <i>⚙️</i> 
+                                                    Finance         
+                                                </a>
+                                            </li> 
+                                            <li>
+                                                <a class="page-url" href="" title="Security">
+                                                    <i>📄</i> 
+                                                    Healthcare
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="page-url" href="" title="">
+                                                    <i>🛠</i> 
+                                                    Quantum
+                                                </a>
+                                            </li>
+
+                                            <li class="nav-no-link"><a href="#">IOTs</a></li>     
+                                            <li>
+                                                <a class="page-url" href="" title="Robot ROS">
+                                                    <i>⚙️</i> 
+                                                    Robotic Development         
+                                                </a>
+                                            </li> 
+                                            <li>
+                                                <a class="page-url"href="" title="Robot Auto">
+                                                    <i>📄</i> 
+                                                    Robotic Development
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="page-url" href="" title="Robot Auto">
+                                                    <i>🛠</i> 
+                                                    Robotic Development
+                                                </a>
+                                            </li>
+
+                                            <li class="nav-no-link"><a href="#">QUANTUM COMPUTING</a></li>     
+                                            <li>
+                                                <a class="page-url" href="" title="Robot ROS">
+                                                    <i>⚙️</i> 
+                                                    Robotic Development         
+                                                </a>
+                                            </li> 
+                                            <li>
+                                                <a href="" title="Robot Auto">
+                                                    <i>📄</i> 
+                                                    Robotic Development
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="page-url" href="" title="Robot Auto">
+                                                    <i>🛠</i> 
+                                                    Robotic Development
+                                                </a>
+                                            </li>
+
+                                            <li class="nav-no-link"><a href="#">CHIP DESIGN</a></li>     
+                                            <li>
+                                                <a class="page-url" href="" title="Robot ROS">
+                                                    <i>⚙️</i> 
+                                                    Silicon         
+                                                </a>
+                                            </li> 
+                                            <li>
+                                                <a class="page-url" href="" title="Robot Auto">
+                                                    <i>📄</i> 
+                                                    Software
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="page-url" href="" title="Robot Auto">
+                                                    <i>🛠</i> 
+                                                    Blueprint
+                                                </a>
+                                            </li>
+                                        </ul>  
+                                    </ul>    
+                                </li>
+                        
+                                <!--TECHNOLOGY NEWS-->
+                                <li class="nav-news"><a class="page-url" href="{% url 'technology_page' %}">TECH NEWS</a></li>
+                                <!--RESOURCES-->
+                                <li class="nav-res"><a class="page-url" href="{% url 'resources_page' %}">RESOURCES</a></li>
+                                <!--PARTNERS-->
+                                <li class="nav-part-"><a class="page-url" href="{% url 'resources_page' %}">PARTNERS</a></li>
+                                 <!--....-->
+                                <li class="nav-holder"><a class="page-url" href="{% url 'resources_page' %}">....</a></li>
+                            </ul>
+                        </div>
+                        <div id="morphsearch" class="morphsearch">
+                            <form class="morphsearch-form">
+                                <input class="morphsearch-input" type="search" placeholder="Search..."/>
+                                <button class="morphsearch-submit" type="submit">Search</button>
+                            </form>
+                            <div class="morphsearch-content">
+                                <div class="dummy-column">
+                                    <h2>People</h2>
+                                    <a class="dummy-media-object" href="http://twitter.com/SaraSoueidan">
+                                        <img class="round" src="http://0.gravatar.com/avatar/81b58502541f9445253f30497e53c280?s=50&d=identicon&r=G" alt="Sara Soueidan"/>
+                                        <h3>Sara Soueidan</h3>
+                                    </a>
+                                    <a class="dummy-media-object" href="http://twitter.com/rachsmithtweets">
+                                        <img class="round" src="http://0.gravatar.com/avatar/48959f453dffdb6236f4b33eb8e9f4b7?s=50&d=identicon&r=G" alt="Rachel Smith"/>
+                                        <h3>Rachel Smith</h3>
+                                    </a>
+                                    <a class="dummy-media-object" href="http://www.twitter.com/peterfinlan">
+                                        <img class="round" src="http://0.gravatar.com/avatar/06458359cb9e370d7c15bf6329e5facb?s=50&d=identicon&r=G" alt="Peter Finlan"/>
+                                        <h3>Peter Finlan</h3>
+                                    </a>
+                                    <a class="dummy-media-object" href="http://www.twitter.com/pcridesagain">
+                                        <img class="round" src="http://1.gravatar.com/avatar/db7700c89ae12f7d98827642b30c879f?s=50&d=identicon&r=G" alt="Patrick Cox"/>
+                                        <h3>Patrick Cox</h3>
+                                    </a>
+                                    <a class="dummy-media-object" href="https://twitter.com/twholman">
+                                        <img class="round" src="http://0.gravatar.com/avatar/cb947f0ebdde8d0f973741b366a51ed6?s=50&d=identicon&r=G" alt="Tim Holman"/>
+                                        <h3>Tim Holman</h3>
+                                    </a>
+                                    <a class="dummy-media-object" href="https://twitter.com/shaund0na">
+                                        <img class="round" src="http://1.gravatar.com/avatar/9bc7250110c667cd35c0826059b81b75?s=50&d=identicon&r=G" alt="Shaun Dona"/>
+                                        <h3>Shaun Dona</h3>
+                                    </a>
+                                </div>
+                                <div class="dummy-column">
+                                    <h2>Popular</h2>
+                                    <a class="dummy-media-object" href="http://tympanus.net/codrops/2014/08/05/page-preloading-effect/">
+                                        <img src="img/thumbs/PagePreloadingEffect.png" alt="PagePreloadingEffect"/>
+                                        <h3>Page Preloading Effect</h3>
+                                    </a>
+                                    <a class="dummy-media-object" href="http://tympanus.net/codrops/2014/05/28/arrow-navigation-styles/">
+                                        <img src="img/thumbs/ArrowNavigationStyles.png" alt="ArrowNavigationStyles"/>
+                                        <h3>Arrow Navigation Styles</h3>
+                                    </a>
+                                    <a class="dummy-media-object" href="http://tympanus.net/codrops/2014/06/19/ideas-for-subtle-hover-effects/">
+                                        <img src="img/thumbs/HoverEffectsIdeasNew.png" alt="HoverEffectsIdeasNew"/>
+                                        <h3>Ideas for Subtle Hover Effects</h3>
+                                    </a>
+                                    <a class="dummy-media-object" href="http://tympanus.net/codrops/2014/07/14/freebie-halcyon-days-one-page-website-template/">
+                                        <img src="img/thumbs/FreebieHalcyonDays.png" alt="FreebieHalcyonDays"/>
+                                        <h3>Halcyon Days Template</h3>
+                                    </a>
+                                    <a class="dummy-media-object" href="http://tympanus.net/codrops/2014/05/22/omniall-for-article-intro-effects/">
+                                        <img src="img/thumbs/ArticleIntroEffects.png" alt="ArticleIntroEffects"/>
+                                        <h3>omniall for Article Intro Effects</h3>
+                                    </a>
+                                    <a class="dummy-media-object" href="http://tympanus.net/codrops/2014/06/26/draggable-dual-view-slideshow/">
+                                        <img src="img/thumbs/DraggableDualViewSlideshow.png" alt="DraggableDualViewSlideshow"/>
+                                        <h3>Draggable Dual-View Slideshow</h3>
+                                    </a>
+                                </div>
+                                <div class="dummy-column">
+                                    <h2>Recent</h2>
+                                    <a class="dummy-media-object" href="http://tympanus.net/codrops/2014/10/07/tooltip-styles-omniall/">
+                                        <img src="img/thumbs/TooltipStylesomniall.png" alt="TooltipStylesomniall"/>
+                                        <h3>Tooltip Styles omniall</h3>
+                                    </a>
+                                    <a class="dummy-media-object" href="http://tympanus.net/codrops/2014/09/23/animated-background-headers/">
+                                        <img src="img/thumbs/AnimatedHeaderBackgrounds.png" alt="AnimatedHeaderBackgrounds"/>
+                                        <h3>Animated Background Headers</h3>
+                                    </a>
+                                    <a class="dummy-media-object" href="http://tympanus.net/codrops/2014/09/16/off-canvas-menu-effects/">
+                                        <img src="img/thumbs/OffCanvas.png" alt="OffCanvas"/>
+                                        <h3>Off-Canvas Menu Effects</h3>
+                                    </a>
+                                    <a class="dummy-media-object" href="http://tympanus.net/codrops/2014/09/02/tab-styles-omniall/">
+                                        <img src="img/thumbs/TabStyles.png" alt="TabStyles"/>
+                                        <h3>Tab Styles omniall</h3>
+                                    </a>
+                                    <a class="dummy-media-object" href="http://tympanus.net/codrops/2014/08/19/making-svgs-responsive-with-css/">
+                                        <img src="img/thumbs/ResponsiveSVGs.png" alt="ResponsiveSVGs"/>
+                                        <h3>Make SVGs Responsive with CSS</h3>
+                                    </a>
+                                    <a class="dummy-media-object" href="http://tympanus.net/codrops/2014/07/23/notification-styles-omniall/">
+                                        <img src="img/thumbs/NotificationStyles.png" alt="NotificationStyles"/>
+                                        <h3>Notification Styles omniall</h3>
+                                    </a>
+                                </div>
+                            </div><!-- /morphsearch-content -->
+                            <span class="morphsearch-close"></span>
+                        </div><!-- /morphsearch -->
+                        <div class="overlay"></div>
+                    </div>
+                </nav>
+            </header>
+            <main>
+                <div id="page-loader" class="pageload-overlay" data-opening="M 0,0 c 0,0 63.5,-16.5 80,0 16.5,16.5 0,60 0,60 L 0,60 Z">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 80 60" preserveAspectRatio="none">
+                        <path d="M 0,0 c 0,0 -16.5,43.5 0,60 16.5,16.5 80,0 80,0 L 0,60 Z"/>
+                    </svg>
+                     <ul class="bokeh">
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                    </ul>
+                </div>
+               
+                <div class="bg">
+                    <section>
+                        {% block header-content %}{% endblock %}
+                    </section>
+                    <section>
+                        {% block center-content %}{% endblock %}
+                    </section>
+                    <section>
+                        {% block footer-content %}{% endblock %}
+                    </section>
+                </div>
+                <!-- Replace the button with an icon image -->
+                <img src="../static/icons/chatbot.jpeg" alt="Chatbot Icon" id="chatbotToggle">
+
+                <!-- Add this within your <body> tag -->
+                <div id="chatbotModal" class="modal">
+                    <div class="modal-content">
+                        <span class="close" id="closeChatbot">&times;</span>
+                        <iframe src="https://console.dialogflow.com/api-client/demo/embedded/1b923505-f8a6-4032-bf1a-be7d70814ec6" width="350" height="430" allow="microphone;"></iframe>
+                    </div>
+                </div>
+            </main>
+
+            <footer>
+                <div class="container pt-12 md:pt-20 md:pb-20">
+                    <div class='footer-anim'></div>
+                    <nav>
+                        <ul class="grid grid-cols-2 gap-y-2 gap-x-10 md:gap-10 xl:gap-0 md:grid-cols-3 xl:justify-between xl:flex xl:flex-wrap">
+                            <li class="mb-8 md:w-auto md:mb-0"><h2 class="text-neutral-400 text-xs sm:text-sm font-medium mb-4 md:mb-6 uppercase tracking-widest">Products</h2>
+                                <ul>
+                                    <li class="flex mb-3 text-xs md:text-sm md:mb-3">
+                                        <a class="font-normal text-neutral-400 hover:text-white" href="/data-engine">Scale Data Engine</a>
+                                    </li>
+                                    <li class="flex mb-3 text-xs md:text-sm md:mb-3"><a class="font-normal text-neutral-400 hover:text-white" href="/custom-llms">Scale Custom LLMs Engine</a>
+                                    </li>
+                                    <li class="flex mb-3 text-xs md:text-sm md:mb-3">
+                                        <a class="font-normal text-neutral-400 hover:text-white" href="/generative-ai-platform">Scale Generative AI Platform</a>
+                                    </li>
+                                    <li class="flex mb-3 text-xs md:text-sm md:mb-3">
+                                        <a class="font-normal text-neutral-400 hover:text-white" href="/donovan">Scale Donovan</a>
+                                    </li>
+                                        <li class="mb-8 md:w-auto md:mb-0 mt-8 mb-0">
+                                            <h2 class="text-neutral-400 text-xs sm:text-sm font-medium mb-4 md:mb-6 uppercase tracking-widest">Government</h2>
+                                            <ul>
+                                                <li class="flex mb-3 text-xs md:text-sm md:mb-3">
+                                                    <a class="font-normal text-neutral-400 hover:text-white" href="/defense">Defense</a>
+                                                </li>
+                                                <li class="flex mb-3 text-xs md:text-sm md:mb-3">
+                                                    <a class="font-normal text-neutral-400 hover:text-white" href="/federal">Federal</a>
+                                                </li>
+                                                <li class="flex mb-3 text-xs md:text-sm md:mb-3"><a class="font-normal text-neutral-400 hover:text-white" href="/public-sector">Public Sector</a></li></ul></li>
+                                            </ul>
+                                        </li>
+                                        <li class="mb-8 md:w-auto md:mb-0">
+                                            <h2 class="text-neutral-400 text-xs sm:text-sm font-medium mb-4 md:mb-6 uppercase tracking-widest">Solutions</h2>
+                                            <ul>
+                                                <li class="flex mb-3 text-xs md:text-sm md:mb-3">
+                                                    <a class="font-normal text-neutral-400 hover:text-white" href="/retail">Retail &amp; eCommerce</a>
+                                                </li>
+                                                <li class="flex mb-3 text-xs md:text-sm md:mb-3">
+                                                    <a class="font-normal text-neutral-400 hover:text-white" href="/defense">Defense</a>
+                                                </li>
+                                                <li class="flex mb-3 text-xs md:text-sm md:mb-3">
+                                                    <a class="font-normal text-neutral-400 hover:text-white" href="/logistics">Logistics</a>
+                                                </li>
+                                                <li class="flex mb-3 text-xs md:text-sm md:mb-3">
+                                                    <a class="font-normal text-neutral-400 hover:text-white" href="/automotive">Autonomous Vehicles</a>
+                                                </li>
+                                                <li class="flex mb-3 text-xs md:text-sm md:mb-3">
+                                                    <a class="font-normal text-neutral-400 hover:text-white" href="/robotics">Robotics</a>
+                                                </li>
+                                                <li class="flex mb-3 text-xs md:text-sm md:mb-3">
+                                                    <a class="font-normal text-neutral-400 hover:text-white" href="/ar-vr">AR/VR</a>
+                                                </li>
+                                                <li class="flex mb-3 text-xs md:text-sm md:mb-3">
+                                                    <a class="font-normal text-neutral-400 hover:text-white" href="/content-language">Content &amp; Language</a>
+                                                </li>
+                                                <li class="flex mb-3 text-xs md:text-sm md:mb-3">
+                                                    <a class="font-normal text-neutral-400 hover:text-white" href="/rlhf">RLHF
+                                                    </a></li>
+                                                </ul>
+                                            </li>
+                                            <li class="mb-8 md:w-auto md:mb-0">
+                                                <h2 class="text-neutral-400 text-xs sm:text-sm font-medium mb-4 md:mb-6 uppercase tracking-widest">Company</h2>
+                                                <ul>
+                                                    <li class="flex mb-3 text-xs md:text-sm md:mb-3">
+                                                        <a class="font-normal text-neutral-400 hover:text-white" href="/about">About</a>
+                                                    </li>
+                                                    <li class="flex mb-3 text-xs md:text-sm md:mb-3">
+                                                        <a class="font-normal text-neutral-400 hover:text-white" href="/pricing">Pricing</a>
+                                                    </li>
+                                                    <li class="flex mb-3 text-xs md:text-sm md:mb-3">
+                                                        <a class="font-normal text-neutral-400 hover:text-white" href="/careers">Careers</a>
+                                                    </li>
+                                                    <li class="flex mb-3 text-xs md:text-sm md:mb-3">
+                                                        <a class="font-normal text-neutral-400 hover:text-white" href="/security">Security</a>
+                                                    </li>
+                                                    <li class="flex mb-3 text-xs md:text-sm md:mb-3">
+                                                        <a class="font-normal text-neutral-400 hover:text-white" href="/legal/terms">Terms</a>
+                                                    </li>
+                                                    <li class="flex mb-3 text-xs md:text-sm md:mb-3">
+                                                        <a class="font-normal text-neutral-400 hover:text-white" href="/legal/privacy">Privacy</a>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                            <li class="mb-8 md:w-auto md:mb-0">
+                                                        <h2 class="text-neutral-400 text-xs sm:text-sm font-medium mb-4 md:mb-6 uppercase tracking-widest">Resources</h2>
+                                                        <ul>
+                                                            <li class="flex mb-3 text-xs md:text-sm md:mb-3"><a class="font-normal text-neutral-400 hover:text-white" href="/blog">Blog</a>
+                                                    </li>
+                                                    <li class="flex mb-3 text-xs md:text-sm md:mb-3"><a class="font-normal text-neutral-400 hover:text-white" href="/customers">Customers</a>
+                                                    </li>
+                                                    <li class="flex mb-3 text-xs md:text-sm md:mb-3"><a class="font-normal text-neutral-400 hover:text-white" href="/events">Events</a>
+                                                    </li>
+                                                        <li class="flex mb-3 text-xs md:text-sm md:mb-3"><a class="font-normal text-neutral-400 hover:text-white" href="/open-av-datasets">Open Datasets</a></li>
+                                                        <li class="flex mb-3 text-xs md:text-sm md:mb-3"><a class="font-normal text-neutral-400 hover:text-white" href="/interviews">Interviews</a></li><li class="flex mb-3 text-xs md:text-sm md:mb-3"><a class="font-normal text-neutral-400 hover:text-white" href="/docs">Documentation</a></li><li class="flex mb-3 text-xs md:text-sm md:mb-3"><a class="font-normal text-neutral-400 hover:text-white" href="/guides">Guides</a>
+                                                    </li>
+                                                    <li class="flex mb-3 text-xs md:text-sm md:mb-3">
+                                                        <a class="font-normal text-neutral-400 hover:text-white" href="https://exchange.scale.com/">Community</a>
+                                                    </li>
+                                                    <li class="flex mb-3 text-xs md:text-sm md:mb-3">
+                                                        <a class="font-normal text-neutral-400 hover:text-white" href="/ai-readiness-report">AI Readiness Report 2023</a></li></ul></li><li class="mb-8 md:w-auto md:mb-0">
+                                                        <h2 class="text-neutral-400 text-xs sm:text-sm font-medium mb-4 md:mb-6 uppercase tracking-widest">Guides</h2><ul><li class="flex mb-3 text-xs md:text-sm md:mb-3"><a class="font-normal text-neutral-400 hover:text-white" href="/guides/data-labeling-annotation-guide">Data Labeling</a></li>
+                                                        <li class="flex mb-3 text-xs md:text-sm md:mb-3"><a class="font-normal text-neutral-400 hover:text-white" href="/guides/model-training-building">ML Model Training</a>
+                                                    </li><li class="flex mb-3 text-xs md:text-sm md:mb-3"><a class="font-normal text-neutral-400 hover:text-white" href="/guides/diffusion-models-guide">Diffusion Models</a></li><li class="flex mb-3 text-xs md:text-sm md:mb-3">
+                                                        <a class="font-normal text-neutral-400 hover:text-white" href="/guides/ai-for-ecommerce">Guide to AI for eCommerce</a></li><li class="flex mb-3 text-xs md:text-sm md:mb-3"><a class="font-normal text-neutral-400 hover:text-white" href="/guides/computer-vision">Computer Vision Applications</a></li><li class="flex mb-3 text-xs md:text-sm md:mb-3"><a class="font-normal text-neutral-400 hover:text-white" href="/guides/large-language-models">Large Language Models</a></li></ul></li><li class="mb-8 md:w-auto md:mb-0"><h2 class="text-neutral-400 text-xs sm:text-sm font-medium mb-4 md:mb-6 uppercase tracking-widest">Contact</h2><ul><li class="flex mb-3 text-sm"><a class="font-normal text-sm text-neutral-400 hover:text-white" href="/sales">sales@scale.com</a></li><li class="flex mb-3 text-xs md:text-sm"><a href="mailto:support@scale.com" class="font-normal  text-neutral-400 hover:text-white">support@scale.com</a></li><li class="flex mb-3 text-xs md:text-sm"><a href="mailto:careers@scale.com" class="font-normal  text-neutral-400 hover:text-white">careers@scale.com</a></li><li class="flex mb-3 text-xs md:text-sm"><a href="mailto:press@scale.com" class="font-normal  text-neutral-400 hover:text-white">press@scale.com</a></li><li class="flex gap-3 mt-8 text-neutral-400"><a aria-label="Twitter" href="https://twitter.com/scale_ai"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" role="img" class="w-5 h-5 duration-300 ease-in-out fill-current transition-color hover:text-white"><path d="M18.205 2.25h3.308l-7.227 8.26 8.502 11.24H16.13l-5.214-6.817L4.95 21.75H1.64l7.73-8.835L1.215 2.25H8.04l4.713 6.231 5.45-6.231h.002zm-1.16 17.52h1.832L7.045 4.126H5.078L17.044 19.77z"></path></svg></a><a aria-label="Facebook" href="https://www.facebook.com/scaleapi"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-5 h-5 duration-300 ease-in-out fill-current transition-color hover:text-white"><path d="M24.147 12.073C24.147 5.405 18.74 0 12.073 0S0 5.405 0 12.073C0 18.1 4.415 23.094 10.187 24v-8.437H7.12v-3.49h3.066v-2.66c0-3.025 1.802-4.697 4.56-4.697 1.32 0 2.703.236 2.703.236v2.971h-1.523c-1.5 0-1.967.93-1.967 1.887v2.263h3.348l-.535 3.49H13.96V24c5.772-.906 10.187-5.9 10.187-11.927z"></path>
+                                                        </svg>
+                                                    </a>
+                                                    <a aria-label="LinkedIn" href="https://www.linkedin.com/company/scaleai"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-5 h-5 duration-300 ease-in-out fill-current transition-color hover:text-white"><path d="M22.223 0H1.772C.792 0 0 .773 0 1.73v20.536C0 23.222.792 24 1.772 24h20.451c.98 0 1.777-.778 1.777-1.73V1.73C24 .773 23.203 0 22.223 0zM7.12 20.452H3.558V8.995H7.12v11.457zM5.34 7.434a2.064 2.064 0 110-4.125 2.063 2.063 0 010 4.125zm15.112 13.018h-3.558v-5.57c0-1.326-.024-3.037-1.852-3.037-1.851 0-2.133 1.449-2.133 2.944v5.663H9.356V8.995h3.413v1.566h.047c.473-.9 1.636-1.852 3.365-1.852 3.605 0 4.27 2.372 4.27 5.457v6.286z"></path></svg></a></li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                    <div class="flex text-xs md:text-sm  justify-between flex-col md:flex-row pt-6 md:mt-12 pb-12 border-neutral-800 border-t">
+                                        <span class="text-neutral-400">2023 OMNIBUS. All rights reserved.</span>
+                                        <span class="mt-4 md:mt-0 text-neutral-400">
+                                            <a class="text-neutral-400 font-normal" href="/legal/terms">Terms of Use</a> <!-- -->&amp;<!-- --> 
+                                            <a class="text-neutral-400 font-normal" href="/legal/privacy">Privacy Policy</a></span></div>
+
+                                </div>
+            </footer>
+        </div>
+        <script src="{% static 'src/js/global/classie.js' %}"></script> 
+        <script src="{% static 'src/js/global/SVGLoader.js' %}"></script> 
+        <script src="{% static 'src/js/global/search.js' %}"></script> 
+        <script src="{% static 'src/js/global/main.js' %}"></script> 
+        <script>
+            $(document).ready(function() {
+                $("#nested-ul-tech").wrapAll('<div class="wrap-around-ul wrap-around-ul-tech"></div>');
+                $("#nested-ul-indus").wrapAll('<div class="wrap-around-ul wrap-around-ul-indus"></div>');
+            });
+            (function() {
+                var pageWrap = window.document,
+                    pages = [].slice.call( document.querySelectorAll( 'container-outer' ) ),
+                    currentPage = 0,
+                    triggerLoading = [].slice.call( document.querySelectorAll( 'a.pageload-url' ) ),
+                    loader = new SVGLoader( document.getElementById( 'page-loader' ), { speedIn : 400, easingIn : mina.easeinout });
+
+                function init() {
+                    triggerLoading.forEach( function( trigger ) {
+                        trigger.addEventListener( 'click', function( ev ) {
+                            ev.preventDefault();
+                            loader.show();
+                            // after some time hide loader
+                            setTimeout( function() {
+                                loader.hide();
+
+                                classie.removeClass( pages[ currentPage ], 'show' );
+                                // update..
+                                currentPage = currentPage ? 0 : 1;
+                                classie.addClass( pages[ currentPage ], 'show' );
+
+                            }, 2000 );
+                        } );
+                    } );    
+                }
+
+                init();
+            })();
+        </script>
+    </body>
+</html>
+
+

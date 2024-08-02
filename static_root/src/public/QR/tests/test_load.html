@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Local Model Viewer</title>
+</head>
+<body>
+  <input type="file" id="fileInput" accept=".glb, .gltf">
+  <div id="modelViewer"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
+
+    <script src="./examples/jsm/libs/ammo.wasm.js"></script>
+
+    <!-- Import maps polyfill -->
+  <!-- Remove this when import maps will be widely supported -->
+  <script async src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"></script>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "./build/three.module.js",
+        "three/addons/": "./examples/jsm/"
+      }
+    }
+  </script>
+ <script type="module">
+    import * as THREE from 'three';
+    import Stats from 'three/addons/libs/stats.module.js';
+    import { GUI } from 'three/addons/libs/lil-gui.module.min.js';
+    import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+    import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+
+    const fileInput = document.getElementById('fileInput');
+    const modelViewer = document.getElementById('modelViewer');
+
+    fileInput.addEventListener('change', (event) => {
+      const files = event.target.files;
+
+      if (files && files.length > 0) {
+        const file = files[0];
+        const modelName = file.name;
+
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          const fileContent = event.target.result;
+          displayModel(fileContent);
+        };
+        reader.readAsArrayBuffer(file);
+      }
+    });
+
+    function displayModel(modelData) {
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+      const renderer = new THREE.WebGLRenderer();
+      
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      modelViewer.appendChild(renderer.domElement);
+
+      const loader = new THREE.GLTFLoader();
+      loader.parse(modelData, '', (gltf) => {
+        scene.add(gltf.scene);
+        camera.position.z = 5;
+
+        const animate = () => {
+          requestAnimationFrame(animate);
+          renderer.render(scene, camera);
+        };
+
+        animate();
+      });
+    }
+  </script>
+</body>
+</html>

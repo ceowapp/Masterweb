@@ -1,0 +1,102 @@
+{% load static %} 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>&lt;model-viewer&gt; example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Dancing+Script">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+  <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+  <link rel="stylesheet" href="{% static 'src/css/global/main-three.css' %}"> 
+<style>
+  model-viewer {
+      width: 100%;
+      height: 80vh; /* Use viewport height (vh) for responsiveness */
+  }
+</style>
+</head> 
+<body>
+  <div class="container">
+    <header>
+      <div class="menu-toggle" data-js="menu-toggle">
+        <span class="menu-toggle-grippy">Toggle</span>
+        <span class="menu-toggle-label">Menu</span>
+      </div>
+      <button id="returnButton" class="return-button">Return</button>
+    </header>    
+  <div class="hidden-panel">
+      <span class="hidden-panel-close" data-js="hidden-panel-close">Close</span>
+      <div class="hidden-panel-content">
+        <div class="hidden-panel-nav">
+          <h3>DEMO AR</h3>
+          <ul>
+            <button class="dropdown-btn">View Options
+            <i class="fa fa-caret-down"></i>
+            </button>
+              <div class="dropdown-container">
+
+                <a href="{% url 'normal_ar_page' %}" accesskey="normalAR">Normal View</a>
+                <a href="threeJS.html?page=dimensionAR" accesskey="dimensionAR">Dimension View</a>
+                <a href="threeJS.html?page=cameraAR" accesskey="cameraAR">Camera View</a>
+                <a href="threeJS.html?page=clippingAR" accesskey="clippingAR">CLipping View</a>
+              </div>
+
+             <button class="dropdown-btn">Effect Options
+            <i class="fa fa-caret-down"></i>
+            </button>
+              <div class="dropdown-container">
+                <a href="threeJS.html?page=lightAR" accesskey="lightAR">Lighting View</a>
+                <a href="#">Texture Options</a>
+                <a href="#">Render Exposure</a>
+              </div>
+            <button class="dropdown-btn">Material Options
+            <i class="fa fa-caret-down"></i>
+            </button>
+              <div class="dropdown-container">
+                <a href="threeJS.html?page=materialAR" accesskey="materialAR">Material Color</a>
+                <a href="#">Material Texture</a>
+                <a href="#">Render Exposure</a>
+              </div>
+            <button class="dropdown-btn">Animation Show
+            <i class="fa fa-caret-down"></i>
+            </button>
+              <div class="dropdown-container">
+                <a href="threeJS.html?page=animationAR" accesskey="animationAR">Construction Progress</a>
+                <a href="#">Material Texture</a>
+                <a href="#">Render Exposure</a>
+              </div>
+      </div>
+    </div>
+    </div>
+    <section class="banner" role="banner" id="contentSection">
+    <model-viewer id="neutral-demo" camera-controls touch-action="pan-y" auto-rotate alt="A 3D model of a kitchen mixer" src="./media/gltf/sunflower/sunflower.gltf">
+  </model-viewer>
+   <label for="neutral">Neutral Lighting: </label>
+    <input id="neutral" type="checkbox" checked="true">
+  </model-viewer>
+</section>
+<script>
+const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+</script>
+<script>
+var dropdown = document.getElementsByClassName("dropdown-btn");
+var i;
+for (i = 0; i < dropdown.length; i++) {
+  dropdown[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var dropdownContent = this.nextElementSibling;
+    if (dropdownContent.style.display === "block") {
+      dropdownContent.style.display = "none";
+    } else {
+      dropdownContent.style.display = "block";
+    }
+  });
+}
+</script> 
+<script src="{% static 'src/js/components/arvr/main-AR.js' %}"></script> 
+<script src="{% static 'src/js/components/arvr/lighting.js' %}"></script> 
+</body>
+</html>

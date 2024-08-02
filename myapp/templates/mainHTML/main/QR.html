@@ -1,0 +1,140 @@
+{% load static %} 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery</title>
+    <link rel="stylesheet" href="{% static 'src/css/global/main.css' %}"> 
+    <style>
+        #buttons {
+            position: absolute;
+            top: 50%;
+            right: 300px;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        .btn {
+            width: 160px; /* Add a fixed width for both buttons */
+            margin-bottom: 10px;
+            background-color: #ffcc00;
+            color: #333;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            z-index: 1; /* Ensure buttons are stacked properly */
+        }
+
+            #chatbotToggle {
+                width: 50px; /* Adjust the width as needed */
+                height: 50px; /* Adjust the height as needed */
+                cursor: pointer;
+                position: fixed;
+                bottom: 20px; /* Adjust the distance from the bottom as needed */
+                right: 20px; /* Adjust the distance from the right as needed */
+                z-index: 9999; /* Ensure the chatbot icon is on top of other elements */
+            }
+
+                   /* Add this CSS to your existing style section or style.css */
+            .modal {
+                display: none;
+                position: fixed;
+                z-index: 9999;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.6);
+            }
+
+            .modal-content {
+                background-color: #fff;
+                margin: 5% auto;
+                padding: 5px;
+                width: auto;
+                max-width: 360px;
+                position: relative;
+            }
+
+            .close {
+                color: #aaa;
+                float: right;
+                font-size: 28px;
+                font-weight: bold;
+            }
+
+            .close:hover,
+            .close:focus {
+                color: black;
+                text-decoration: none;
+                cursor: pointer;
+            }
+
+
+    </style>
+</head>
+<body>
+        <div class="content">
+            <header>
+                <h1>Welcome to OMNIBUS</h1>
+            </header>
+            <nav>
+                <ul>
+                    <li><a href="{% url 'home_page' %}">HOME</a></li>
+                    <li><a href="{% url 'about_page' %}">ABOUT</a></li>
+                    <li><a href="{% url 'ARVR_page' %}">QR CODE</a></li>
+                    <li><a href="{% url 'QR_page' %}">ARVR</a></li>
+                    <li><a href="{% url 'AI_page' %}">ARTIFICIAL INTELLIGENCE</a></li>
+                    <li><a href="{% url '3D_page' %}">3D APPLICATIONS</a></li>
+                    <li><a href="{% url 'data_page' %}">DATA SERVICES</a></li>
+                    <li><a href="{% url 'robotics_page' %}">ROBOTICS</a></li>
+                    <li><a href="{% url 'app_page' %}">APP DEVELOPMENTS</a></li>
+                    <li><a href="{% url 'construction_page' %}">CONSTRUCTION</a></li>
+                    <li><a href="{% url 'technology_page' %}">TECHNOLOGY NEWS</a></li>
+                    <li><a href="{% url 'resources_page' %}">RESOURCES</a></li>
+                </ul>
+            </nav>
+            <main>
+                <section>
+                    <h2>About Us</h2>
+                    <p>This is a brief description of your website and what it offers.</p>
+                </section>
+                <section>
+                    <h2>Our Services</h2>
+                    <ul>
+                        <li>3D MODELLING</li>
+                        <li>INTERACTIVE SHOWCASE</li>
+                        <li>VIRTUAL REALITY</li>
+                    </ul>
+                </section>
+                <section>
+                    <h2>LET EXPERIENCE</h2>
+                    <img src="main_page_background.jpg" alt="Image Description">
+                </section>
+                <!-- Replace the button with an icon image -->
+            <img src="src/assets/global/icons/chatbot.jpeg" alt="Chatbot Icon" id="chatbotToggle">
+
+            <!-- Add this within your <body> tag -->
+            <div id="chatbotModal" class="modal">
+                <div class="modal-content">
+                    <span class="close" id="closeChatbot">&times;</span>
+                    <iframe src="https://console.dialogflow.com/api-client/demo/embedded/1b923505-f8a6-4032-bf1a-be7d70814ec6" id="chatbotIframe" width="350" height="430" allow="microphone;"></iframe>
+                </div>
+            </div>
+            </main>
+            <div id="buttons">
+            <button class="btn" id="qrOpen" data-url="{% url 'QR_page' %}">OPEN GALLERY</button>
+        </div>          
+        <footer>
+            <p>&copy; 2023 Your Website. All rights reserved.</p>
+        </footer>
+    </div>
+    <script src="{% static 'src/js/global/main.js' %}"></script> 
+ </body>
+</html>
+

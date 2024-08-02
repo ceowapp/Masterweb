@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="$PROJECT_DIR$/OmnibusProject" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/myapp/monai-deploy-app-sdk" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/static_root/src/bin/MorphingSearch" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/static_root/src/bin/js-samples" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/static_root/src/lib/AnimatedGridPreviews" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/static_root/src/lib/THREE.Terrain" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/static_root/src/lib/dat.gui" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/static_root/src/lib/three-nebula" vcs="Git" />
+  </component>
+</project>

@@ -1,0 +1,442 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script async src="https://unpkg.com/es-module-shims@1.8.0/dist/es-module-shims.js"></script>
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "../static/build/three.module.js",
+          "three/addons/": "../static/examples/jsm/"
+        }
+      }
+    </script>
+    <title>About Us</title>
+    <style>
+        /* Reset some default styles */
+        body, h1, p {
+            margin: 0;
+            padding: 0;
+        }
+
+      .loader {
+          border: 16px solid #f3f3f3;
+          border-radius: 50%;
+          position: relative;
+          width: 150px;
+          height: 150px;
+          top: 40%;
+          left: 40%;
+          transform: translate(-50%, -50%);
+          border-top: 16px solid #3498db;
+          -webkit-animation: spin 2s linear infinite; /* Safari */
+          animation: spin 2s linear infinite;
+      }
+
+
+        /* Safari */
+        @-webkit-keyframes spin {
+          0% { -webkit-transform: rotate(0deg); }
+          100% { -webkit-transform: rotate(360deg); }
+        }
+
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+
+        .columns {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+       
+        /* Style for the second panel */
+        .column:nth-child(1) {
+            background-color: #9FE2BF; /* Different background color for the second panel */
+        }
+
+           .column:nth-child(2) {
+            background-color: #40E0D0; /* Different background color for the second panel */
+        }
+
+           .column:nth-child(3) {
+            background-color: #6495ED; /* Different background color for the second panel */
+        }
+
+       /* Define the sliding bar */
+      .sliding-bar {
+          width: 0;
+          margin-top: -50%;
+          background-color: #007bff; /* Blue color, you can change it */
+          position: relative;
+          display: flex;
+          flex-direction: column;
+          justify-content: center; /* Center vertically within its parent */
+          align-items: flex-start; /* Adjust alignment as needed */
+          transition: width 0.3s ease; /* Smooth transition */
+          z-index: 999;
+      }
+
+
+      .sliding-bar::before {
+          content: "";
+          position: absolute;
+          left: -20px;
+          margin-top: -10px;
+          border: 10px solid transparent;
+          border-right: 10px solid #007bff; /* Blue color, matches the background */
+      }
+
+
+  
+        /* Add some padding and margin for visibility */
+        .section-wrapper {
+            display: grid;
+            padding: 20px;
+            margin: 20px;
+        }
+
+        .panel-block-img,.panel-block-txt,.panel-block-pc {
+            background-color: #999999; /* Background color for the panel */
+            grid-column: 1;
+            grid-row: 1;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.3s ease; /* Smooth transition for sliding effect */
+        }
+
+        /* Style for the second panel */
+        .panel-block-img:nth-child(2),.panel-block-txt:nth-child(2),.panel-block-pc:nth-child(2) {
+            grid-column: 1;
+            grid-row: 1;
+            display:none;
+            background-color: #454545; /* Different background color for the second panel */
+            transform: translateX(100%); /* Initially, slide it out of view to the right */
+        }
+
+        /* Apply the sliding effect when the container has a specific class */
+        #image-input.slide-img .panel-block-img:nth-child(2) {
+            transform: translateX(0); /* Slide it back into view when the class is applied */
+            display:flex;
+
+        }
+
+        /* Apply the sliding effect when the container has a specific class */
+        #text-input.slide-txt .panel-block-txt:nth-child(2) {
+            transform: translateX(0); /* Slide it back into view when the class is applied */
+            display:flex;
+        }
+
+        /* Apply the sliding effect when the container has a specific class */
+        #pointcloud-input.slide-pc .panel-block-pc:nth-child(2) {
+            transform: translateX(0); /* Slide it back into view when the class is applied */
+            display:flex;
+        }
+
+
+        /* Define a background color and font styles */
+        body {
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Create a header with a background image */
+        header {
+            background-size: cover;
+            text-align: center;
+            padding: 20px 0;
+            color: #fff;
+        }
+
+
+
+        .output {
+            background: #5fff;
+        }
+
+
+        .btn {
+        padding: 10px 5px;
+        width: 150px;
+        background-color: #3498db;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        outline: none;
+        font-size: 1rem;
+        transition: background-color 0.3s ease;
+        margin-top: 30px;
+        margin-right: 5px;
+      }
+
+
+        .imgUpload {
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            padding: 10px;
+            position: relative;
+            justify-content: center;
+        }
+
+          /* Style for the text inside the card */
+          .card li {
+              list-style-type: none; /* Remove the default list bullet */
+              font-size: 18px; /* Font size */
+              line-height: 1.6; /* Line height for readability */
+          }
+
+        /* Style the heading */
+        h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        /* Style the paragraph */
+        p {
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        /* Create a container for your content */
+        .container {
+            width: 100%;
+            margin: 0 auto;
+            position: relative;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .panel-info {
+            background-color: #fff;
+            display: flex;
+            flex-wrap: wrap;
+            width: 100%;
+            align-items: center;
+        }
+
+        /* Define a CSS class to style the disabled section */
+        .disabled-section {
+            /* Apply a gray background and reduce opacity */
+            background-color: #ccc;
+            opacity: 0.5;
+            /* You can also add other styles like pointer-events to disable interactions */
+            pointer-events: none;
+        }
+
+        .column {
+            flex-basis: calc(33.33% - 10px); /* Adjust the width and add margins as needed */
+            box-sizing: border-box;
+        }
+
+        .content-container{
+          display: grid;
+          justify-content: center;
+          padding: 30px;
+        }
+
+        .content-generator{
+          grid-column: 1;
+          grid-row: 1;
+          width: 45rem;
+          height: 45rem;
+          flex-direction: column;
+          justify-content: center;
+          position: relative;
+          background-color: #DFFF00;
+        }
+
+        #generated3DView, #generatedPCViewTEXT, #generatedPCViewIMG{          
+          top:0;
+          left:0;
+          width: 100%;
+          height: 100%;
+          position: relative;
+          justify-content: center;
+          display: none;
+        }
+
+      
+         .uploadPointcloud {
+            top:0;
+            left:0;
+            width: 100%;
+            max-height: 250px;
+            max-width: 250px;
+            height: 100%;
+            padding: 10px;
+            position: relative;
+            justify-content: center;
+            display: none;
+        }
+
+        /* CSS to change the position of the Three.js canvas 
+      canvas:nth-child(1){
+        position: absolute;
+          margin-top:50rem!important;
+          margin-left:50%!important;
+            */
+
+        /* Add some spacing between sections */
+        section {
+            margin-bottom: 40px;
+        }
+
+    </style>
+</head>
+<body>
+<section>
+    <h2>TEXT TO 3D MODEL</h2>
+    <p>This application uses the Point E model to generate 3D point cloud models from users' prompts.
+        The quality is not of high quality. However, it serves as a starting point for further exploration.</p>
+</section>
+
+<!-- CONTENTS -->
+<div class="container" style="margin-top: 20px;">
+
+    <div class="columns">
+        <!-- IMAGE INPUT -->
+        <div class="column">
+            <div class="panel">
+                <p class="panel-heading">
+                    IMAGE2POINTCLOUD GENERATOR
+                </p>
+                <legend>
+                    UPLOAD THE IMAGE TO CONVERT
+                </legend>
+                <form method="post" id="img_to_pc_form" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="file" id="input-img" name="uploaded_image" onchange="updateIMG(this)">
+                    <!-- Other form fields related to image input -->
+                   <input type="button" class="btn" id="buttonGeneratorPointCloudIMG" value="GENERATE" onclick="submitFormIMG()">
+                </form>
+                <!-- switch between panel 1 and panel 2 -->
+                <!-- slide left side -->
+                <div class="section-wrapper" id="image-input">
+                <div class="sliding-bar" id="sliding-bar-img"></div>
+                   <!-- Panel 1: Image input -->
+                    <div class="panel-block-img">
+                        <img class="imgUpload" src="" alt="Uploaded Image">
+                      </div>
+                    <!-- Panel 2: Information content -->
+                    <div class="panel-block-img">
+                        <article class="panel-info">
+                            <h2>TEXT TO POINTCLOUD</h2>
+                            <p>This application uses the Point E model to generate 3D point cloud models from users' prompts.
+                                The quality is not of high quality. However, it serves as a starting point for further exploration.</p>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 2: TEXT INPUT -->
+        <div class="column">
+            <div class="panel">
+                <p class="panel-heading">
+                    TEXT2POINTCLOUD GENERATOR
+                </p>
+                <legend>
+                    ENTER PROMPT TO GENERATE POINTCLOUD
+                </legend>
+                    <form id="txt_to_pc_form" method="post">
+                    {% csrf_token %}
+                    <input type="text" id="user-input" name="user_input" placeholder="Enter text..." onchange="updateText(this)">
+                    <input type="button" class="btn" id="buttonGeneratorPointCloudText" value="GENERATE" onclick="submitFormTXT()">
+                </form>
+                </form>
+                <!-- switch between panel 1 and panel 2 -->
+                <!-- slide left side -->
+                <div class="section-wrapper" id="text-input">
+                  <div class="sliding-bar" id="sliding-bar-text"></div>
+                  <!-- Panel 1: Prompt input -->
+                    <div class="panel-block-txt">
+                          <div class="card">
+                              <li></li>
+                         </div>
+                    </div>
+                    <!-- Panel 2: Information content -->
+                    <div class="panel-block-txt">
+                        <article class="panel-info">
+                            <h2>TEXT TO POINTCLOUD</h2>
+                            <p>This application uses the Point E model to generate 3D point cloud models from users' prompts.
+                                The quality is not of high quality. However, it serves as a starting point for further exploration.</p>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </div>
+         <!-- SECTION 3:POINTCLOUD INPUT -->
+        <div class="column">
+            <div class="panel">
+                <p class="panel-heading">
+                    POINTCLOUD2MODEL3D GENERATOR
+                </p>
+                <legend>
+                    UPLOAD POINTCLOUD TO CONVERT
+                </legend>
+               <form method="post" id="pc_to_3d_form" enctype="multipart/form-data">
+                  {% csrf_token %}
+                  <input type="file" id="input-pc" name="uploaded_pc" onchange="updatePC(this)">
+                  <!-- Other form fields related to image input -->
+                  <input type="button" class="btn" id="buttonGenerator3DModel" value="GENERATE" onclick="submitFormPC()">
+              </form>
+                 <!-- switch between panel 1 and panel 2 -->
+                <!-- slide left side -->
+                <div class="section-wrapper" id="pointcloud-input">
+                <div class="sliding-bar" id="sliding-bar-pc"></div>
+                    <!-- Panel 1: Image input -->
+                    <div class="panel-block-pc">
+                      <div class="uploadPointcloud"></div>
+                    </div>
+                    <!-- Panel 2: Information content -->
+                    <div class="panel-block-pc">
+                        <article class="panel-info">
+                            <h2>TEXT TO POINTCLOUD</h2>
+                            <p>This application uses the Point E model to generate 3D point cloud models from users' prompts.
+                                The quality is not of high quality. However, it serves as a starting point for further exploration.</p>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+      <!-- Section 4: GENERATED CONTENT -->
+        <div class="content-container">
+
+        <div class="content-generator" id="content-pc-img">
+            <div class="loader">
+             </div>
+            <div id="generatedPCViewIMG"></div>
+            <button class="btn" id="buttonDownloadPointCloudIMG">DOWNLOAD</button>
+        </div>
+         <div class="content-generator" id="content-pc-txt">
+            <div id="generatedPCViewTEXT"></div>
+            <button class="btn" id="buttonDownloadPointCloudText">DOWNLOAD</button>
+        </div>
+         <div class="content-generator" id="content-3d">
+            <div id="generated3DView"></div>
+            <button class="btn" id="buttonDownload3DModel">DOWNLOAD</button>
+        </div>
+      </div>
+    <div style="visibility: hidden" class="control4">
+    </div>
+</div>
+<script src="{% static '/js/index-3d.js' %}"></script>
+<script type="module" src="{% static '/js/index-3d-nomodule.js' %}"></script>
+</body>
+</html> 
+
+
+
+
+

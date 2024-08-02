@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+  <!-- we import arjs version without NFT but with marker + location based support -->
+  <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+  <script src="https://raw.githack.com/donmccurdy/aframe-extras/master/dist/aframe-extras.loaders.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1446.0.min.js"></script>
+  <body style="margin : 0px; overflow: hidden;">
+    <a-scene embedded arjs>
+        <a-assets>
+            <a-asset-item id='animated-asset-default' src=''></a-asset-item>
+        </a-assets>
+        <a-marker preset="hiro">
+            <a-entity id='animated-model-default' scale="1 1 1" gltf-model='#animated-asset-default' animation-mixer>
+            </a-entity>
+        </a-marker>
+      <a-entity camera></a-entity>
+    </a-scene>
+      <script>
+      var modelSelect = localStorage.getItem("sharedValue");
+      const arAssetItem = document.getElementById("animated-asset-default");
+      arAssetItem.setAttribute("src", modelSelect);
+      console.log("model URL match test",modelSelect);
+      console.log("TEST",arAssetItem); 
+    </script>
+  </body>
+</html>
+

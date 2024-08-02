@@ -1,0 +1,385 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+    <title>Developed by OMNIBUS</title>
+    <style>
+        /* Reset some default styles */
+        body {
+            margin: 0;
+            padding: 20px;
+        }
+
+                /* The alert message box */
+        .alert-unmatch,.alert {
+          padding: 20px;
+          display: none;
+          background-color: #ff9800; /* Red */
+          color: white;
+          margin-bottom: 15px;
+        }
+
+        /* The close button */
+        .closebtn {
+          margin-left: 15px;
+          color: white;
+          font-weight: bold;
+          float: right;
+          font-size: 22px;
+          line-height: 20px;
+          cursor: pointer;
+          transition: 0.3s;
+        }
+
+        /* When moving the mouse over the close button */
+        .closebtn:hover {
+          color: black;
+        }
+
+        /* Add some padding and margin for visibility */
+        .card-content {
+            display: grid;
+            padding: 20px;
+            margin: 10px;
+        }
+
+          /* Define the sliding bar */
+          .sliding-bar {
+              width: 0;
+              height:100%;
+              top: 30%;
+              background-color: #007bff; /* Blue color, you can change it */
+              position: absolute;
+              transition: width 0.3s ease; /* Smooth transition */
+              z-index: 999;
+          }
+
+
+          .sliding-bar::before {
+              content: "";
+              position: absolute;
+              left: -20px;
+              margin-top: -10px;
+              border: 10px solid transparent;
+              border-right: 10px solid #007bff; /* Blue color, matches the background */
+              z-index: 999;
+
+          }
+
+        .output-sentence{
+            background-color: #999999; /* Background color for the panel */
+            grid-column: 1;
+            grid-row: 1;
+            display: block;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.3s ease; /* Smooth transition for sliding effect */
+        }
+
+
+         /* Style for the second panel */
+         .output-aspect{
+            grid-column: 1;
+            grid-row: 1;
+            display: none;
+            background-color: #454545; /* Different background color for the second panel */
+        }
+
+
+      .loader {
+          border: 16px solid #f3f3f3;
+          border-radius: 50%;
+          position: relative;
+          width: 150px;
+          display: none;
+          height: 150px;
+          top: 40%;
+          left: 40%;
+          transform: translate(-50%, -50%);
+          border-top: 16px solid #3498db;
+          -webkit-animation: spin 2s linear infinite; /* Safari */
+          animation: spin 2s linear infinite;
+      }
+
+
+        /* Safari */
+        @-webkit-keyframes spin {
+          0% { -webkit-transform: rotate(0deg); }
+          100% { -webkit-transform: rotate(360deg); }
+        }
+
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+
+        .columns {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+       
+        /* Style for the second panel */
+        .column:nth-child(1) {
+            background-color: #9FE2BF; /* Different background color for the second panel */
+        }
+
+           .column:nth-child(2) {
+            background-color: #40E0D0; /* Different background color for the second panel */
+        }
+        
+
+        /* Define a background color and font styles */
+        body {
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Create a header with a background image */
+        header {
+            background-size: cover;
+            text-align: center;
+            padding: 20px 0;
+            color: #fff;
+        }
+
+
+        .category,.score,.aspect{
+          background-color: lightgrey;
+          width: 80px;
+          height: 10px;
+          border: 5px solid green;
+          padding: 10px;
+          margin: 20px;
+        }
+
+        #icon_display{
+            width: 150px;
+            height: 150px;
+            padding:15px;
+            display: flex;
+            }
+
+        .btn {
+            padding: 10px 5px;
+            width: 150px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            outline: none;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+            margin-top: 30px;
+            margin-right: 5px;
+          }
+
+        /* Style the paragraph */
+        p {
+            font-size: 18px;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Create a container for your content */
+        #container {
+            width: 100%;
+            margin: 0 auto;
+            position: relative;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .column {
+            flex-basis: calc(50% - 10px); /* Adjust the width and add margins as needed */
+            box-sizing: border-box;
+        }
+
+        .panel-block {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .panel-block-child {
+            flex-basis: calc(50% - 10px); /* Adjust the width and add margins as needed */
+            box-sizing: border-box;
+        }
+
+            h1 {
+              color: #007f8b;
+            }
+
+            h2 {
+              clear: both;
+            }
+
+            /* Define a CSS class to style the disabled section */
+            .disabled-container {
+                /* Apply a gray background and reduce opacity */
+                background-color: #ccc;
+                opacity: 0.5;
+                /* You can also add other styles like pointer-events to disable interactions */
+                pointer-events: none;
+            }
+
+            button {
+              min-width: 200px;
+              height: 50px;
+            }
+
+            section {
+              opacity: 1;
+              transition: opacity 500ms ease-in-out;
+            }
+
+            #input {
+              height: 100px;
+              --mdc-theme-primary: #12b5cb;
+              --mdc-theme-on-primary: #f1f3f4;
+            }
+
+        
+
+            #submit {
+              margin-top: 20px;
+            }
+
+    </style>
+</head>
+<body>
+<section>
+    <h2>TEXT SENTIMENT ANALYSIS</h2>
+    <p>This application uses the NLTK and Aspect-Based Sentiment Analysis to analyze text sentence from users' prompts. It serves as a starting point for further exploration.</p>
+</section>
+
+<!-- CONTENTS -->
+<div class="disabled-container" id="container" style="margin-top: 20px;">
+     <div class="columns">
+        <!-- IMAGE INPUT -->
+        <div class="column">
+            <div class="panel">
+                <p class="panel-heading">
+                    PAIR-WISE SENTIMENT ANALYSIS
+                </p>
+                <section id="sentence-analysis">
+                  <h2>How to use</h2>
+                  <p>Add text to the input field, and then press <b>Classify</b> to view sentiment classification.</p>
+                  <p><b>Input:
+                    </b>
+                  </p>
+                  <label class="mdc-text-field mdc-text-field--filled mdc-text-field--textarea mdc-text-field--no-label">
+                    <span class="mdc-text-field__ripple"></span>
+                    <span class="mdc-text-field__resizer">
+                      <textarea id="input" class="mdc-text-field__input" rows="8" cols="40" aria-label="Text Input"></textarea>
+                    </span>
+                    <span class="mdc-line-ripple"></span>
+                  </label></br>
+                      <button id="paste-text" class="mdc-button mdc-button--raised">
+                        <span class="mdc-button__label">PASTE TEXT</span>
+                      </button></br>
+                  </section>
+                <!-- Panel 1: Sentence input -->
+            <div class='panel-block'> 
+                <div class='panel-block-child' id="panel-block-sentence"> 
+                 <textarea class="mdc-text-field__input" id="sentence-input-md1" name="sentence_input" rows="8" cols="40" aria-label="Text Input"></textarea>   
+                  <button id="predictSentence" class="mdc-button mdc-button--raised">
+                    <span class="mdc-button__label">CLASSIFY</span>
+                  </button>               
+              </div>
+            </div>
+                <!-- Panel 2: Aspect input -->
+                <div class='panel-block-child' id="panel-block-aspect">
+                    <form method="post" id="txt-submit">
+                    {% csrf_token %}
+                     <textarea class="mdc-text-field__input" id="sentence-input-md2" name="sentence_input" rows="8" cols="40" aria-label="Text Input"></textarea>
+                    <input type="text" id="aspect-input" name="aspect_input" placeholder="Enter aspect entity..." onchange="updateView(this)">
+                    <!-- Other form fields related to image input -->
+                   <input type="button" class="btn" id="predictAspect" value="CLASSIFY" onclick="submitFormTXT()">
+                 </form>
+                </div>
+            </div>
+        </div>
+        <!-- SECTION 2: TEXT INPUT -->
+        <div class="column">
+            <div class="panel">
+                <p class="panel-heading">
+                    ANALYSIS RESULTS 
+                </p>
+                <div class="card-content" id="card-content">
+                <div class="sliding-bar"></div>
+                  <div class="output-sentence">
+                     <p><b>Category:
+                        </b>
+                      </p>
+                        <div class="category">
+                        <p id="category_sentence_output"></p>
+                        </div>
+                        <p><b>Score:
+                        </b>
+                      </p>
+                        <div class="score">
+                            <p id="score_sentence_output"></p>
+                        </div>
+                   </div>
+                    <div class="output-aspect">
+                    <p><b>Aspect:
+                    </b>
+                      </p>
+                      <div class="aspect">
+                        <p id="label_aspect_output"></p>
+                       </div>
+                     <p><b>Category:
+                        </b>
+                      </p>
+                        <div class="category">
+                        <p id="category_aspect_output"></p>
+                        </div>
+                        <p><b>Score:
+                        </b>
+                      </p>
+                        <div class="score">
+                            <p id="score_aspect_output"></p>
+                        </div>
+                   </div>
+                <img id="icon_display" src="" alt="Icon">
+                <div class="loader"></div>
+                </div>
+                   <div class="alert">
+                      <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+                      <strong>Warning!</strong> There is no result!
+                    </div>
+                     <div class="alert-unmatch">
+                      <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+                      <strong>Warning!</strong> The aspect input is not part of the input sentence!
+                    </div>
+                </div>
+            </div>
+       </div>
+</div>
+<script type="module" src="{% static 'src/js/components/ai/llm/index-txt.js' %}"></script>
+<script src="{% static 'src/js/components/ai/llm/index-txt-module.js' %}"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

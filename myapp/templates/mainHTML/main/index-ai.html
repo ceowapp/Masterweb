@@ -1,0 +1,213 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Hello!</title>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="{% static './css/style.css' %}"> 
+    <!-- Material Components Web CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
+
+    <!-- Bootstrap CSS (optional, you can remove this if not needed) -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <!-- Scripts -->
+    <!-- Mediapipe Drawing Utils -->
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
+
+    <!-- Mediapipe Hands -->
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+
+    <!-- TensorFlow.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.1.0/dist/tf.min.js"></script>
+
+    <!-- TensorFlow TFLite -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-tflite@0.0.1-alpha.6/dist/tf-tflite.min.js"></script>
+
+    <!-- TensorFlow Models (Tasks) -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/tasks@0.0.1-alpha.8/dist/tfjs-tasks.min.js"></script>
+
+    <!-- Interact.js -->
+    <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
+
+    <!-- jQuery (optional, include it if needed) -->
+   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <!-- Bootstrap JavaScript (optional, include it if needed) -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+  <!-- BULMA NAVBAR -->
+  <nav class="navbar" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="index-ai.html">
+        <img src="../static/favicon-32x32.png" >
+      </a>
+  
+      <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+  
+    <div id="navbar-container" class="navbar-menu">
+      <div class="navbar-start">
+        <a class="navbar-item" href="{% url 'ring_page' %}">
+          Face
+        </a>
+  
+        <a class="navbar-item" href="{% url 'necklace_page' %}">
+          Face Mesh
+        </a>
+
+        <a class="navbar-item" href="{% url 'watch_page' %}">
+          Hands
+        </a>
+
+        <a class="navbar-item" href="{% url 'earring_page' %}">
+          Pose
+        </a>
+        </div>
+      </div>
+  
+    </div>
+  </nav>
+  <div class="select-dropdown">
+  <!-- Category selection -->
+  <label for="category2D" style="position: absolute; top: 120px; left: 20px; font-weight: bold; font-size: 18px; color: Black;">Category</label>
+  <select id="category2D" style="position: absolute; top: 160px; left: 20px;">
+  </select>
+</div>
+<section id="demos" class="invisible">
+<h1>BOOST YOUR SHOPPING EXPERIENCE</h1>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6-1">
+        <div id="carousel" class="carousel slide" data-ride="carousel">
+          <ol class="carousel-indicators">
+            <li data-target="#carousel" data-slide-to="0" class="active"></li>
+            <li data-target="#carousel" data-slide-to="1"></li>
+            <li data-target="#carousel" data-slide-to="2"></li>
+          </ol>
+          <div class="carousel-inner">
+            <div class="item active">
+              <div class="segmentOnClick">
+                <canvas class="removed"></canvas>
+                <canvas class="canvas-segmentation"></canvas>
+                <span class="click-point"></span>
+                <img class ="slide-img" id = "slide-img-1" src="" crossorigin="anonymous" title="Click to get segmentation!" width="480" height="360"/>
+               <div class="zoom-window"></div>
+               <p class="classification removed"></p>
+              </div>
+            </div>
+            <div class="item">
+              <div class="segmentOnClick">
+                <canvas class="removed"></canvas>
+                <canvas class="canvas-segmentation"></canvas>
+                <span class="click-point"></span>
+                <img class ="slide-img" id = "slide-img-2" src="" crossorigin="anonymous" title="Click to get segmentation!" width="480" height="360"/>
+               <div class="zoom-window"></div>
+                <p class="classification removed"></p>
+              </div>
+            </div>
+            <div class="item">
+              <div class="segmentOnClick">
+                <canvas class="removed"></canvas>
+                <canvas class="canvas-segmentation"></canvas>                
+                <span class="click-point"></span>
+                <img class ="slide-img" id = "slide-img-3" src="" crossorigin="anonymous" title="Click to get segmentation!" width="480" height="360"/>
+               <div class="zoom-window"></div>
+                <p class="classification removed"></p>
+              </div>
+            </div>
+          </div>
+          <a class="left carousel-control" href="#carousel" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left"></span>
+          </a>
+          <a class="right carousel-control" href="#carousel" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right"></span>
+          </a>
+        </div>
+          <h3>For better quality please use manual interactive segmentation</h3>
+          <div class="button-div">
+         <button id="segmentation">SEGMENTATION</button>
+        <button id="playManual">PLACE OBJECT </button>
+      </div>
+      </div>
+      <div class="col-md-6-2">
+        <h2>Demo: Webcam continuous detection and auto placement of jewelry</h2>
+        <p>Real-time try-on experience. Make better decisions, save time<br>Click <b>enable webcam</b> below and grant access to the webcam if prompted.</p>
+        <div id="liveView" class="videoView">
+      <div class="button-container">
+            <button id="captureHandleButton" class="mdc-button mdc-button--raised">
+                <span class="mdc-button__ripple"></span>
+                <span class="mdc-button__label">ENABLE WEBCAM</span>
+              </button>
+              <button id="capturePredictionButton" class="mdc-button mdc-button--raised">
+                <span class="mdc-button__ripple"></span>
+                <span class="mdc-button__label">ENABLE PREDICTION</span>
+              </button>
+               <button id="autoCapture" class="mdc-button mdc-button--raised">
+                <span class="mdc-button__ripple"></span>
+                <span class="mdc-button__label">ENABLE CAPTURE</span>
+              </button>
+              <div class="input">
+                <button class="mdc-button mdc-button--raised" onclick="document.getElementById('uploadFile').click()">
+                  <span class="mdc-button__label">SELECT IMAGE</span>
+                </button>
+                <input id="uploadFile" type="file" accept=".jpeg,.png,.jpg" style="display:none">
+              </div>
+            </div>
+            <div class="ring-container">
+              <div class="img-container">
+               <video id="cameraVideo" autoplay playsinline></video>
+                <canvas class="output_canvas" id="output_canvas" width="480" height="360"></canvas>
+               <canvas id="canvasOutput" width="480" height="360" ></canvas>
+               <canvas id="combinedCanvas" width="480" height="360" ></canvas>
+                <img id="capturedImage" width="480" height="360" style="display: none;">
+                <div class="loader-container">
+                <div class="loader"></div>
+                <div id='hideMe'>Pose for 5 secs...</div>
+                <canvas id="canvas" style="display: none;"></canvas>
+              </div>
+          </div>
+              <div class="dropzone-container">
+                <div id="dropzone1" class="dropzone"></div>
+                <div id="dropzone2" class="dropzone"></div>
+                <div id="dropzone3" class="dropzone"></div>
+                <div id="dropzone4" class="dropzone"></div>
+                <div id="dropzone5" class="dropzone"></div>
+              </div>
+            </div>
+          <button id="ringPlace" class="mdc-button mdc-button--raised">
+            <span class="mdc-button__ripple"></span>
+            <span class="mdc-button__label">Start Place</span>
+          </button>
+          <button id="downloadButton" class="mdc-button mdc-button--raised">
+            <span class="mdc-button__ripple"></span>
+            <span class="mdc-button__label">Download Image</span>
+          </button>
+        <div class="extracted-object-container">
+          <img id="extractedObject" style="display: none;" alt="Extracted Object">
+        <img id="extractedObject1" height="30" class="drag-drop" style="display: none;" alt="Extracted Object">
+          <img id="extractedObject2" style="display: none;" alt="Extracted Object">
+        </div>
+        <!-- Add the text element --> 
+        <p class="drag-text">Drag and drop the object</p>
+          </div>
+        </div>
+      </div>
+    </div>
+</section>
+   <div class="loading">
+      <div class="spinner"></div>
+    </div>
+  </div>
+<script type="module" src="{% static '/js/hands.js' %}"></script>
+<script src="{% static '/js/script.js' %}"></script>
+</body>
+</html>
+</body>
+

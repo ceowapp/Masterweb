@@ -1,0 +1,81 @@
+{% load static %} 
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Text Effect with Omnibus</title>
+    <meta name="description" content="An App to Showcase Omnibus"/>
+    <meta name="keywords" content="text class test" />
+    <link rel="stylesheet" href="https://use.typekit.net/cdp4bcs.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'src/css/components/text-app/base.css' %}" />
+    <script>document.documentElement.className="js";var supportsCssVars=function(){var e,t=document.createElement("style");return t.innerHTML="root: { --tmp-var: bold; }",document.head.appendChild(t),e=!!(window.CSS&&window.CSS.supports&&window.CSS.supports("font-weight","var(--tmp-var)")),t.parentNode.removeChild(t),e};supportsCssVars()||alert("Please view this demo in a modern browser that supports CSS Variables.");</script>
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12/dist/gsap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="{% static 'src/utils/CustomShaderLoader.js' %}"></script> 
+    <script async src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"></script>
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "../static/src/lib/THREEJS/build/three.module.js",
+          "three/addons/": "../static/src/lib/THREEJS/examples/jsm/",
+          "troika-worker-utils": "https://unpkg.com/troika-worker-utils@latest/dist/troika-worker-utils.esm.js",
+          "troika-three-utils": "https://unpkg.com/troika-three-utils@latest/dist/troika-three-utils.esm.js",
+          "troika-three-text": "https://unpkg.com/troika-three-text@latest/dist/troika-three-text.esm.js",
+          "webgl-sdf-generator": "https://unpkg.com/webgl-sdf-generator@latest/dist/webgl-sdf-generator.mjs",
+          "bidi-js": "https://unpkg.com/bidi-js@latest/dist/bidi.mjs",
+          "troika-three-text": "../static/src/lib/troika-three-text/src/index.js"
+        }
+      }
+    </script>
+    <script src="{% static 'src/lib/cannon/libs/scenejs.js' %}"></script>
+    <script src="{% static 'src/lib/cannon/build/cannon.js' %}"></script>
+  </head>
+  <body class="demo-1">
+    <main>
+      <div class="frame">
+        <div class="frame__title-wrap">
+          <h1 class="frame__title">Motion Trail with Three.js</h1>
+          <nav class="frame__links">
+            <a href="">Previous demo</a>
+            <a href="">Article</a>
+            <a href="">GitHub</a>
+          </nav>
+        </div>
+        <nav class="frame__main">
+          <a href="" class="frame__dem frame__demo--current">demo 1</a>
+          <a href="" class="frame__dem">demo 2</a>
+          <a href="" class="frame__dem">demo 3</a>
+          <a href="" class="frame__dem">demo 4</a>
+          <a href="" class="frame__dem">demo 5</a>
+          <a href="" class="frame__dem">demo 6</a>
+          <a href="" class="frame__dem">demo 7</a>
+        </nav>
+      </div>
+      <div class="frame__demos">
+          <a class="frame__demo frame__demo--current-kinetic">Endless</a>
+          <a class="frame__demo-kinetic">Swirl</a>
+          <a class="frame__demo-kinetic">Twisted</a>
+          <a class="frame__demo-kinetic">Twisted</a>
+          <a class="frame__demo-kinetic">Relax</a>
+      </div>
+      <div class="container">
+        <nav class="mainNav | visually-hidden">
+          <ul>
+            <li><a href="#">Watermelon</a></li>
+            <li><a href="#">Banana</a></li>
+            <li><a href="#">Strawberry</a></li>
+          </ul>
+        </nav>
+        <canvas id="stage"></canvas>
+      </div>
+      <div class="container1">
+      </div>
+      <div class="container2">
+      </div>
+    </main>
+    <script type="module" src="{% static 'src/js/components/3d/Text.js' %}"></script> 
+    </script>
+  </body>
+</html>

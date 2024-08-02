@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>
+			How to get the file name from a full path using JavaScript - www.pakainfo.com
+		</title>
+	</head>
+	
+	<body style = "text-align:center;">
+		
+		<h1 style = "color:green;" >
+			GeeksForGeeks
+		</h1>
+		
+		<p id = "PAKAINFO_UP" style =
+			"font-size: 15px; font-weight: bold;">
+		</p>
+		
+		<button onclick = "PAKAINFO_Run()">
+			get File Name
+		</button>
+		
+		<p id = "PAKAINFO_DOWN" style =
+			"color:green; font-size: 20px; font-weight: bold;">
+		</p>
+		
+		<script>
+			var el_up = document.getElementById("PAKAINFO_UP");
+			var el_down = document.getElementById("PAKAINFO_DOWN");
+			var path = "Path = " +
+					"C:\\Documents\\folder\\img\\PAKAINFO.jpg";
+			
+			el_up.innerHTML = path;
+		
+			function PAKAINFO_Run() {
+				el_down.innerHTML = path.replace(/^.*[\\\/]/, '');
+			}		
+		</script>
+	</body>
+</html>

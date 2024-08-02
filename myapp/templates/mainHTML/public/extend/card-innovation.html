@@ -1,0 +1,40 @@
+<!-- index.html (Django template) -->
+{% extends '../base/card.html' %}
+{% load static %}
+
+{% block title %}Home{% endblock %}
+
+{% block header %}<h1 class="title-header">OmniBus</h1>{% endblock %}
+
+{% block card-content %}
+    <style>
+        .card-container .card-innov {
+            height: 100%;
+            width: 100%;
+            display: flex;
+        }
+
+        #innov-container {
+          position:fixed;
+          width:100%;
+          height:100%;
+          overflow:hidden;
+        }
+
+        #scrollDist {
+          top:0;
+          width:100%;  
+          height:400%;
+        }
+    </style>
+    <div class="card-container card-innov">
+        <div id="scrollDist"></div>
+        <div id="innov-container"></div>
+    </div>
+    <script src="{% static 'src/js/global/Innovation.js' %}"></script>
+{% endblock %}
+</body>
+
+
+
+

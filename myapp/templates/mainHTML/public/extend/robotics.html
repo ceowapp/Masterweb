@@ -1,0 +1,426 @@
+<!-- index.html (Django template) -->
+{% extends '../base/base.html' %}
+{% load static %}
+
+{% block title %}Home{% endblock %}
+{% block header %}
+<div class="header-block text-header-cc1">
+    <h1 class="title-header" data-text="OmniBus" contenteditable>OmniBus</h1>
+    <div class="gradient"></div>
+    <div class="spotlight"></div>
+</div>
+{% endblock %}
+
+{% block header-content %} 
+  <style>  
+    @font-face {
+    font-family: "Public Sans Roman";
+    src: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/85648/PublicSans-Roman-VF.ttf");
+    }
+    :root {
+      --dark-purple: hsl(285, 86%, 4%);
+      --neon-blue: hsl(190, 100%, 75%);
+      --neon-pink: hsl(303, 100%, 73%);
+      --size: 10;
+      --unit: calc((var(--size) / 100) * 1vmin);
+    }
+    .container-wrapper{
+      width: 100%;
+      height: 100vh;
+      position: relative;
+      padding:0px;
+    }
+
+    .md-robotic{
+        transform: perspective(500px) translate3d(-150px, 0px, -500px) scale(0.9, 0.9); 
+        border-radius: 20px;
+        right: 30px;
+        top: 15rem;
+        width: 50rem;
+        height: 50rem;
+        display: grid;
+        position: absolute;
+        border: none;
+        background: rgb(2,0,36);
+        background: none
+      }
+
+     .stroke-line{
+        transform: perspective(750px) translate3d(0px, 0px, -250px) rotateX(60deg) rotateY(-5deg) rotateZ(-45deg)scale(0.9, 0.9); 
+        border-radius: 20px;
+        right: 30px;
+        top: 15rem;
+        width: 50rem;
+        height: 50rem;
+        display: grid;
+        position: absolute;
+        border: 5px solid #e6e6e6;
+        box-shadow: 0 70px 40px -20px rgba(0, 0, 0, 0.2);
+        background: rgb(2,0,36);
+        background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(7,6,97,1) 25%, rgba(8,7,104,1) 28%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%);
+        border-radius: 16px;
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        transition-property: all 4s ease;
+      }
+  .md-robotic {
+    z-index: 99;
+  }
+  .stroke-line {
+    z-index: 98;
+  }
+  .left-side,
+  .right-side,
+  .top-side,
+  .bottom-side {
+    position: absolute;
+    width: 0px;
+    height: 0px;
+    background: hsl(190, 100%, 75%);
+  }
+
+  .left-side {
+    left: 0;
+    top: 0;
+    height: calc(200 * var(--unit));
+    width: calc(5 * var(--unit));
+  }
+  .bottom-side {
+    bottom: 0;
+    left: 0;
+    width: calc(200 * var(--unit));
+    height: calc(5 * var(--unit));
+  }
+  .right-side {
+    bottom: 0;
+    right: 0;
+    height: calc(200 * var(--unit));
+    width: calc(5 * var(--unit));
+  }
+
+  .top-side {
+    top: 0;
+    right: 0;
+    width: calc(200 * var(--unit));
+    height: calc(5 * var(--unit));
+  }
+
+  svg{
+    display: none;
+  }
+
+  /*
+  .text {
+    position: absolute;
+    left: calc(100vw / 4);
+    right: calc(100vw / 4);
+    transform: rotate(-45deg) skew(15deg, 15deg);
+    width: calc(500 * var(--unit));
+    height: calc(600 * var(--unit));
+    font-size: calc(160 * var(--unit));
+    -webkit-text-fill-color: #ffffff00;
+    -webkit-text-stroke-width: 4px;
+    -webkit-text-stroke-color: var(--neon-pink);
+    line-height: calc(160 * var(--unit));
+    padding: calc(60 * var(--unit));
+  }
+
+  .text1 {
+    top: 0px;
+    -webkit-text-fill-color: transparent;
+    filter: blur(0.5px);
+    background-blend-mode: screen;
+  }
+
+  .text2 {
+    top: calc(1 * var(--unit));
+    background-blend-mode: screen;
+    filter: blur(0.5px);
+  }
+
+  .text3 {
+    top: calc(10 * var(--unit));
+    opacity: 1;
+    filter: blur(1px);
+  }
+
+  .text4 {
+    top: calc(20 * var(--unit));
+    opacity: 0.8;
+    filter: blur(1.5px);
+  }
+
+  .text5 {
+    top: calc(30 * var(--unit));
+    opacity: 0.6;
+    filter: blur(2px);
+  }
+
+  .text6 {
+    top: calc(40 * var(--unit));
+    opacity: 0.4;
+    filter: blur(2.5px);
+  }
+
+  .text7 {
+    top: calc(50 * var(--unit));
+    opacity: 0.2;
+    filter: blur(3px);
+  }
+
+  .word.in,
+  .word.too,
+  .word.deep {
+    opacity: 0;
+  }*/
+ </style>
+    <div class="container-wrapper" id="robotic-page"></div>
+    <div class="stroke-line">
+      <span class="left-side"> </span>
+      <span class="bottom-side"> </span>
+      <span class="right-side"> </span>
+      <span class="top-side"> </span>
+    </div>
+    <div class="page-loader">
+      <svg viewBox="0 0 156 156">
+        <circle class="outline" cx="78" cy="78" r="76.5" fill="none" stroke-width="3" stroke="#fff" />
+          <g opacity="0.1">
+              <path class="circle"
+                    d="M78,26.18A51.82,51.82,0,1,1,26.18,78,51.88,51.88,0,0,1,78,26.18m0-1A52.82,52.82,0,1,0,130.82,78,52.82,52.82,0,0,0,78,25.18Z" fill="#fff"/>
+              <path class="circle"
+                    d="M78,26.18A51.82,51.82,0,1,1,26.18,78,51.88,51.88,0,0,1,78,26.18m0-1A52.82,52.82,0,1,0,130.82,78,52.82,52.82,0,0,0,78,25.18Z" fill="#fff"/>
+              <rect class="rect" width="105.5" height="105.5" x="25.25" y="25.25" fill="none"
+                    stroke="#fff" />
+              <line class="line" x1="25.5" y1="25.5" x2="130.5" y2="130.5" fill="none" stroke="#fff" />
+              <line class="line" x1="130.5" y1="25.5" x2="25.5" y2="130.5" fill="none" stroke="#fff" />
+              </g>
+              <g>
+              <circle class="loader-circle" cx="78" cy="78" r="26.5" fill="none" stroke-width="53" stroke="#fff" stroke-dasharray="21 166,5044106403" />
+              <circle class="loader-circle" cx="78" cy="78" r="26.5" fill="none" stroke-width="53" stroke="#fff" stroke-dasharray="21 166,5044106403" />
+              <circle class="loader-circle" cx="78" cy="78" r="26.5" fill="none" stroke-width="53" stroke="#fff" stroke-dasharray="21 166,5044106403" />
+              <circle class="loader-circle" cx="78" cy="78" r="26.5" fill="none" stroke-width="53" stroke="#fff" stroke-dasharray="21 166,5044106403" />
+              <circle class="loader-circle" cx="78" cy="78" r="26.5" fill="none" stroke-width="53" stroke="#fff" stroke-dasharray="21 166,5044106403" />
+              <circle class="loader-circle" cx="78" cy="78" r="26.5" fill="none" stroke-width="53" stroke="#fff" stroke-dasharray="21 166,5044106403" />
+              <circle class="loader-circle" cx="78" cy="78" r="26.5" fill="none" stroke-width="53" stroke="#fff" stroke-dasharray="21 166,5044106403" />
+              <circle class="loader-circle" cx="78" cy="78" r="26.5" fill="none" stroke-width="53" stroke="#fff" stroke-dasharray="21 166,5044106403" />
+          </g>
+          <circle class="moving-circle" cx="78" cy="78" r="26.5" fill="none" stroke-width="53" stroke="#c9cbd1" stroke-dasharray="21 166,5044106403" />
+      </svg>
+    </div>
+    <div class="md-container md-loader md-robotic"> </div>
+  </div>
+  <script type="text/javascript">
+      var tl = gsap.timeline({
+        repeat: -1,
+        repeatDelay: 2.5,
+        defaults: { ease: "power2.inOut" }
+      });
+      const bgColor = "hsl(190, 100%, 75%)";
+      // Lines
+      tl.fromTo(
+        ".left-side",
+        {
+          height: 0,
+          immediateRender: false,
+          autoRound: false
+        },
+        {
+          duration: 2.3,
+          height: "100%",
+          ease: "power3.in"
+        },
+        0
+      );
+      tl.fromTo(
+        ".bottom-side",
+        {
+          width: 0,
+
+          immediateRender: false,
+          autoRound: false
+        },
+        {
+          duration: 2.3,
+          width: "100%",
+          ease: "power3.out"
+        },
+        2.3
+      );
+      tl.fromTo(
+        ".right-side",
+        {
+          height: 0,
+          immediateRender: false,
+          autoRound: false
+        },
+        {
+          duration: 2.3,
+          height: "100%",
+          ease: "power3.out"
+        },
+        4.6
+      );
+      tl.fromTo(
+        ".top-side",
+        {
+          width: 0,
+          immediateRender: false,
+          autoRound: false
+        },
+        {
+          duration: 2.3,
+          width: "100%",
+          ease: "power3.out"
+        },
+        6.9
+      );
+  </script>  
+  <script src= "../static/src/js/global/Robotic.js" type="module"></script>
+{% endblock %}
+
+{% block center-content %}
+<style>
+   .panel-wrap-robotic .btn {
+      position: relative;
+      bottom: 0;
+      background-color: #007bff;
+      left: 40%;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      display: flex;
+      font-size: 16px;
+      font-weight: bold;
+      padding: 10px 20px;
+      text-align: center;
+      align-items: center;
+  }
+
+   .panel-masterwrap .panel-heading {
+        position: relative;
+        left: 30%;
+    }
+
+   .panel-wrap-robotic legend {
+        font-family: roboto;    
+        color: #3d3d3d;
+        position: relative;
+        margin-left: 100px;
+        font-size: 20px;
+    }
+
+   .panel-masterwrap .columns {
+      padding-top: 15rem;
+      display: flex;
+      justify-content: space-between;
+      flex-direction : row;
+      flex-wrap: wrap;
+    }
+
+    /* Style for the second panel */
+    .panel-masterwrap .column:nth-child(1) {
+        background-color: #9FE2BF; /* Different background color for the second panel */
+    }
+
+    .panel-masterwrap .column:nth-child(2) {
+        background-color: #40E0D0; /* Different background color for the second panel */
+    }
+
+    /* Add some padding and margin for visibility */
+    .section-wrapper {
+        display: grid;
+        padding: 20px;
+        margin: 20px;
+    }
+
+    .panel-block-1,.panel-block-2 {
+        background-color: #999999; /* Background color for the panel */
+        grid-column: 1;
+        grid-row: 1;
+        justify-content: center;
+        align-items: center;
+        transition: transform 0.3s ease; /* Smooth transition for sliding effect */
+    }
+
+    /* Create a header with a background image */
+     .panel-wrap-robotic header {
+        background-size: cover;
+        text-align: center;
+        padding: 20px 0;
+        color: #fff;
+    }
+
+   .panel-masterwrap .panel-info {
+      background-color: #fff;
+      display: flex;
+      width: 100%;
+      align-items: center;
+    }
+
+    .panel-masterwrap .column {
+      width: calc(50% - 30px); /* Adjust the width and add margins as needed */
+      box-sizing: border-box;
+      flex: 1;
+    }
+
+    .panel-masterwrap .background {
+      background-color: #fff;
+      padding-block: 20px 20px;
+      padding-inline: 15px 10px; /* Adds padding to the left and right */
+      width: 95%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      position: relative;
+  }
+</style>
+<div class="panel-masterwrap container">
+  <div class="panel-masterwrap columns">
+    <div class="panel-masterwrap column">
+      <div class="panel-masterwrap panel-wrap-robotic">
+          <h1 class="panel-heading">
+               ROBOTICS
+          </h1>
+          <legend>
+              BUILD ROBOT FROM GROUND UP
+          </legend>
+          <div class="section-wrapper" id="text-input">
+              <!-- Panel 2: Information content -->
+              <div class="panel-block-1">
+                  <h2>BUILD FROM GROUNDUP</h2>
+                  <article class="panel-info">
+                       <img src="../static/src/assets/components/robotic/robotics-background1.jpg"id="background-1" class="background">
+                  </article>
+                  <button class="btn" id="autoOpen">REGISTER</button>
+              </div>
+          </div>
+      </div>
+    </div>
+    <div class="panel-masterwrap column">
+        <div class="panel-masterwrap panel-wrap-robotic">
+             <h1 class="panel-heading">
+             ROBOTICS
+             </h1>                            
+             <legend>
+                BUILD ROBOT FROM GROUND UP
+            </legend>
+      
+            <div class="section-wrapper" id="text-input">
+                <!-- Panel 2: Information content -->
+                <div class="panel-block-2">
+                    <h2>EMBEDDED PROGRAMMING</h2>
+                    <article class="panel-info">
+                         <img src="../static/src/assets/components/robotic/robotics-background2.jpg" id="background-1"class="background"  >
+                    </article>
+                    <button class="btn" id="manualOpen">REGISTER</button>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+</body>
+

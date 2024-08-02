@@ -1,0 +1,302 @@
+<!-- index.html (Django template) -->
+{% extends '../base/base.html' %}
+{% load static %}
+{% block title %}Home{% endblock %}
+{% block header %}
+<div class="header-block text-header-cc1">
+    <h1 class="title-header" data-text="OmniBus" contenteditable>OmniBus</h1>
+    <div class="gradient"></div>
+    <div class="spotlight"></div>
+</div>
+{% endblock %}
+{% block header-content %}
+{% endblock %}
+{% block center-content %}
+    <style>   
+        a {
+            color: #8ff;
+        }
+
+        #menu {
+            position: absolute;
+            top: 800px;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+        }
+
+        .container-wrapper{
+          width: 100%;
+          height: 100vh;
+          position: relative;
+          padding:0px;
+        }
+
+        .element {
+            width: 120px;
+            height: 160px;
+            box-shadow: 0px 0px 12px rgba(0,255,255,0.5);
+            border: 1px solid rgba(127,255,255,0.25);
+            font-family: Helvetica, sans-serif;
+            text-align: center;
+            line-height: normal;
+            cursor: default;
+        }
+
+        .element:hover {
+            box-shadow: 0px 0px 12px rgba(0,255,255,0.75);
+            border: 1px solid rgba(127,255,255,0.75);
+        }
+
+        /*.element .number {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 12px;
+            color: rgba(127,255,255,0.75);
+        }
+
+        .element .symbol {
+            position: absolute;
+            top: 40px;
+            left: 0px;
+            right: 0px;
+            font-size: 60px;
+            font-weight: bold;
+            color: rgba(255,255,255,0.75);
+            text-shadow: 0 0 10px rgba(0,255,255,0.95);
+        }
+
+        .element .details {
+            position: absolute;
+            bottom: 15px;
+            left: 0px;
+            right: 0px;
+            font-size: 12px;
+            color: rgba(127,255,255,0.75);
+        }*/
+
+        button {
+            color: rgba(127,255,255,0.75);
+            background: transparent;
+            outline: 1px solid rgba(127,255,255,0.75);
+            border: 0px;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: rgba(0,255,255,0.5);
+        }
+
+        button:active {
+            color: #000000;
+            background-color: rgba(0,255,255,0.75);
+        }
+
+        .unbutton {
+            background: none;
+            border: 0;
+            padding: 0;
+            margin: 0;
+            font: inherit;
+            cursor: pointer;
+        }
+
+        .unbutton:focus {
+            outline: none;
+        }
+
+        .frame {
+            z-index: 1000;
+            position: relative;
+            width: 100%;
+            max-width: 1300px;
+            display: grid;
+            grid-template-columns: 100%;
+            grid-template-areas: 'title' 'back' 'prev' 'sponsor';
+            grid-gap: 1rem;
+            justify-items: start;
+            align-self: start;
+            justify-self: start;
+            pointer-events: none;
+            align-items: center;
+        }
+
+        body #cdawrap {
+            justify-self: start;
+        }
+
+        .frame a {
+            pointer-events: auto;
+        }
+
+        .frame a:not(.frame__title-back) {
+            white-space: nowrap;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .frame a:not(.frame__title-back)::before {
+            content: '';
+            height: 1px;
+            width: 100%;
+            background: currentColor;
+            position: absolute;
+            top: 90%;
+            transition: transform 0.3s;
+            transform-origin: 0% 50%;
+        }
+
+        .frame a:not(.frame__title-back):hover::before {
+            transform: scaleX(0);
+            transform-origin: 100% 50%;
+        }
+
+        .frame__title {
+            grid-area: title;
+            font-size: 1.25rem;
+            margin: 0;
+            font-weight: 400;
+        }
+
+        .frame__back {
+            grid-area: back;
+        }
+
+        .frame__prev {
+            grid-area: prev;
+        }
+
+        .frame__demos {
+            grid-area: demos;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .grid {
+            display: grid;
+            margin: 10vh 0;
+            grid-template-columns: 1fr;
+            border: 1px solid #2a2b3a;
+            background: #2a2b3a;
+            gap: 1px;
+        }
+
+        .grid__item {
+            padding: 1.5rem 1.5rem 2rem;
+            display: grid;
+            gap: 1.5rem;
+            background: var(--color-bg);
+            align-content: start;
+            grid-template-rows: auto 1fr auto;
+        }
+
+        .grid__item-img {
+            width: 100%;
+            aspect-ratio: 1;
+            border-radius: 1.6rem;
+            position: relative;
+            overflow: hidden;
+            display: grid;
+            place-items: center;
+            --x: 0px; 
+            --y: 0px;
+        }
+
+        .grid__item-img::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(rgb(23, 24, 37) 40%, rgb(102, 51, 238) 50%, rgb(142, 100, 255), rgb(249, 38, 114));
+            mix-blend-mode: darken;
+        }
+
+        .grid__item-img-deco {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            font-family: "input-mono", monospace;
+            font-size: 0.85rem;
+            word-wrap: break-word;
+            line-height: 1.15;
+            color: #fff;
+            opacity: 0;
+            -webkit-mask-image: radial-gradient(300px circle at var(--x) var(--y),black 20%,rgba(0,0,0,0.25),transparent);
+            mask-image: radial-gradient(300px circle at var(--x) var(--y),black 20%,rgba(0,0,0,0.25),transparent);
+        }
+
+        .grid__item-img svg {
+            width: 75%;
+            max-width: 180px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .grid__item-label {
+            line-height: 1.4;
+            margin: 0;
+        }
+
+        .grid__item-tag {
+            align-self: end;
+            justify-self: start;
+            border: 1px solid #2a2b3a;
+            border-radius: 1em;
+            line-height: 0.75;
+            padding: 0.5rem 0.75rem;
+            font-size: 0.85rem;
+        }
+
+        @media screen and (min-width: 33em) {
+            .grid {
+                grid-template-columns: repeat(2,1fr);
+            }
+        }
+
+        @media screen and (min-width: 53em) {
+            .frame {
+                grid-template-columns: auto 1fr 1fr;
+                grid-template-rows: auto auto auto;
+                grid-template-areas: 'title title sponsor' 'back prev ...';
+                align-content: space-between;
+                justify-items: start;
+                grid-row-gap: 1.5rem;
+            }
+            .grid {
+                grid-template-columns: repeat(3,1fr);
+            }
+            body #cdawrap {
+                justify-self: end;
+            }
+        }
+
+    </style>
+    <div class="container-wrapper" id="partner-page">
+        <div id="menu">
+            <button id="table">TABLE</button>
+            <!--<button id="sphere">SPHERE</button>
+            <button id="helix">HELIX</button>
+            <button id="grid">GRID</button>-->
+        </div>
+        <div id="inner-container partner-container grid"></div>
+</div>
+ <script type="module">
+      import Customer from "../static/src/js/components/partner/Partner.js";
+      var o = {
+        container: document.querySelector('.grid'),
+      };
+      function init() {
+        var CS = new Customer(o);
+        console.log("CS", CS);
+      }
+      init();
+</script>
+{% endblock %}
+{% block footer-content %}{% endblock %}
+</body>

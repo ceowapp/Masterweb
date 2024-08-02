@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Ammo.js softbody cloth demo</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <link type="text/css" rel="stylesheet" href="main.css">
+    <style>
+      body {
+        color: #333;
+      }
+    </style>
+  </head>
+<body>
+      <div id="info">Ammo.js physics soft body cloth demo<br>Press Q or A to move the arm.</div>
+    <div id="container"></div>
+
+    <script src="./examples/jsm/libs/ammo.wasm.js"></script>
+
+    <!-- Import maps polyfill -->
+  <!-- Remove this when import maps will be widely supported -->
+  <script async src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"></script>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "./build/three.module.js",
+        "three/addons/": "./examples/jsm/"
+      }
+    }
+  </script>
+  <script type="module">
+    import * as THREE from 'three';
+    import Stats from 'three/addons/libs/stats.module.js';
+    import { GUI } from 'three/addons/libs/lil-gui.module.min.js';
+    import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+    import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+    let container, stats;
+    let textureLoader;
+    let camera, orbitControls, scene, renderer;
+    // Physics variables
+    const gravityConstant = - 9.8;
+    let physicsWorld;
+    const rigidBodies = [];
+    const meshMap = new WeakMap();
+    let transformAux1;
+    const margin = 0.05;
+    const scale = 0.03;
+    const clock = new THREE.Clock();
+    const pos = new THREE.Vector3();
+    const quat = new THREE.Quaternion();
+    let mass = 1;
+    let hinge;
+    let crane;
+    let tower;
+    let craneMovement = 0;
+    let cranePositions;
+
+
+
+
+    Ammo().then( function ( AmmoLib ) {
+
+        Ammo = AmmoLib;
+
+        init();
+        animate();
+
+      } );
+
+    function init() {
+
+        initGraphics();
+
+        initPhysics();
+
+        createObjects();
+
+        initInput();
+
+      }
+
+
+    function initGraphics() {
+      container = document.getElementById( 'container' );
+      scene = new THREE.Scene();
+      scene.add(new THREE.AxesHelper(5));
+      const ambientLight = new THREE.AmbientLight( 0xbbbbbb );
+      scene.add( ambientLight );
+
+        const light = new THREE.DirectionalLight( 0xffffff, 3 );
+        light.position.set( - 7, 10, 15 );
+        light.castShadow = true;
+        const d = 10;
+        light.shadow.camera.left = - d;
+        light.shadow.camera.right = d;
+        light.shadow.camera.top = d;
+        light.shadow.camera.bottom = - d;
+
+        light.shadow.camera.near = 2;
+        light.shadow.camera.far = 50;
+
+        light.shadow.mapSize.x = 1024;
+        light.shadow.mapSize.y = 1024;
+
+        light.shadow.bias = - 0.003;
+        scene.add( light );
+
+
+        camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 0.2, 2000 );
+
+
+        camera.position.set( - 12, 7, 4 );
+
+      renderer = new THREE.WebGLRenderer( { antialias: true } );
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.shadowMap.enabled = true;
+      document.body.appendChild(renderer.domElement);
+
+      orbitControls = new OrbitControls(camera, renderer.domElement);
+      orbitControls.enableDamping = true;
+      orbitControls.target.set(0, 1, 0);
+      textureLoader = new THREE.TextureLoader();
+
+
+
+          // GUI
+          const gui = new GUI();
+          const folderLocal = gui.addFolder('Simulation Enable');
+          const propsLocal = {
+            get 'Enabled'() {
+              return ;
+            },
+            set 'Enabled'(v) {
+              renderer.localClippingEnabled = v;
+              object.traverse(function (child) {
+                if (child.isMesh) {
+                  if (v) {
+                    child.material = clippingMaterial;
+                  } else {
+                    child.material = originalMaterial; // Revert to original material
+                  }
+                }
+              });
+            },
+            get 'Shadows'() {
+              return clippingMaterial.clipShadows;
+            },
+            set 'Shadows'(v) {
+              clippingMaterial.clipShadows = v;
+            },
+            get 'Plane'() {
+              return localPlane.constant;
+            },
+            set 'Plane'(v) {
+              localPlane.constant = v;
+            }
+          };
+
+        const folderTransformControls = gui.addFolder('Transform Controls');  // Changed variable name
+        const propsTransformControls = {
+          get 'Enabled'() {
+            return transformControls.visible;
+          },
+          set 'Enabled'(v) {
+            transformControls.visible = v;
+          },
+        };
+
+        folderLocal.add(propsLocal, 'Enabled');
+        folderLocal.add(propsLocal, 'Shadows');
+        folderLocal.add(propsLocal, 'Plane', 0.3, 1.25);
+
+        folderGlobal.add(propsGlobal, 'Enabled');
+        folderGlobal.add(propsGlobal, 'Plane', -0.4, 3);
+
+        folderTransformControls.add(propsTransformControls, 'Enabled');  // Added this line
+
+
+      
+     
+      window.addEventListener('resize', onWindowResize, false);
+      function onWindowResize() {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        render();
+      }
+
+  }
+
+function initPhysics() {
+    // Physics configuration
+    const collisionConfiguration = new Ammo.btDefaultCollisionConfiguration();
+    const dispatcher = new Ammo.btCollisionDispatcher(collisionConfiguration);
+    const broadphase = new Ammo.btDbvtBroadphase();
+    const solver = new Ammo.btSequentialImpulseConstraintSolver();
+    physicsWorld = new Ammo.btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collisionConfiguration);
+    physicsWorld.setGravity(new Ammo.btVector3(0, gravityConstant, 0));
+
+    transformAux1 = new Ammo.btTransform();
+}
+
+
+function createObjects() {
+
+        pos.set( 0, - 0.5, 0 );
+        quat.set( 0, 0, 0, 1 );
+ 
+        const ground = createParalellepiped( 40, 1, 40, 0, pos, quat, new THREE.MeshPhongMaterial( { color: 0xFFFFFF } ) );
+        ground.castShadow = true;
+        ground.receiveShadow = true;
+        textureLoader.load( './img/grid.jpg', function ( texture ) {
+
+          texture.colorSpace = THREE.SRGBColorSpace;
+          texture.wrapS = THREE.RepeatWrapping;
+          texture.wrapT = THREE.RepeatWrapping;
+          texture.repeat.set( 40, 40 );
+          ground.material.map = texture;
+          ground.material.needsUpdate = true;
+
+  } );
+
+      
+        // Wall
+        const brickMass = 0.5;
+        const brickLength = 1.2;
+        const brickDepth = 0.6;
+        const brickHeight = brickLength * 0.5;
+        const numBricksLength = 6;
+        const numBricksHeight = 12;
+        const z0 = - numBricksLength * brickLength * 0.5;
+        pos.set( 0, brickHeight * 0.5, z0 );
+        quat.set( 0, 0, 0, 1 );
+        for ( let j = 0; j < numBricksHeight; j ++ ) {
+
+          const oddRow = ( j % 2 ) == 1;
+
+          pos.z = z0;
+
+          if ( oddRow ) {
+
+            pos.z -= 0.25 * brickLength;
+
+          }
+
+          const nRow = oddRow ? numBricksLength + 1 : numBricksLength;
+
+          for ( let i = 0; i < nRow; i ++ ) {
+
+            let brickLengthCurrent = brickLength;
+            let brickMassCurrent = brickMass;
+
+            if ( oddRow && ( i == 0 || i == nRow - 1 ) ) {
+
+              brickLengthCurrent *= 0.5;
+              brickMassCurrent *= 0.5;
+
+            }
+
+            const brick = createParalellepiped( brickDepth, brickHeight, brickLengthCurrent, brickMassCurrent, pos, quat, createMaterial() );
+            brick.castShadow = true;
+            brick.receiveShadow = true;
+
+            if ( oddRow && ( i == 0 || i == nRow - 2 ) ) {
+
+              pos.z += 0.75 * brickLength;
+
+            } else {
+
+              pos.z += brickLength;
+
+            }
+
+          }
+
+          pos.y += brickHeight;
+
+        }
+
+
+
+        // The base
+        const baseMaterial = new THREE.MeshPhongMaterial( { color: 0x606060 } );
+        pos.set( -3.2, 0, 0);
+        quat.set( 0, 0, 0, 1 );
+        const base = createParalellepiped( 2, 1, 2, 0, pos, quat, baseMaterial );
+        base.castShadow = true;
+        base.receiveShadow = true;
+
+      let object1, object2 = null;
+      let modelReady = false;
+      const gltfLoader = new GLTFLoader();
+
+      const progressBarDiv = document.createElement('div');
+      progressBarDiv.innerText = 'Loading...';
+      progressBarDiv.style.fontSize = '3em';
+      progressBarDiv.style.color = '#888';
+      progressBarDiv.style.display = 'block';
+      progressBarDiv.style.position = 'absolute';
+      progressBarDiv.style.top = '50%';
+      progressBarDiv.style.width = '100%';
+      progressBarDiv.style.textAlign = 'center';
+
+      function showProgressBar() {
+        document.body.appendChild(progressBarDiv);
+      }
+
+      function hideProgressBar() {
+          if (progressBarDiv.parentNode === document.body) {
+            document.body.removeChild(progressBarDiv);
+          }
+        }
+
+
+      function updateProgressBar(fraction) {
+        progressBarDiv.innerText = 'Loading... ' + Math.round( fraction * 100, 2 ) + '%';
+      }
+
+
+      // Function to create a text label
+      function createTextLabel(text, position, color) {
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+        context.font = '20px Arial';
+        context.fillStyle = color || 'blue';
+        context.fillText(text, canvas.width / 2, canvas.height / 2);
+
+        const texture = new THREE.CanvasTexture(canvas);
+        texture.minFilter = THREE.LinearFilter;
+
+        const labelMaterial = new THREE.SpriteMaterial({ map: texture });
+        const label = new THREE.Sprite(labelMaterial);
+        label.position.copy(position);
+
+        return label;
+      }
+
+
+      
+       gltfLoader.load(
+        './media/gltf/towercrane/tower.gltf',
+        (gltf) => {
+          object1 = gltf.scene;
+          pos.set( 0, 0, -3);
+          quat.set( 0, 0, 0, 1 );
+
+
+          object1.traverse(function (child) {
+            if (child.isMesh) {
+              child.castShadow = true;
+              child.frustumCulled = false;
+              // Apply the scale and position adjustments to the geometry vertices
+              child.geometry.scale(scale, scale, scale);
+              child.geometry.translate(pos.x, pos.y, pos.z);
+              child.geometry.rotateY( Math.PI * 0.5 );
+
+                               // Assuming 'crane' is a THREE.Mesh containing the crane geometry
+              // And 'scene' is the Three.js scene you're using
+              // Assuming 'crane' is a THREE.Mesh containing the crane geometry
+
+              // Create a material for the points
+              const pointMaterial = new THREE.PointsMaterial({ color: 0xff0000, size: 0.1 });
+
+              // Create a geometry to hold the points
+              const pointGeometry = new THREE.BufferGeometry();
+
+              // Create a Float32Array to hold the vertex positions
+              const positions = child.geometry.attributes.position.array;
+              const vertices = new Float32Array(positions.length);
+
+              // Copy the vertex positions to the vertices array
+              vertices.set(positions);
+
+        
+              // Set the vertices as the 'position' attribute of the point geometry
+              pointGeometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
+
+              // Create a points object and add it to the scene
+              const points = new THREE.Points(pointGeometry, pointMaterial);
+              scene.add(points);
+
+
+              
+              
+              // Calculate global position and rotation from local
+            const globalPosition = new THREE.Vector3();
+            child.updateWorldMatrix(true, false); // Update world matrix
+            child.getWorldPosition(globalPosition);
+
+            // Print out global position and rotation
+            console.log("Global Position:", globalPosition.x, globalPosition.y, globalPosition.z);
+
+
+                   // Assuming you want to label a specific vertex, like the first one
+              const vertexIndexToLabel = 0;
+              const vertexPosition = new THREE.Vector3().fromBufferAttribute(child.geometry.attributes.position, vertexIndexToLabel);
+
+              // Add position labels
+              const positionLabel = createTextLabel(
+                `(${vertexPosition.x.toFixed(2)}, ${vertexPosition.y.toFixed(2)}, ${vertexPosition.z.toFixed(2)})`,
+                vertexPosition.clone().add(new THREE.Vector3(0, 0.2, 0))
+              );
+              scene.add(positionLabel);
+
+              // Assuming you have a camera and renderer properly set up
+              renderer.render(scene, camera);
+
+              child.geometry.computeVertexNormals();
+              tower = createInstance(child.geometry, child.material, Ammo);
+            }
+          });
+
+
+          modelReady = true;
+
+          hideProgressBar(); // Hide the progress bar when the loading is complete
+        },
+        (xhr) => {
+          const fractionLoaded = xhr.loaded / xhr.total;
+          showProgressBar();
+          updateProgressBar(fractionLoaded);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );    
+
+       gltfLoader.load(
+        './media/gltf/towercrane/crane.gltf',
+        (gltf) => {
+          object2 = gltf.scene;
+          pos.set( 0, 0, -3);
+          quat.set( 0, 0, 0, 1 );
+
+
+          object2.traverse(function (child) {
+            if (child.isMesh) {
+              child.castShadow = true;
+              child.frustumCulled = false;
+               // Apply the scale and position adjustments to the geometry vertices
+              child.geometry.scale(scale, scale, scale);
+              child.geometry.translate(pos.x, pos.y, pos.z);
+              child.geometry.rotateY( Math.PI * 0.5 );
+
+              child.geometry.computeVertexNormals();
+                            // Assuming 'crane' is a THREE.Mesh containing the crane geometry
+              // And 'scene' is the Three.js scene you're using
+              // Assuming 'crane' is a THREE.Mesh containing the crane geometry
+
+              // Create a material for the points
+              const pointMaterial = new THREE.PointsMaterial({ color: 0xff0000, size: 0.1 });
+
+              // Create a geometry to hold the points
+              const pointGeometry = new THREE.BufferGeometry();
+
+              // Create a Float32Array to hold the vertex positions
+              const positions = child.geometry.attributes.position.array;
+              const vertices = new Float32Array(positions.length);
+
+              // Copy the vertex positions to the vertices array
+              vertices.set(positions);
+
+          
+             
+              // Set the vertices as the 'position' attribute of the point geometry
+              pointGeometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
+
+              // Create a points object and add it to the scene
+              const points = new THREE.Points(pointGeometry, pointMaterial);
+              scene.add(points);
+
+
+              // Assuming you want to label a specific vertex, like the first one
+              const vertexIndexToLabel = 1000;
+              const vertexPosition = new THREE.Vector3().fromBufferAttribute(child.geometry.attributes.position, vertexIndexToLabel);
+
+              // Add position labels
+              const positionLabel = createTextLabel(
+                `(${vertexPosition.x.toFixed(2)}, ${vertexPosition.y.toFixed(2)}, ${vertexPosition.z.toFixed(2)})`,
+                vertexPosition.clone().add(new THREE.Vector3(0, 0.2, 0))
+              );
+              scene.add(positionLabel);
+
+
+
+              // Assuming you have a camera and renderer properly set up
+              renderer.render(scene, camera);
+
+              const cranePositions = child.geometry.attributes.position.array;
+
+              const craneCoor = []; // To store the coordinates
+
+        
+            for (let i = 0; i < cranePositions.length; i += 3) {
+              const x = cranePositions[i];
+              const y = cranePositions[i + 1];
+              const z = cranePositions[i + 2];
+              
+              craneCoor.push({ x, y, z }); // Store the coordinate as an object
+            }
+
+              crane = createInstance(child.geometry, child.material, Ammo);
+            }
+          });
+
+          modelReady = true;
+
+
+          hideProgressBar(); // Hide the progress bar when the loading is complete
+        },
+        (xhr) => {
+          const fractionLoaded = xhr.loaded / xhr.total;
+          showProgressBar();
+          updateProgressBar(fractionLoaded);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );    
+
+function createInstance(geometry, material, Ammo) {
+  const count = 1;
+
+  const mesh = new THREE.InstancedMesh(geometry, material, count);
+
+  mesh.castShadow = true;
+  
+  // Assuming 'scene' is defined and accessible
+  scene.add(mesh);
+
+  const triangle_mesh = new Ammo.btTriangleMesh();
+  const verticesPos = geometry.attributes.position.array;
+  
+  for (let i = 0; i < verticesPos.length; i += 9) {
+    const vectA = new Ammo.btVector3(verticesPos[i], verticesPos[i + 1], verticesPos[i + 2]);
+    const vectB = new Ammo.btVector3(verticesPos[i + 3], verticesPos[i + 4], verticesPos[i + 5]);
+    const vectC = new Ammo.btVector3(verticesPos[i + 6], verticesPos[i + 7], verticesPos[i + 8]);
+    triangle_mesh.addTriangle(vectA, vectB, vectC, true);
+    
+    Ammo.destroy(vectA);
+    Ammo.destroy(vectB);
+    Ammo.destroy(vectC);
+  }
+
+  const shape = new Ammo.btConvexTriangleMeshShape(triangle_mesh, true);
+
+  handleInstancedMesh(mesh, shape, mass, Ammo);
+  
+  return mesh;
+}
+
+
+
+function handleInstancedMesh(mesh, shape, mass, Ammo) {
+  const transform = new Ammo.btTransform();
+  transform.setIdentity(); // Set initial transform identity
+  
+  const motionState = new Ammo.btDefaultMotionState(transform);
+  const localInertia = new Ammo.btVector3(0, 0, 0);
+  
+  shape.calculateLocalInertia(mass, localInertia);
+  
+  const rbInfo = new Ammo.btRigidBodyConstructionInfo(mass, motionState, shape, localInertia);
+  const body = new Ammo.btRigidBody(rbInfo);
+  
+  mesh.userData.physicsBody = body;
+  rigidBodies.push( mesh );
+
+  body.setActivationState(4);
+  physicsWorld.addRigidBody( body );
+}
+
+function setMeshPosition(mesh, position, quaternion, scale, Ammo) {
+  if (mesh.isInstancedMesh) {
+    const body = mesh.userData.physicsBody;
+    
+    body.setAngularVelocity(new Ammo.btVector3(0, 0, 0));
+    body.setLinearVelocity(new Ammo.btVector3(0, 0, 0));
+    
+    const tempTransform = new Ammo.btTransform();
+    tempTransform.setIdentity();
+    
+    const scaledPosition = new Ammo.btVector3(
+      position.x * scale,
+      position.y * scale,
+      position.z * scale
+    );
+    
+    tempTransform.setOrigin(scaledPosition);
+    tempTransform.setRotation(new Ammo.btQuaternion(quaternion.x, quaternion.y, quaternion.z, quaternion.w));
+    
+    body.setWorldTransform(tempTransform);
+  }
+}
+
+
+  function createFixedJoint(object1, object2) {
+  const transformA = new Ammo.btTransform();
+  transformA.setIdentity();
+
+  const transformB = new Ammo.btTransform();
+  transformB.setIdentity();
+
+  const frameInA = new Ammo.btTransform();
+  frameInA.setIdentity();
+  frameInA.setOrigin(new Ammo.btVector3(-3.2, 1, 0)); // You may need to adjust this position
+
+  const frameInB = new Ammo.btTransform();
+  frameInB.setIdentity();
+  frameInB.setOrigin(new Ammo.btVector3(-3.2, 1, 0)); // You may need to adjust this position
+
+  const joint = new Ammo.btGeneric6DofConstraint(object1, object2, frameInA, frameInB, true);
+
+  // Disable all movement along the axes to fix the objects together
+  joint.setLinearLowerLimit(new Ammo.btVector3(0, 0, 0));
+  joint.setLinearUpperLimit(new Ammo.btVector3(0, 0, 0));
+  joint.setAngularLowerLimit(new Ammo.btVector3(0, 0, 0));
+  joint.setAngularUpperLimit(new Ammo.btVector3(0, 0, 0));
+
+  physicsWorld.addConstraint(joint, true);
+}
+
+    createFixedJoint(tower,base.userData.physicsBody);
+
+
+        // Hinge constraint to move the arm
+        const pivotA = new Ammo.btVector3( 0, 4, 0);
+        const pivotB = new Ammo.btVector3( 0, -0.2, -5.5);
+
+        // Display pivot A position
+      const pivotALabel = createTextLabel('Pivot A', new THREE.Vector3(pivotA.x(), pivotA.y(), pivotA.z()).add(new THREE.Vector3(0, 0.2, 0)));
+      scene.add(pivotALabel);
+
+      // Display pivot B position
+      const pivotBLabel = createTextLabel('Pivot B', new THREE.Vector3(pivotB.x(), pivotB.y(), pivotB.z()).add(new THREE.Vector3(0, 0.2, 0)));
+      scene.add(pivotBLabel);
+
+
+        const axis = new Ammo.btVector3( 0, 1, 0 );
+        hinge = new Ammo.btHingeConstraint( tower, crane, pivotA, pivotB, axis, axis, true );
+        console.log("hinge", hinge);
+        physicsWorld.addConstraint( hinge, true );
+}
+
+
+
+function createRigidBody( threeObject, physicsShape, mass, pos, quat ) {
+
+        threeObject.position.copy( pos );
+        threeObject.quaternion.copy( quat );
+
+        const transform = new Ammo.btTransform();
+        transform.setIdentity();
+        transform.setOrigin( new Ammo.btVector3( pos.x, pos.y, pos.z ) );
+        transform.setRotation( new Ammo.btQuaternion( quat.x, quat.y, quat.z, quat.w ) );
+        const motionState = new Ammo.btDefaultMotionState( transform );
+
+        const localInertia = new Ammo.btVector3( 0, 0, 0 );
+        physicsShape.calculateLocalInertia( mass, localInertia );
+
+        const rbInfo = new Ammo.btRigidBodyConstructionInfo( mass, motionState, physicsShape, localInertia );
+        const body = new Ammo.btRigidBody( rbInfo );
+
+        threeObject.userData.physicsBody = body;
+
+        scene.add( threeObject );
+
+        if ( mass > 0 ) {
+
+          rigidBodies.push( threeObject );
+
+          // Disable deactivation
+          body.setActivationState( 4 );
+
+        }
+
+        physicsWorld.addRigidBody( body );
+
+      }
+
+
+
+   
+
+
+function createParalellepiped( sx, sy, sz, mass, pos, quat, material ) {
+
+        const threeObject = new THREE.Mesh( new THREE.BoxGeometry( sx, sy, sz, 1, 1, 1 ), material );
+        const shape = new Ammo.btBoxShape( new Ammo.btVector3( sx * 0.5, sy * 0.5, sz * 0.5 ) );
+        shape.setMargin( margin );
+
+        createRigidBody( threeObject, shape, mass, pos, quat );
+
+        return threeObject;
+
+      }
+
+
+      function render() {
+
+        const deltaTime = clock.getDelta();
+
+        updatePhysics( deltaTime );
+
+        renderer.render( scene, camera );
+
+      }
+
+
+      function animate() {
+        stats = new Stats();
+        document.body.appendChild(stats.dom);
+
+            requestAnimationFrame(animate);
+            orbitControls.update();
+             // Get the hinge constraint position
+
+
+            render();
+
+            stats.update();
+          }
+
+
+
+      function createRandomColor() {
+
+        return Math.floor( Math.random() * ( 1 << 24 ) );
+
+      }
+
+      function createMaterial() {
+
+        return new THREE.MeshPhongMaterial( { color: createRandomColor() } );
+
+      }
+
+      function initInput() {
+
+        window.addEventListener( 'keydown', function ( event ) {
+
+          switch ( event.keyCode ) {
+
+            // Q
+            case 81:
+              craneMovement = 1;
+              break;
+
+              // A
+            case 65:
+              craneMovement = - 1;
+              break;
+
+          }
+
+        } );
+
+        window.addEventListener( 'keyup', function () {
+
+          craneMovement = 0;
+
+        } );
+
+      }
+
+function updatePhysics(deltaTime) {
+  // Hinge control
+  if (hinge) {
+    const maxMotorImpulse = 10; // Adjust this value based on desired rotation speed
+    hinge.enableAngularMotor(true, craneMovement * maxMotorImpulse, 50);
+ 
+    }
+  // Step world
+  physicsWorld.stepSimulation(deltaTime, 10);
+
+  // Update rigid bodies
+  for (let i = 0, il = rigidBodies.length; i < il; i++) {
+    const objThree = rigidBodies[i];
+    const objPhys = objThree.userData.physicsBody;
+    const ms = objPhys.getMotionState();
+    if (ms) {
+      ms.getWorldTransform(transformAux1);
+      const p = transformAux1.getOrigin();
+      const q = transformAux1.getRotation();
+      objThree.position.set(p.x(), p.y(), p.z());
+      objThree.quaternion.set(q.x(), q.y(), q.z(), q.w());
+      }
+    }
+}
+  </script>
+</body>
+</html>

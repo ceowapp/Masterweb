@@ -1,0 +1,257 @@
+body {
+  color: #797574;
+  font-family: Roboto, sans-serif;
+  right: 0;
+  line-height: 1.35;
+  margin: 0;
+  overflow: hidden;
+  position: relative;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  transition: right 0.3s ease-in-out;
+}
+
+body.panel-open {
+  right: -250px;
+}
+
+.container {
+  min-height: 1000px;
+}
+
+a {
+  outline: 0;
+  text-decoration: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  color: #fff;
+  padding: 3em 5%;
+  position: relative;
+  width: 90%;
+  z-index: 2;
+}
+
+.menu-toggle {
+  cursor: pointer;
+  float: left;
+  font-size: 0.875rem;
+  transition: all 0.3s ease-in-out;
+}
+.menu-toggle.open {
+  opacity: 0.5;
+}
+
+.menu-toggle-grippy {
+  border-bottom: 5px solid #fff;
+  border-top: 5px solid #fff;
+  float: left;
+  top: 250;
+  line-height: 0;
+  margin-right: 1em;
+  padding: 5px 0;
+  text-indent: -999em;
+  width: 35px;
+}
+.menu-toggle-grippy:after {
+  background: #fff;
+  content: "";
+  display: block;
+  height: 5px;
+}
+
+.menu-toggle-label {
+  float: left;
+  font-weight: 700;
+  height: 25px;
+  letter-spacing: 1px;
+  line-height: 25px;
+  text-transform: uppercase;
+}
+
+.hidden-panel {
+  background: #333;
+  color: #666;
+  font-size: 0.875rem;
+  height: 100%;
+  position: absolute;
+  left: -250px;
+  top: 0;
+  width: 250px;
+}
+.hidden-panel a {
+  color: #999;
+  transition: color 0.3s ease-out;
+}
+.hidden-panel a:hover {
+  color: #fff;
+}
+
+.hidden-panel-close {
+  color: #666;
+  cursor: pointer;
+  position: absolute;
+  right: 20px;
+  top: 3.7em;
+  transition: color 0.3s ease-in-out;
+}
+.hidden-panel-close:hover {
+  color: #fff;
+}
+
+.hidden-panel-content {
+  padding: 3.65em 10%;
+}
+
+.hidden-panel-nav {
+  border-bottom: 1px solid #666;
+  border-bottom: 1px solid rgba(102, 102, 102, 0.25);
+  margin-bottom: 1.5em;
+  padding-bottom: 1.5em;
+  text-transform: uppercase;
+}
+.hidden-panel-nav h3 {
+  letter-spacing: 1px;
+  margin-bottom: 1em;
+}
+.hidden-panel-nav ul {
+  list-style: none;
+  font-weight: 600;
+  margin: 0;
+  padding: 0;
+}
+.hidden-panel-nav li {
+  padding: 0.25em 0;
+}
+
+.hidden-panel-text {
+  line-height: 1.5;
+}
+.hidden-panel-text p {
+  margin-bottom: 1.5em;
+}
+.hidden-panel-text p:last-child {
+  margin-bottom: 0;
+}
+
+.banner {
+  background: #797574;
+  box-sizing: border-box;
+  height: 100%;
+  left: 0;
+  padding: 5em 0;
+  position: absolute;
+  text-align: center;
+  top: 0;
+  width: 100%;
+  z-index: 1;
+}
+.banner h1 {
+  color: #fff;
+  font-family: "Dancing Script";
+  font-size: 4.375rem;
+  margin-bottom: 1em;
+}
+.banner h2 {
+  color: #fff;
+  font-size: 2rem;
+  font-weight: 300;
+  line-height: 1.5;
+  margin: 0 auto;
+  width: 50%;
+}
+
+.container:before, header:before, .menu-toggle:before, .container:after, header:after, .menu-toggle:after {
+  content: "";
+  display: table;
+}
+
+.container:after, header:after, .menu-toggle:after {
+  clear: both;
+}
+
+/* Style the sidenav links and the dropdown button */
+.hidden-panel-nav a, .dropdown-btn {
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 20px;
+  color: #818181;
+  display: block;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  outline: none;
+}
+
+
+/* Style the sidenav links and the dropdown button */
+.hidden-panel-nav a{
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 16px;
+  color: #818181;
+  display: block;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  outline: none;
+}
+
+/* On mouse-over */
+.hidden-panel-nav a:hover, .dropdown-btn:hover {
+  color: #f1f1f1;
+}
+
+/* Add an active class to the active dropdown button */
+.active {
+  background-color: green;
+  color: white;
+}
+
+/* Dropdown container (hidden by default). Optional: add a lighter background color and some left padding to change the design of the dropdown content */
+.dropdown-container {
+  display: none;
+  background-color: #262626;
+  padding-left: 8px;
+}
+
+/* Optional: Style the caret down icon */
+.fa-caret-down {
+  float: right;
+  padding-right: 8px;
+}
+
+/* Some media queries for responsiveness */
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+
+
+
+/* CSS for the return button */
+.return-button {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: #007BFF; /* Button background color */
+  color: white; /* Button text color */
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.return-button:hover {
+  background-color: #0056b3; /* Button background color on hover */
+}
+

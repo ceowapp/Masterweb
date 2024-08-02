@@ -1,0 +1,308 @@
+<!-- index.html (Django template) -->
+{% extends '../base/base.html' %}
+{% load static %}
+
+{% block title %}Home{% endblock %}
+
+{% block header %}
+<div class="header-block text-header-cc1">
+    <h1 class="title-header" data-text="OmniBus" contenteditable>OmniBus</h1>
+    <div class="gradient"></div>
+    <div class="spotlight"></div>
+</div>
+{% endblock %}
+
+{% block header-content %} {% endblock %}
+
+{% block center-content %} 
+  <style>  
+    @font-face {
+    font-family: "Public Sans Roman";
+    src: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/85648/PublicSans-Roman-VF.ttf");
+    }
+    :root {
+      --dark-purple: hsl(285, 86%, 4%);
+      --neon-blue: hsl(190, 100%, 75%);
+      --neon-pink: hsl(303, 100%, 73%);
+      --size: 10;
+      --unit: calc((var(--size) / 100) * 1vmin);
+    }
+    .container-wrapper{
+      width: 100%;
+      height: 100vh;
+      position: relative;
+      padding:0px;
+    }
+
+    .md-construction{
+        transform: perspective(500px) translate3d(0px, 0px, -1600px) scale(0.9, 0.9); 
+        border-radius: 20px;
+        right: 30px;
+        top: 15rem;
+        width: 50rem;
+        height: 50rem;
+        display: grid;
+        position: absolute;
+        border: none;
+        background: rgb(2,0,36);
+        background: none
+      }
+
+     .stroke-line{
+        transform: perspective(750px) translate3d(0px, 0px, -250px) rotateX(60deg) rotateY(-5deg) rotateZ(-45deg)scale(0.9, 0.9); 
+        border-radius: 20px;
+        right: 30px;
+        top: 15rem;
+        width: 50rem;
+        height: 50rem;
+        display: grid;
+        position: absolute;
+        border: 5px solid #e6e6e6;
+        box-shadow: 0 70px 40px -20px rgba(0, 0, 0, 0.2);
+        background: rgb(2,0,36);
+        background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(7,6,97,1) 25%, rgba(8,7,104,1) 28%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%);
+        border-radius: 16px;
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        transition-property: all 4s ease;
+      }
+  .md-construction {
+    z-index: 99;
+  }
+  .stroke-line {
+    z-index: 98;
+  }
+  .left-side,
+  .right-side,
+  .top-side,
+  .bottom-side {
+    position: absolute;
+    width: 0px;
+    height: 0px;
+    background: hsl(190, 100%, 75%);
+  }
+
+  .left-side {
+    left: 0;
+    top: 0;
+    height: calc(200 * var(--unit));
+    width: calc(5 * var(--unit));
+  }
+  .bottom-side {
+    bottom: 0;
+    left: 0;
+    width: calc(200 * var(--unit));
+    height: calc(5 * var(--unit));
+  }
+  .right-side {
+    bottom: 0;
+    right: 0;
+    height: calc(200 * var(--unit));
+    width: calc(5 * var(--unit));
+  }
+
+  .top-side {
+    top: 0;
+    right: 0;
+    width: calc(200 * var(--unit));
+    height: calc(5 * var(--unit));
+  }
+
+  svg{
+    display: none;
+  }
+
+  .container-construction {
+      width: 100%;
+      height: 100%;
+      bottom: 20rem;
+      top: 15rem;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .content-pdf {
+      width: 100%;
+      height: 800px;
+      position: relative;
+      display: block;
+    }
+
+  /*
+  .text {
+    position: absolute;
+    left: calc(100vw / 4);
+    right: calc(100vw / 4);
+    transform: rotate(-45deg) skew(15deg, 15deg);
+    width: calc(500 * var(--unit));
+    height: calc(600 * var(--unit));
+    font-size: calc(160 * var(--unit));
+    -webkit-text-fill-color: #ffffff00;
+    -webkit-text-stroke-width: 4px;
+    -webkit-text-stroke-color: var(--neon-pink);
+    line-height: calc(160 * var(--unit));
+    padding: calc(60 * var(--unit));
+  }
+
+  .text1 {
+    top: 0px;
+    -webkit-text-fill-color: transparent;
+    filter: blur(0.5px);
+    background-blend-mode: screen;
+  }
+
+  .text2 {
+    top: calc(1 * var(--unit));
+    background-blend-mode: screen;
+    filter: blur(0.5px);
+  }
+
+  .text3 {
+    top: calc(10 * var(--unit));
+    opacity: 1;
+    filter: blur(1px);
+  }
+
+  .text4 {
+    top: calc(20 * var(--unit));
+    opacity: 0.8;
+    filter: blur(1.5px);
+  }
+
+  .text5 {
+    top: calc(30 * var(--unit));
+    opacity: 0.6;
+    filter: blur(2px);
+  }
+
+  .text6 {
+    top: calc(40 * var(--unit));
+    opacity: 0.4;
+    filter: blur(2.5px);
+  }
+
+  .text7 {
+    top: calc(50 * var(--unit));
+    opacity: 0.2;
+    filter: blur(3px);
+  }
+
+  .word.in,
+  .word.too,
+  .word.deep {
+    opacity: 0;
+  }*/
+ </style>
+    <div class="container-wrapper" id="construction-page"></div>
+    <div class="stroke-line">
+      <span class="left-side"> </span>
+      <span class="bottom-side"> </span>
+      <span class="right-side"> </span>
+      <span class="top-side"> </span>
+    </div>
+    <div class="page-loader">
+      <svg viewBox="0 0 156 156">
+        <circle class="outline" cx="78" cy="78" r="76.5" fill="none" stroke-width="3" stroke="#fff" />
+          <g opacity="0.1">
+              <path class="circle"
+                    d="M78,26.18A51.82,51.82,0,1,1,26.18,78,51.88,51.88,0,0,1,78,26.18m0-1A52.82,52.82,0,1,0,130.82,78,52.82,52.82,0,0,0,78,25.18Z" fill="#fff"/>
+              <path class="circle"
+                    d="M78,26.18A51.82,51.82,0,1,1,26.18,78,51.88,51.88,0,0,1,78,26.18m0-1A52.82,52.82,0,1,0,130.82,78,52.82,52.82,0,0,0,78,25.18Z" fill="#fff"/>
+              <rect class="rect" width="105.5" height="105.5" x="25.25" y="25.25" fill="none"
+                    stroke="#fff" />
+              <line class="line" x1="25.5" y1="25.5" x2="130.5" y2="130.5" fill="none" stroke="#fff" />
+              <line class="line" x1="130.5" y1="25.5" x2="25.5" y2="130.5" fill="none" stroke="#fff" />
+              </g>
+              <g>
+              <circle class="loader-circle" cx="78" cy="78" r="26.5" fill="none" stroke-width="53" stroke="#fff" stroke-dasharray="21 166,5044106403" />
+              <circle class="loader-circle" cx="78" cy="78" r="26.5" fill="none" stroke-width="53" stroke="#fff" stroke-dasharray="21 166,5044106403" />
+              <circle class="loader-circle" cx="78" cy="78" r="26.5" fill="none" stroke-width="53" stroke="#fff" stroke-dasharray="21 166,5044106403" />
+              <circle class="loader-circle" cx="78" cy="78" r="26.5" fill="none" stroke-width="53" stroke="#fff" stroke-dasharray="21 166,5044106403" />
+              <circle class="loader-circle" cx="78" cy="78" r="26.5" fill="none" stroke-width="53" stroke="#fff" stroke-dasharray="21 166,5044106403" />
+              <circle class="loader-circle" cx="78" cy="78" r="26.5" fill="none" stroke-width="53" stroke="#fff" stroke-dasharray="21 166,5044106403" />
+              <circle class="loader-circle" cx="78" cy="78" r="26.5" fill="none" stroke-width="53" stroke="#fff" stroke-dasharray="21 166,5044106403" />
+              <circle class="loader-circle" cx="78" cy="78" r="26.5" fill="none" stroke-width="53" stroke="#fff" stroke-dasharray="21 166,5044106403" />
+          </g>
+          <circle class="moving-circle" cx="78" cy="78" r="26.5" fill="none" stroke-width="53" stroke="#c9cbd1" stroke-dasharray="21 166,5044106403" />
+      </svg>
+    </div>
+    <div class="md-container md-loader md-construction"> </div>
+    <div class="container-masterwrap container-construction">
+        <div class="container-content content-pdf">
+          <iframe src="../static/docs/OUR_BIM_TEAM.pdf" width="100%" height="800px"></iframe>
+      </div>
+  </div>
+  </div>
+
+  <script type="text/javascript">
+      var tl = gsap.timeline({
+        repeat: -1,
+        repeatDelay: 2.5,
+        defaults: { ease: "power2.inOut" }
+      });
+      const bgColor = "hsl(190, 100%, 75%)";
+      // Lines
+      tl.fromTo(
+        ".left-side",
+        {
+          height: 0,
+          immediateRender: false,
+          autoRound: false
+        },
+        {
+          duration: 2.3,
+          height: "100%",
+          ease: "power3.in"
+        },
+        0
+      );
+      tl.fromTo(
+        ".bottom-side",
+        {
+          width: 0,
+
+          immediateRender: false,
+          autoRound: false
+        },
+        {
+          duration: 2.3,
+          width: "100%",
+          ease: "power3.out"
+        },
+        2.3
+      );
+      tl.fromTo(
+        ".right-side",
+        {
+          height: 0,
+          immediateRender: false,
+          autoRound: false
+        },
+        {
+          duration: 2.3,
+          height: "100%",
+          ease: "power3.out"
+        },
+        4.6
+      );
+      tl.fromTo(
+        ".top-side",
+        {
+          width: 0,
+          immediateRender: false,
+          autoRound: false
+        },
+        {
+          duration: 2.3,
+          width: "100%",
+          ease: "power3.out"
+        },
+        6.9
+      );
+  </script>  
+  <script src= "../static/src/js/global/Construction.js" type="module"></script>
+{% endblock %}
+</body>
+

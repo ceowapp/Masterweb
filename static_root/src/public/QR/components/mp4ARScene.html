@@ -1,0 +1,282 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta name='viewport' content='width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0'>
+    <script src='https://aframe.io/releases/0.9.2/aframe.min.js'></script>
+    <script src='https://raw.githack.com/jeromeetienne/AR.js/master/aframe/build/aframe-ar.min.js'></script>
+    <script src="https://raw.githack.com/donmccurdy/aframe-extras/master/dist/aframe-extras.loaders.min.js"></script>
+    <script src="https://raw.githack.com/nicolocarpignoli/nicolocarpignoli.github.io/master/ar-click-events/events.js"></script>
+    <!-- we add detectionMode and matrixCodeType to tell AR.js to recognize barcode markers -->
+    <style>
+        /* Style for the modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 101; /* Ensure modal is on top of everything else */
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 5px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        /* Position the "Cancel" button at the top right corner */
+        .cancel-button {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            font-size: 14px;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            color: red;
+            outline: none;
+        }
+
+        /* Style the button on hover */
+        .cancel-button:hover {
+            color: red;
+            outline-color: red;
+            outline-style: outset;
+        }
+
+        /* Add hover effect for the thumbnail */
+        #markerThumbnail:hover {
+            transform: scale(1.1); /* Scale up on hover */
+            outline-style: outset;
+            outline-color: green;
+            transition: transform 0.2s ease;
+        }
+
+        /* Style the download button */
+        #downloadImageBtn {
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            outline: none;
+            font-size: 1.2rem;
+            margin-top: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Style the download button on hover */
+        #downloadImageBtn:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body style='margin: 0px; overflow: hidden;'>
+        <a-scene vr-mode-ui="enabled: false" embedded arjs='sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3;'>
+        <a-entity id="videoContainer">
+            <a-marker markerhandler1 id="marker1" type='barcode' value='8'>
+                    <a-video
+                    id ="video1"
+                    src="../video/Column.mp4"
+                    smooth="true" smoothCount="5" smoothTolerance="0.01" smoothThreshold="2"
+                    scale="2"
+                    rotation="90 0 90" <!-- Rotate the video to be vertical -->
+                    >
+                </a-video>
+            </a-marker>
+
+            <a-marker markerhandler2 id="marker2" type='barcode' value='9'>
+                    <a-video
+                    id ="video2"
+                    src="../video/Grid.mp4"
+                    smooth="true" smoothCount="5" smoothTolerance="0.01" smoothThreshold="2"
+                    scale="2"
+                    rotation="90 0 90" <!-- Rotate the video to be vertical -->
+                    >
+                </a-video>
+        </a-entity>
+
+        <a-entity camera></a-entity>
+    </a-scene>
+
+    <!-- User interface to switch between markers -->
+    <div id="ui" style="position: absolute; top: 10px; left: 10px; z-index: 100;">
+        <div id="simpleARBtnContainer">
+            <select id="markerSelector">
+                <option value="marker1">Marker 1</option>
+                <option value="marker2">Marker 2</option>
+                <!-- Add more marker options here -->
+            </select>
+            <button id="thumbnailBtn" style="background-color: #3498db;">Show</button>
+        </div>
+        <div id="markerImage" style="position: absolute; top: 0; left: 25rem; width: 50px; height: 50px; cursor: pointer; display: none;">
+            <img src="../images/barcode/3x3/8.png" alt="Marker Image" id="markerThumbnail" width="100%" height="100%">
+        </div>
+    </div>
+
+    <!-- Modal for zoomed image and download button -->
+    <div id="imageModal" class="modal">
+        <div class="modal-content">
+            <button id="closeImageModal" class="cancel-button">&#x2716;</button>
+            <img src="" alt="Zoomed Image" id="zoomedImage" width="300px" height="300px">
+            <button id="downloadImageBtn">Download</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const barcodeData = {
+                marker1: ["../images/barcode/3x3/8.png"],
+                marker2: ["../images/barcode/3x3/9.png"],
+            };
+
+            const videoContainer = document.getElementById("videoContainer");
+            const markerSelector = document.getElementById("markerSelector");
+            const markers = videoContainer.querySelectorAll("a-marker");
+            const markerThumbnail = document.getElementById("markerThumbnail");
+            const markerImage = document.getElementById("markerImage");
+            const thumbnailBtn = document.getElementById("thumbnailBtn");
+            const imageModal = document.getElementById("imageModal");
+            const closeImageModal = document.getElementById("closeImageModal");
+            const zoomedImage = document.getElementById("zoomedImage");
+            const downloadImageBtn = document.getElementById("downloadImageBtn");
+            let imageVisible = true; // Initially visible
+            let imageClickCount = 0; // Track image click count
+            let currentMarkerId = "marker1"; // Default marker selected
+
+            // Set default marker to marker1
+            markerSelector.value = currentMarkerId;
+
+            // Set the thumbnail image source based on the selected marker
+            const thumbnailUrl = barcodeData[currentMarkerId];
+            markerThumbnail.src = thumbnailUrl;
+            console.log("marker url", thumbnailUrl);
+
+
+            markerImage.style.display = "block";
+
+            // Hide all markers and their content except the default marker1
+            markers.forEach((marker) => {
+                marker.setAttribute("visible", "false");
+                const modelEntity = marker.querySelector("a-video");
+                if (modelEntity) {
+                    modelEntity.setAttribute("visible", "false");
+                }
+            });
+            const selectedMarker = videoContainer.querySelector(`#${currentMarkerId}`);
+            if (selectedMarker) {
+                selectedMarker.setAttribute("visible", "true");
+                const selectedModelEntity = selectedMarker.querySelector("a-video");
+                if (selectedModelEntity) {
+                    selectedModelEntity.setAttribute("visible", "true");
+                }
+            }
+
+            // Handle thumbnail button click
+            thumbnailBtn.addEventListener("click", function () {
+                if (imageVisible) {
+                    markerImage.style.display = "none";
+                    thumbnailBtn.style.backgroundColor = "#3498db";
+                } else {
+                    markerImage.style.display = "block";
+                    thumbnailBtn.style.backgroundColor = "green";
+                    imageClickCount = 0; // Reset click count
+                }
+                imageVisible = !imageVisible;
+            });
+
+            // Handle image click to zoom and download
+            markerThumbnail.addEventListener("click", function () {
+                zoomedImage.src = markerThumbnail.src;
+                imageModal.style.display = "block";
+                thumbnailBtn.style.display = "none";
+            });
+
+            // Handle image click count for zoom
+            function handleImageClick() {
+                imageClickCount++;
+                if (imageClickCount === 2) {
+                    const image = document.getElementById("markerThumbnail");
+                    image.click();
+                    imageClickCount = 0; // Reset click count
+                }
+            }
+
+            // Handle marker selection change
+            markerSelector.addEventListener("change", function () {
+                const selectedMarkerId = markerSelector.value;
+                const thumbnailUrl = barcodeData[selectedMarkerId];
+                markerThumbnail.src = thumbnailUrl;
+                imageVisible = true;
+
+                markers.forEach((marker) => {
+                    marker.setAttribute("visible", "false");
+                    const modelEntity = marker.querySelector("a-video");
+                    if (modelEntity) {
+                        modelEntity.setAttribute("visible", "false");
+                    }
+                });
+
+                const selectedMarker = videoContainer.querySelector(`#${selectedMarkerId}`);
+                if (selectedMarker) {
+                    selectedMarker.setAttribute("visible", "true");
+                    const selectedModelEntity = selectedMarker.querySelector("a-video");
+                    if (selectedModelEntity) {
+                        selectedModelEntity.setAttribute("visible", "true");
+                    }
+                }
+            });
+
+            // Handle close modal button click
+            closeImageModal.addEventListener("click", function () {
+                imageModal.style.display = "none";
+                thumbnailBtn.style.display = "block";
+            });
+
+            // Handle click outside modal to close it
+            window.addEventListener("click", function (event) {
+                if (event.target === imageModal) {
+                    imageModal.style.display = "none";
+                    thumbnailBtn.style.display = "block";
+                }
+            });
+
+            // Handle download image button click in the modal
+            downloadImageBtn.addEventListener("click", function () {
+                const a = document.createElement("a");
+                a.href = zoomedImage.src;
+                a.download = "zoomed_image.png";
+                a.click();
+            });
+
+            AFRAME.registerComponent('markerhandler1', {
+            init: function() {
+                // start video at click anywhere
+                document.body.addEventListener('click', function(){
+                    const video1 = document.getElementById('video1');
+                    video1.play();
+                });
+        }});
+
+            AFRAME.registerComponent('markerhandler2', {
+            init: function() {
+                // start video at click anywhere
+                document.body.addEventListener('click', function(){
+                    const video2 = document.getElementById('video2');
+                    video2.play();
+                });
+        }});
+
+        });
+    </script>
+</body>
+</html>
+

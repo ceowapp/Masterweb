@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html>
+<head> 
+  <title>&lt;model-viewer&gt; example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Dancing+Script">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+<style>
+@import url('https://rsms.me/inter/inter-ui.css');
+::selection {
+  background: #2D2F36;
+}
+::-webkit-selection {
+  background: #2D2F36;
+}
+::-moz-selection {
+  background: #2D2F36;
+}
+
+svg {
+  position: absolute;
+  width: 330px;
+  display: flex;
+  justify-content: center;
+}
+
+path {
+  fill: none;
+  stroke: url(#linearGradient);;
+  stroke-width: 4;
+  stroke-dasharray: 240 1819;
+}
+
+label {
+  color:  #c2c2c5;
+  display: block;
+  font-size: 14px;
+  height: 16px;
+  margin-top: 20px;
+  margin-bottom: 5px;
+}
+
+  .view-button {
+    background: #fff;
+    border-radius: 4px;
+    border: none;
+    box-sizing: border-box;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+    color: rgba(0, 0, 0, 0.8);
+    display: block;
+    font-family: Futura, Helvetica Neue, sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    max-width: 128px;
+    overflow-wrap: break-word;
+    padding: 0.5em 1em;
+    position: absolute;
+    width: max-content;
+    height: max-content;
+    transform: translate3d(-50%, -50%, 0);
+  }
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html,
+  body {
+    height: 100%;
+    font-family: Open Sans;
+  }
+
+  body {
+    background: hsl(86, 85%, 95%);
+  }
+
+   model-viewer {
+      width: 100%;
+      height: 100%; /* Use viewport height (vh) for responsiveness */
+    }
+
+  .notification {
+    padding: 20px;
+    display: flex;
+    position: relative;
+    top:50%;
+    left: 20%;
+    background-color: greenyellow;
+    color: white;
+    margin-bottom: 15px;
+    z-index: 999;
+  }
+
+  .welcomeModal {
+    padding: 20px;
+    display: none;
+    position: relative;
+    top:50%;
+    left: 20%;
+    background-color: greenyellow;
+    color: white;
+    margin-bottom: 15px;
+  }
+
+
+  /* The close button */
+  .closebtn {
+    margin-left: 15px;
+    color: white;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  /* When moving the mouse over the close button */
+  .closebtn:hover {
+    color: black;
+  }
+
+  /*--------------------
+  Buttons
+  --------------------*/
+
+  .btn {
+    display: block;
+    background: hsl(86, 76%, 71%);
+    color: hsl(0, 0, 100);
+    text-decoration: none;
+    margin: 20px 0;
+    padding: 15px 15px;
+    border-radius: 5px;
+    position: relative;
+  }
+
+
+    .btn-submit {
+    display: block;
+    background: transparent;
+    color: hsl(0, 0, 100);
+    text-decoration: none;
+    margin: 20px 0;
+    padding: 15px 15px;
+    border-radius: 5px;
+    position: relative;
+  }
+
+  .btn::after {
+    content: '';
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transition: all .2s ease-in-out;
+    box-shadow: inset 0 3px 0 hsla(0, 0, 0, 0), 0 3px 3px hsla(0, 0, 0, .2);
+    border-radius: 5px;
+  }
+
+  .btn:hover::after {
+    background: hsla(0, 0, 0, 0.1);
+    box-shadow: inset 0 3px 0 hsla(0, 0, 0, 0.2);
+  }
+
+  .btn-social {
+    padding-left: 64px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .fa {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    width: 50px;
+    height: 100%;
+    text-align: center;
+    background: hsla(0, 0, 0, 0.1);
+    line-height: 3.2;
+    border-radius: 5px 0 0 5px;
+  }
+
+  .btn-facebook {
+    background-color: hsl(221, 44%, 41%);
+  }
+
+  .btn-twitter {
+    background-color: hsl(206, 82%, 63%);
+  }
+
+  .btn-google {
+    background-color: hsl(7, 71%, 55%);
+  }
+
+  .btn-linkedin {
+    background-color: hsl(196, 100%, 43%);
+  }
+
+  /*--------------------
+  Form
+  --------------------*/
+  .form fieldset {
+    border: none;
+    padding: 0;
+    position: relative;
+    margin: 20px 0;
+  }
+
+
+
+  .form input {
+    width: 100%;
+    height: 48px;
+    padding-left: 15px;
+    color: hsl(0, 0, 20);
+    border-radius: 5px;
+    border: 0;
+    font-size: 14px;
+    outline: none!important;
+    box-shadow: inset 0 1px 4px hsla(0, 0, 0, 0.2);
+    vertical-align: top;
+    background: transparent;
+  }
+
+  button {
+    width: 100%;
+    outline: none!important;
+    background: linear-gradient(-5deg, hsl(86, 61%, 44%), hsl(86, 65%, 54%));
+    border: none;
+    text-transform: uppercase;
+    font-weight: bold;
+    box-shadow: 0 3px 0px hsla(86, 21%, 44%, 0.2);
+    text-shadow: 0 2px 3px hsla(0, 0, 0, 0.2);
+  }
+
+  /*--------------------
+  Signup
+  --------------------*/
+  .signup {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    width: 800px;
+    background: hsl(0, 0, 100);
+    border-radius: 10px;
+    box-shadow: 0 3px 25px hsla(0, 0, 0, 0.2);
+    overflow: hidden;
+    display: flex;
+    transition: left 0.3s ease;
+  }
+
+  .signup-connect,
+  .signup-classic {
+    width: 50%;
+    padding: 30px 50px;
+  }
+
+  .signup-connect {
+    background: linear-gradient(134deg, hsl(44, 96%, 65%), hsl(34, 95%, 45%));
+    color: hsl(0, 0, 100);
+  }
+
+  .signup-connect h1 {
+    font-size: 30px;
+    margin-top: 10px;
+    margin-bottom: 40px;
+    text-shadow: 0 2px 3px hsla(0, 0, 0, 0.1);
+  }
+
+  .signup-classic h2 {
+    font-size: 16px;
+    font-weight: normal;
+    margin-top: 23px;
+    margin-bottom: 43px;
+    text-shadow: 0 2px 3px hsla(0, 0, 0, 0.1);
+  }
+
+  .signup-classic fieldset::after {
+    content: '\f007';
+    font-family: FontAwesome;
+    position: absolute;
+    right: 15px;
+    top: 17px;
+    z-index: 2;
+    width: 20px;
+    color: hsla(0, 0, 0, .2);
+    text-align: center;
+  }
+
+  fieldset.email::after {
+    content: '\f0e0';
+  }
+
+  fieldset.password::after {
+    content: '\f023';
+  }
+
+    #submitBTN {
+      color: #707075;
+      margin-top: 40px;
+      transition: color 300ms;
+    }
+    #submitBTN:focus {
+      color: #f2f2f2;
+    }
+    #submitBTN:active {
+      color: #d0d0d2;
+    }
+</style>
+</head>
+<body>
+<div class="signup">
+  <div class="signup-connect">
+    <h1>Create your account</h1>
+    <a href="#" class="btn btn-social btn-facebook"><i class="fa fa-facebook"></i> Sign in with Facebook</a>
+    <a href="#" class="btn btn-social btn-twitter"><i class="fa fa-twitter"></i> Sign in with Twitter</a>
+    <a href="#" class="btn btn-social btn-google"><i class="fa fa-google"></i> Sign in with Google</a>
+    <a href="#" class="btn btn-social btn-linkedin"><i class="fa fa-linkedin"></i> Sign in with Linkedin</a>
+  </div>
+  <div class="signup-classic">
+ <svg viewBox="0 0 330 300">
+          <defs>
+            <linearGradient
+              inkscape:collect="always"
+              id="linearGradient"
+              x1="13"
+              y1="193.49992"
+              x2="307"
+              y2="193.49992"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop
+                style="stop-color:#ff00ff;"
+                offset="0"
+                id="stop876"
+              />
+              <stop
+                style="stop-color:#ff0000;"
+                offset="1"
+                id="stop878"
+              />
+            </linearGradient>
+          </defs>
+          <path d="
+          m 10,70.00016 285,-3.2e-4 
+          c 0,0 20,0.79932 25.00016,35.00016 0.008,34.20084 -25.00016,35 -25.00016,35
+
+           h -265 c 0,-0.0205 -25,4.01348 -25, 38.5 0, 34.48652 25, 38.5 25, 38.5 
+
+           h 240
+           c 0,0 20,0.79932 25.00016,35.00016 0.008,34.20084 -25.00016,35 -25.00016,38.5 
+
+           h -230
+
+          c 0,0.0205 -25,4.01348 -25,-22 0,-24.48652 25,-22 25,-22    
+
+          h 225
+          c 0,0 20,0.79932 25.00016,22 0.008,22 -25.00016,22 -25.00016,22
+          h -130
+
+           
+
+           " />
+           
+        </svg>
+    <form class="form">
+      <fieldset class="username">
+        <input type="text" placeholder="username" />
+      </fieldset>
+      <fieldset class="email">
+        <input type="email" placeholder="email" />
+      </fieldset>
+      <fieldset class="password">
+        <input type="password" placeholder="password" />
+      </fieldset>
+      <!-- Include your CSRF token and form fields here -->
+      <button type="submit" id="submitBTN" class="btn-submit">sign up</button>
+
+    </form>
+  </div>
+</div>
+<script type="module">
+
+var current = null;
+const target = document.querySelector('.username input');
+document.querySelector('.username input').addEventListener('focus', function(e) {
+    console.log("elementusername", target);
+  if (current) current.pause();
+  current = anime({
+    targets: 'path',
+    strokeDashoffset: {
+      value: 0,
+      duration: 700,
+      easing: 'easeOutQuart'
+    },
+    strokeDasharray: {
+      value: '240 1819',
+      duration: 700,
+      easing: 'easeOutQuart'
+    }
+  });
+});
+
+
+//* This part is for handle lining effect*//
+document.querySelector('.email input').addEventListener('focus', function(e) {
+  if (current) current.pause();
+  current = anime({
+    targets: 'path',
+    strokeDashoffset: {
+      value: -400,
+      duration: 700,
+      easing: 'easeOutQuart'
+    },
+    strokeDasharray: {
+      value: '240 1819',
+      duration: 700,
+      easing: 'easeOutQuart'
+    }
+  });
+});
+
+document.querySelector('.password input').addEventListener('focus', function(e) {
+  if (current) current.pause();
+  current = anime({
+    targets: 'path',
+    strokeDashoffset: {
+      value: -745,
+      duration: 700,
+      easing: 'easeOutQuart'
+    },
+    strokeDasharray: {
+      value: '240 1819',
+      duration: 700,
+      easing: 'easeOutQuart'
+    }
+  });
+});
+
+document.querySelector('#submitBTN').addEventListener('focus', function(e) {
+  if (current) current.pause();
+  current = anime({
+    targets: 'path',
+    strokeDashoffset: {
+      value: -1370,
+      duration: 700,
+      easing: 'easeOutQuart'
+    },
+    strokeDasharray: {
+      value: '1130 1819',
+      duration: 700,
+      easing: 'easeOutQuart'
+    },
+    loop: 2, // Set the loop property to 2 for repeating twice
+  });
+});
+
+const path = document.querySelector('path');
+const pathLength = path.getTotalLength();
+
+console.log("pathLength",pathLength);
+
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+    

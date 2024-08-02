@@ -1,0 +1,581 @@
+{% load static %} 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery</title>
+    <link rel="stylesheet" href="{% static 'src/css/main.css' %}"> 
+      <!-- Import maps polyfill -->
+  <!-- Remove this when import maps will be widely supported -->
+  <script async src="https://unpkg.com/es-module-shims@1.8.0/dist/es-module-shims.js"></script>
+     <script type="importmap">
+      {
+        "imports": {
+          "three": "../static/build/three.module.js",
+          "three/addons/": "../static/examples/jsm/"
+        }
+      }
+    </script>
+
+    <style>
+    
+        #buttons {
+            position: absolute;
+            top: 50%;
+            right: 5rem;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        li {
+
+            font-family: 'Oswald', sans-serif;
+
+        }
+
+        .btn {
+            width: 160px; /* Add a fixed width for both buttons */
+            margin-bottom: 10px;
+            background-color: #ffcc00;
+            color: #333;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            z-index: 1; /* Ensure buttons are stacked properly */
+        }
+
+
+         #video-3d {
+            width: 50rem; 
+            height: 38rem;
+            left: 15rem;
+            padding: 10px 10px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            border: none;
+            align-items: center;
+        }
+
+
+         #video-content {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            border: none;
+        }
+
+        
+
+         #button-vid {
+            padding: 10px 10px;
+            position: relative;
+            top: 180px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+            main {
+            width: 100%; /* Add a fixed width for both buttons */
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            display: flex;
+            justify-content: center;
+            border: none;
+            }
+
+            ul, li {
+              list-style-type: none;
+              margin: 0;
+              padding: 0;
+            }
+
+           
+            .tg-list {
+              text-align: center;
+              display: flex;
+              align-items: center;
+            }
+
+            .tg-list-item {
+              margin: 0 2em;
+            }
+
+            .tgl-btn {
+            outline: 0;
+            display: block;
+            width: 4em;
+            height: 2em;
+            position: relative;
+            cursor: pointer;
+            user-select: none;
+            }
+
+
+            .tgl-btn:after {
+              position: relative;
+              display: block;
+              content: "";
+              width: 50%;
+              height: 100%;
+            }
+
+            .tgl-btn:before {
+              position: relative;
+              display: block;
+              content: "";
+              width: 50%;
+              height: 100%;
+            }
+
+            .tgl-btn:after {
+              left: 0;
+            }
+            
+            .tgl-btn:before {
+              display: none;
+            }
+  
+          
+          .tgl:checked + .tgl-btn:after {
+            left: 50%;
+          }
+            
+            .tgl {
+              display: none;
+            }
+
+    
+            .tgl::selection {
+              background: none;
+            }
+
+            .tgl-btn {
+              box-sizing: border-box;
+            }
+
+            .tgl-btn::selection {
+              background: none;
+            }
+
+            &:checked + .tgl-btn:after {
+              left: 50%;
+            }
+
+
+
+            .tgl-light + .tgl-btn {
+              background: #f0f0f0;
+              border-radius: 2em;
+              padding: 2px;
+              background-color: #ffcc00;
+              transition: all 0.4s ease;
+            }
+
+            .tgl-light + .tgl-btn:after {
+              border-radius: 50%;
+              background: #fff;
+              transition: all 0.2s ease;
+            }
+
+            .tgl-light:checked + .tgl-btn {
+              background: #9FD6AE;
+            }
+
+
+
+
+            .tgl-skewed + .tgl-btn {
+              overflow: hidden;
+              transform: skew(-10deg);
+              backface-visibility: hidden;
+              transition: all 0.2s ease;
+              font-family: sans-serif;
+              background: #888;
+            }
+
+            .tgl-skewed + .tgl-btn:after,
+            .tgl-skewed + .tgl-btn:before {
+              transform: skew(10deg);
+              display: inline-block;
+              transition: all 0.2s ease;
+              width: 100%;
+              text-align: center;
+              position: absolute;
+              line-height: 2em;
+              font-weight: bold;
+              color: #fff;
+              text-shadow: 0 1px 0 rgba(0,0,0,0.4);
+            }
+
+            .tgl-skewed + .tgl-btn:after {
+              left: 100%;
+              content: attr(data-tg-on);
+            }
+
+            .tgl-skewed + .tgl-btn:before {
+              left: 0;
+              content: attr(data-tg-off);
+            }
+
+            .tgl-skewed + .tgl-btn:active {
+              background: #888;
+            }
+
+            .tgl-skewed:checked + .tgl-btn:before {
+              left: -10%;
+            }
+
+            .tgl-skewed:checked + .tgl-btn {
+              background: #86d993;
+            }
+
+            .tgl-skewed:checked + .tgl-btn:before {
+              left: -100%;
+            }
+
+            .tgl-skewed:checked + .tgl-btn:after {
+              left: 0;
+            }
+
+            .tgl-skewed:checked + .tgl-btn:active:after {
+              left: 10%;
+            }
+
+
+
+    
+
+
+            #chatbotToggle {
+                width: 50px; /* Adjust the width as needed */
+                height: 50px; /* Adjust the height as needed */
+                cursor: pointer;
+                position: fixed;
+                bottom: 20px; /* Adjust the distance from the bottom as needed */
+                right: 20px; /* Adjust the distance from the right as needed */
+                z-index: 9999; /* Ensure the chatbot icon is on top of other elements */
+            }
+
+                   /* Add this CSS to your existing style section or style.css */
+            .modal {
+                display: none;
+                position: fixed;
+                z-index: 9999;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.6);
+            }
+
+            .modal-content {
+                background-color: #fff;
+                margin: 5% auto;
+                padding: 5px;
+                width: auto;
+                max-width: 360px;
+                position: relative;
+            }
+
+            .close {
+                color: #aaa;
+                float: right;
+                font-size: 28px;
+                font-weight: bold;
+            }
+
+            .close:hover,
+            .close:focus {
+                color: black;
+                text-decoration: none;
+                cursor: pointer;
+            }
+
+            .switch-wrapper{
+               margin: 30px 0;
+               font-size: 0;
+               border:2px solid black;
+            }
+
+             input {
+              display:none;
+            }
+
+            .switch{
+              position:relative;
+              padding:20px;
+              margin:10px;
+              width: 180px;
+              height: 100px;
+              display:inline-block;
+              border-radius: 10px;
+              background-color:#70C6EC;
+              box-sizing:border-box;
+              box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
+              cursor: pointer;
+            }
+
+          .bb8-body {
+              position: absolute;
+              display: block;
+              left: 5px;
+              height: 90px;
+              width: 90px;
+              bottom: 5px;
+              border-radius: 100%;
+              background: rgba(240, 240, 240, 1);
+              background: radial-gradient(ellipse at center, rgba(240, 240, 240, 1) 0%, rgba(235, 235, 235, 1) 72%, rgba(191, 191, 191, 1) 100%);
+            }
+
+            .bb8-body:after {
+              content: '';
+              position: absolute;
+              height: 3.5px;
+              width: 90px;
+              background: $grey; /* Make sure $grey is defined earlier in your CSS or as a variable */
+              top: 46px;
+              left: 0px;
+            }
+
+            .circle1,.circle2,.circle3{
+              width: 18px;
+                height: 18px;
+                border-radius: 100%;
+                border: 7px solid #fac562;
+                position: relative;
+                box-sizing:border-box;
+            }
+
+
+            /********positioning of the circles*******/
+            .circle1{
+              left:35px;
+              top:10px;
+            }
+
+            .circle2{
+              left:10px;
+              top:20px;
+            }
+
+            .circle3{
+              left: 58px;
+              top: -11px;
+            }
+
+            .s1{
+              background:#fac562;
+              width:4px;
+              height:20px;
+              position:relative;
+              left: 6.2px;
+               /*overrides the background and places a gradient bg fromt top to bottom*/
+              background: linear-gradient(to bottom, $orange 0%, $orange 22%, $white 25%, $white 70%, $orange 75%, $orange 100%);
+            }
+
+            .s2{
+              background:#fac562;
+              width:20px;
+              height:3px;
+              position:relative;
+              top: -12px;
+              /*overrides the background and places a gradient bg fromt left to right*/
+              background:linear-gradient(to right, $orange 0%, $orange 22%, $white 25%, $white 70%, $orange 75%, $orange 100%);
+            }
+
+            /*bb8 head*/
+            .bb8-head {
+              position: absolute;
+              height: 40px;
+              width: 70px;
+              background: rgba(240, 240, 240, 1);
+              top: -50px;
+              left: 34px;
+              z-index: 3;
+              border-top-left-radius: 50px;
+              border-top-right-radius: 50px;
+              background: linear-gradient(to bottom, $white 0%, $white 10%, $orange 10%, $orange 15%, $white 16%, $white 70%, $orange 70%, $orange 80%, #666666 85%, #666666 100%);
+            }
+
+            .bb8-head:before {
+              position: absolute;
+              content: '';
+              background: black;
+              height: 18px;
+              width: 18px;
+              border-radius: 50%;
+              top: 7px;
+              left: 29px;
+            }
+
+            .bb8-head:after {
+              position: absolute;
+              content: '';
+              background: black;
+              height: 10px;
+              width: 10px;
+              border-radius: 50%;
+              top: 15px;
+              left: 50px;
+            }
+
+            .bottom-head{
+              position:absolute;
+              border-top: 7px solid #9f9f9f;
+              border-left: 5px solid transparent;
+              border-right: 5px solid transparent;
+              height: 0;
+              width: 60px;
+              top: -11px;
+              left: 34px;
+            }
+
+
+            input[type=checkbox]:checked + label .bb8-body{
+              margin-left:calc(100% - 100px);
+              transform:rotate(360deg);
+            }
+
+            input[type=checkbox]:checked + label .bb8-head{
+             margin-left:calc(100% - 100px); 
+            }
+
+            input[type=checkbox]:checked + label .bottom-head{
+             margin-left:calc(100% - 100px); 
+            }
+            input[type=checkbox]:checked + label ~ section {
+                background-color: $bg-blue;
+            }
+
+
+
+    </style>
+</head>
+<body>
+        <div class="content">
+            <header>
+                <h1>Welcome to OMNIBUS</h1>
+            </header>
+            <nav>
+                <ul>
+                    <li><a href="{% url 'home_page' %}">HOME</a></li>
+                    <li><a href="{% url 'about_page' %}">ABOUT</a></li>
+                    <li><a href="{% url 'ARVR_page' %}">QR CODE</a></li>
+                    <li><a href="{% url 'QR_page' %}">ARVR</a></li>
+                    <li><a href="{% url 'AI_page' %}">ARTIFICIAL INTELLIGENCE</a></li>
+                    <li><a href="{% url '3D_page' %}">3D APPLICATIONS</a></li>
+                    <li><a href="{% url 'data_page' %}">DATA SERVICES</a></li>
+                    <li><a href="{% url 'robotics_page' %}">ROBOTICS</a></li>
+                    <li><a href="{% url 'app_page' %}">APP DEVELOPMENTS</a></li>
+                    <li><a href="{% url 'construction_page' %}">CONSTRUCTION</a></li>
+                    <li><a href="{% url 'technology_page' %}">TECHNOLOGY NEWS</a></li>
+                    <li><a href="{% url 'resources_page' %}">RESOURCES</a></li>
+                </ul>
+            </nav>
+            <main>
+                <section>
+                    <h2>About Us</h2>
+                    <p>This is a brief description of your website and what it offers.</p>
+                </section>
+                <section>
+                    <h2>Our Services</h2>
+                    <ul>
+                        <li>3D MODELLING</li>
+                        <li>INTERACTIVE SHOWCASE</li>
+                        <li>VIRTUAL REALITY</li>
+                    </ul>
+                </section>
+            <div id="video-3d">       
+            <video id="video" loop crossOrigin="anonymous" playsinline style="display:none">
+              <source src="../static/examples/textures/sintel.ogv" type='video/ogg; codecs="theora, vorbis"'>
+              <source src="../static/examples/textures/sintel.mp4" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'>
+            </video>
+            <video id="video-1" loop crossOrigin="anonymous" playsinline style="display:none">
+              <source src="../static/documents/Robo.mp4" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'>
+            </video>
+            <div id='video-content'></div>
+            <div id="button-vid">
+
+            <ul class="tg-list">
+              <li class="tg-list-item">
+                <h4>Cinematic</h4>
+                <input class="tgl tgl-light" id="cb1" type="checkbox"/>
+                <label class="tgl-btn" for="cb1"></label>
+              </li>
+              <li class="tg-list-item">
+                <input type="checkbox" id="bb8-checkbox">
+                  <!--label connected to checkbox --> 
+                <label for="bb8-checkbox" class="switch">
+                    <div class="bb8">
+                      <div class="bb8-head">
+                      </div>
+                      <div class="bottom-head"></div>
+                      <!--end of head -->
+                      <div class="bb8-body">
+                        <div class="circle1">
+                          <div class="s1"></div>
+                          <div class="s2"></div>
+                        </div>
+                        <!--end circle1 -->
+                        <div class="circle2">
+                          <div class="s1"></div>
+                          <div class="s2"></div>
+                        </div>
+                        <!--end circle2-->
+                        <div class="circle3">
+                          <div class="s1"></div>
+                          <div class="s2"></div>
+                        </div>
+                        <!--end circle3 -->
+                      </div>
+                      <!--end bb8 body -->
+                    </div>
+                  <!--end bb8 wrapper -->
+                  </label>
+              </li>
+              <li class="tg-list-item">
+                <h4>ON/OFF</h4>
+                <input class="tgl tgl-skewed" id="cb3" type="checkbox"/>
+                <label class="tgl-btn" data-tg-off="OFF" data-tg-on="ON" for="cb3"></label>
+              </li>
+            </ul>
+          </div>
+         </div>  
+
+            <!-- Replace the button with an icon image -->
+            <img src="../static/icons/chatbot.jpeg" alt="Chatbot Icon" id="chatbotToggle">
+
+            <!-- Add this within your <body> tag -->
+            <div id="chatbotModal" class="modal">
+                <div class="modal-content">
+                    <span class="close" id="closeChatbot">&times;</span>
+                    <iframe src="https://console.dialogflow.com/api-client/demo/embedded/1b923505-f8a6-4032-bf1a-be7d70814ec6" id="chatbotIframe" width="350" height="430" allow="microphone;"></iframe>
+                </div>
+            </div>
+            </main>        
+            <div id="buttons">
+            <button class="btn" id="3dOpen" data-url="{% url 'game_page' %}">OPEN GALLERY</button>
+            <button class="btn" id="vgOpen" data-url="{% url 'house_page' %}">OPEN GALLERY</button>
+            <button class="btn" id="displayOpen" data-url="{% url 'display3d_page' %}">OPEN GALLERY</button>
+            <button class="btn" id="textOpen" data-url="{% url 'textapp_page' %}">OPEN TextApp</button>           
+            <button class="btn" id="legoOpen" data-url="{% url 'displayLego_page' %}">OPEN GALLERY</button>           
+        </div>          
+        <footer>
+            <p>&copy; 2023 Your Website. All rights reserved.</p>
+        </footer>
+    </div>
+    <script type = "module" src="{% static 'src/js/video-3d.js' %}"></script> 
+    <script src="{% static 'src/js/main.js' %}"></script> 
+ </body>
+</html>
+

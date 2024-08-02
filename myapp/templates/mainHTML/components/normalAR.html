@@ -1,0 +1,253 @@
+{% load static %} 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>&lt;model-viewer&gt; example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Dancing+Script">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+  <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+  <link rel="stylesheet" href="{% static 'src/css/global/main-three.css' %}"> 
+<style>
+     /* This keeps child nodes hidden while the element loads */
+  :not(:defined) > * {
+    display: none;
+  }
+
+  model-viewer {
+      width: 100%;
+      height: 80vh; /* Use viewport height (vh) for responsiveness */
+    }
+
+  .annotation{
+    background-color: #888888;
+    position: absolute;
+    right:50px;
+    transform: translate(10px, 10px);
+    border-radius: 10px;
+    padding: 10px;
+  }
+
+
+  model-viewer {
+    background-color: #797574;
+    overflow-x: hidden;
+  }
+
+  #ar-button {
+    background-image: url(../static/src/assets/components/arvr/ic_modelviewer.svg);
+    background-repeat: no-repeat;
+    background-size: 20px 20px;
+    background-position: 12px 50%;
+    background-color: #fff;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    bottom: 132px;
+    padding: 0px 16px 0px 40px;
+    font-family: Roboto Regular, Helvetica Neue, sans-serif;
+    font-size: 14px;
+    color:#4285f4;
+    height: 36px;
+    line-height: 36px;
+    border-radius: 18px;
+    border: 1px solid #DADCE0;
+  }
+
+  #ar-button:active {
+    background-color: #E8EAED;
+  }
+
+  #ar-button:focus {
+    outline: none;
+  }
+
+  #ar-button:focus-visible {
+    outline: 1px solid #4285f4;
+  }
+
+  @keyframes circle {
+    from { transform: translateX(-50%) rotate(0deg) translateX(50px) rotate(0deg); }
+    to   { transform: translateX(-50%) rotate(360deg) translateX(50px) rotate(-360deg); }
+  }
+
+  @keyframes elongate {
+    from { transform: translateX(100px); }
+    to   { transform: translateX(-100px); }
+  }
+
+  model-viewer > #ar-prompt {
+    position: absolute;
+    left: 50%;
+    bottom: 175px;
+    animation: elongate 2s infinite ease-in-out alternate;
+    display: none;
+  }
+
+  model-viewer[ar-status="session-started"] > #ar-prompt {
+    display: block;
+  }
+
+  model-viewer > #ar-prompt > img {
+    animation: circle 4s linear infinite;
+  }
+
+  model-viewer > #ar-failure {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 175px;
+    display: none;
+  }
+
+  model-viewer[ar-tracking="not-tracking"] > #ar-failure {
+    display: block;
+  }
+
+  .slider {
+    width: 100%;
+    text-align: center;
+    overflow: hidden;
+    position: absolute;
+    bottom: 16px;
+  }
+
+  .slides {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .slide {
+    scroll-snap-align: start;
+    flex-shrink: 0;
+    width: 100px;
+    height: 100px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: #fff;
+    margin-right: 10px;
+    border-radius: 10px;
+    border: none;
+    display: flex;
+  }
+
+  .slide.selected {
+    border: 2px solid #4285f4;
+  }
+
+  .slide:focus {
+    outline: none;
+  }
+
+  .slide:focus-visible {
+    outline: 1px solid #4285f4;
+  }
+</style>
+</head> 
+<body>
+  <div class="container">
+    <header>
+      <div class="menu-toggle" data-js="menu-toggle">
+        <span class="menu-toggle-grippy">Toggle</span>
+        <span class="menu-toggle-label">Menu</span>
+      </div>
+      <button id="returnButton" class="return-button">Return</button>
+    </header>    
+ <div class="hidden-panel">
+      <span class="hidden-panel-close" data-js="hidden-panel-close">Close</span>
+      <div class="hidden-panel-content">
+        <div class="hidden-panel-nav">
+          <h3>DEMO AR</h3>
+          <ul>
+            <button class="dropdown-btn">View Options
+            <i class="fa fa-caret-down"></i>
+            </button>
+              <div class="dropdown-container">
+
+                <a href="{% url 'normal_ar_page' %}" accesskey="normalAR">Normal View</a>
+                <a href="threeJS.html?page=dimensionAR" accesskey="dimensionAR">Dimension View</a>
+                <a href="threeJS.html?page=cameraAR" accesskey="cameraAR">Camera View</a>
+                <a href="threeJS.html?page=clippingAR" accesskey="clippingAR">CLipping View</a>
+              </div>
+
+             <button class="dropdown-btn">Effect Options
+            <i class="fa fa-caret-down"></i>
+            </button>
+              <div class="dropdown-container">
+                <a href="threeJS.html?page=lightAR" accesskey="lightAR">Lighting View</a>
+                <a href="#">Texture Options</a>
+                <a href="#">Render Exposure</a>
+              </div>
+            <button class="dropdown-btn">Material Options
+            <i class="fa fa-caret-down"></i>
+            </button>
+              <div class="dropdown-container">
+                <a href="threeJS.html?page=materialAR" accesskey="materialAR">Material Color</a>
+                <a href="#">Material Texture</a>
+                <a href="#">Render Exposure</a>
+              </div>
+            <button class="dropdown-btn">Animation Show
+            <i class="fa fa-caret-down"></i>
+            </button>
+              <div class="dropdown-container">
+                <a href="threeJS.html?page=animationAR" accesskey="animationAR">Construction Progress</a>
+                <a href="#">Material Texture</a>
+                <a href="#">Render Exposure</a>
+              </div>
+      </div>
+    </div>
+    </div>
+    <section class="banner" role="banner" id="contentSection">
+      <model-viewer id="envlight-demo" src="../static/src/assets/media/gltf/sunflower/sunflower.gltf" poster="../static/src/assets/components/arvr/Chair.webp" shadow-intensity="1" ar camera-controls touch-action="pan-y" disable-pan oncontextmenu="return false;" ar-modes="scene-viewer webxr quick-look" alt="A 3D model carousel"> 
+    <button slot="ar-button" id="ar-button">
+      View in your space
+    </button>
+    <div id="ar-prompt">
+      <img src="../static/src/assets/components/arvr/hand.png">
+    </div>
+    <button id="ar-failure">
+      AR is not tracking!
+    </button>
+    <div class="annotation">This annotation is fixed in screen-space</div>
+    <div class="slider">
+      <div class="slides">
+        <button class="slide selected" onclick="switchSrc(this, 'Chair')" style="background-image: url('../static/src/assets/components/arvr/Chair.webp');">
+        </button><button class="slide" onclick="switchSrc(this, 'Mixer')" style="background-image: url('../static/src/assets/components/arvr/Mixer.webp');">
+        </button><button class="slide" onclick="switchSrc(this, 'GeoPlanter')" style="background-image: url('../static/src/assets/components/arvr/GeoPlanter.webp');">
+        </button><button class="slide" onclick="switchSrc(this, 'ToyTrain')" style="background-image: url('../static/src/assets/components/arvr/ToyTrain.webp');">
+        </button><button class="slide" onclick="switchSrc(this, 'Canoe')" style="background-image: url('../static/src/assets/components/arvr/Canoe.webp');">    
+      </button>
+    </div>
+    </div>
+  </model-viewer>
+</section>
+<script>
+const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+</script>
+<script>
+var dropdown = document.getElementsByClassName("dropdown-btn");
+var i;
+for (i = 0; i < dropdown.length; i++) {
+  dropdown[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var dropdownContent = this.nextElementSibling;
+    if (dropdownContent.style.display === "block") {
+      dropdownContent.style.display = "none";
+    } else {
+      dropdownContent.style.display = "block";
+    }
+  });
+}
+</script> 
+<script src="{% static 'src/js/components/arvr/main-AR.js' %}"></script> 
+<script src="{% static 'src/js/components/arvr/normal.js' %}"></script> 
+</body>
+</html>

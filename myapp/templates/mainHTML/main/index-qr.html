@@ -1,0 +1,171 @@
+{% load static %} 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Hello!</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- import the webpage's stylesheet -->
+    <link rel="stylesheet" href="{% static 'src/public/QR/css/output.css' %}"> 
+    <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"
+            integrity="sha512-CNgIRecGo7nphbeZ04Sc13ka07paqdeTu0WR1IM4kNcpmBAUSHSQX0FslNhTDadL4O5SAGapGt4FodqL8My0mA=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+    ></script>
+    <script
+            src="https://unpkg.com/html5-qrcode@2.3.1/html5-qrcode.min.js"
+            type="text/javascript"
+    ></script>
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1446.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/default-passive-events"></script>
+    <style>
+        body {
+            height: 100vh;
+            background-color: #344966;
+            margin: 0; /* Remove default margin */
+        }
+
+        .content-container {
+            display: flex;
+            position: absolute;
+            justify-content: center;
+            transition: margin-left 0.3s ease; /* Transition for margin-left */
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: #333;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 20px;
+            height: 100vh; /* Match the height of the viewport */
+            position: fixed;
+            top: 0;
+            left: -250px; /* Start with the sidebar hidden */
+            transition: left 0.3s ease;
+        }
+
+        .index-button {
+            padding: 10px 20px;
+            width: 200px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            outline: none;
+            font-family: "Nunito", sans-serif;
+            font-size: 1.6rem;
+        }
+
+        .toggle-button {
+            padding: 15px;
+            width: 45px;
+            background-color: #3498db;
+            color: white;
+            margin-left: 10px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            outline: none;
+            font-family: "Nunito", sans-serif;
+            font-size: 1.6rem;
+            z-index: 999;
+        }
+
+        /* Position the "Cancel" button at the top right corner */
+        .cancel-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            color: white;
+            outline: none;
+        }
+
+        #arBtn {
+            margin-top: 60px;
+        }
+
+        /* Style the button on hover */
+        .cancel-button:hover {
+            color: red;
+        }
+
+        /* Adjust content margin when the sidebar is open */
+        .content-container.opened {
+            margin-left: 250px;
+            position: absolute;
+        }
+
+        /* CSS for the return button */
+        .return-button-ar {
+          position: fixed;
+          top: 20px;
+          right: 20px;
+          background-color: #007BFF; /* Button background color */
+          color: white; /* Button text color */
+          border: none;
+          padding: 10px 20px;
+          cursor: pointer;
+          border-radius: 5px;
+        }
+
+        .return-button-ar:hover {
+          background-color: #0056b3; /* Button background color on hover */
+        }
+
+    </style>
+</head>
+<body>
+<div id="openSidebar" class="toggle-button">&#9776;</div>
+<div class="sidebar" id="sidebar">
+    <button id="closeSidebar" class="cancel-button">&#x2716;</button>
+    <button id="arBtn" class="index-button">Open AR</button>
+    <button id="customARBtn" class="index-button">Custom AR</button>
+    <button id="smartARBtn" class="index-button">Smart AR</button>
+    <button id="qrGeneratorBtn" class="index-button">Generate QRCODE</button>
+    <button id="customMarkerBtn" class="index-button">Generate ARMarker</button>
+</div>
+<div class="content-container">
+    <!--Content goes here -->
+</div>
+<button id="returnButtonARBtn" class="return-button-ar">Return</button>
+<script>
+    const openSidebarButton = document.getElementById('openSidebar');
+    const closeSidebarButton = document.getElementById('closeSidebar');
+    const sidebar = document.getElementById('sidebar');
+    const contentContainer = document.querySelector('.content-container');
+
+    openSidebarButton.addEventListener('click', () => {
+        sidebar.style.left = '0';
+        openSidebarButton.style.display = 'none';
+        contentContainer.classList.add('opened');
+    });
+
+    closeSidebarButton.addEventListener('click', () => {
+        sidebar.style.left = '-250px';
+        openSidebarButton.style.display = 'block';
+        contentContainer.classList.remove('opened');
+    });
+</script>
+{% csrf_token %}
+<script>
+const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+</script>
+<script src="{% static 'src/js/script-qr.js' %}"></script> 
+<script src="{% static 'src/public/QR/utils/threex-arpatternfile.js' %}"></script> 
+</body>
+</html>
